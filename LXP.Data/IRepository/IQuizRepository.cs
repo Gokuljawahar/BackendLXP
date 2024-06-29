@@ -14,7 +14,7 @@ namespace LXP.Data.IRepository
 
         //
 
-        IEnumerable<Quizfeedbackquestion> GetQuizFeedbackQuestionsByQuizId(Guid quizId);
+        IEnumerable<QuizFeedbackQuestion> GetQuizFeedbackQuestionsByQuizId(Guid quizId);
 
         //new
 

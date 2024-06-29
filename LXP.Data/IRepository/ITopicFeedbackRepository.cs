@@ -5,17 +5,17 @@ namespace LXP.Data.IRepository
 {
     public interface ITopicFeedbackRepository
     {
-        void AddFeedbackQuestion(Topicfeedbackquestion questionEntity);
-        void AddFeedbackQuestionOptions(List<Feedbackquestionsoption> options);
+        void AddFeedbackQuestion(TopicFeedbackQuestion questionEntity);
+        void AddFeedbackQuestionOptions(List<FeedbackQuestionsOption> options);
         List<TopicFeedbackQuestionNoViewModel> GetAllFeedbackQuestions();
         List<TopicFeedbackQuestionNoViewModel> GetFeedbackQuestionsByTopicId(Guid topicId);
         int GetNextFeedbackQuestionNo(Guid topicId);
         TopicFeedbackQuestionNoViewModel GetFeedbackQuestionById(Guid topicFeedbackQuestionId);
-        void UpdateFeedbackQuestion(Topicfeedbackquestion questionEntity);
-        void RemoveFeedbackQuestion(Topicfeedbackquestion questionEntity);
-        void RemoveFeedbackQuestionOptions(List<Feedbackquestionsoption> options);
+        void UpdateFeedbackQuestion(TopicFeedbackQuestion questionEntity);
+        void RemoveFeedbackQuestion(TopicFeedbackQuestion questionEntity);
+        void RemoveFeedbackQuestionOptions(List<FeedbackQuestionsOption> options);
         void ReorderQuestionNos(Guid topicId, int deletedQuestionNo);
-        List<Feedbackquestionsoption> GetFeedbackQuestionOptionsById(Guid topicFeedbackQuestionId);
-        Topicfeedbackquestion GetTopicFeedbackQuestionEntityById(Guid topicFeedbackQuestionId);
+        List<FeedbackQuestionsOption> GetFeedbackQuestionOptionsById(Guid topicFeedbackQuestionId);
+        TopicFeedbackQuestion GetTopicFeedbackQuestionEntityById(Guid topicFeedbackQuestionId);
     }
 }

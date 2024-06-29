@@ -112,7 +112,7 @@ namespace LXP.Services
                 feedbackResponse.Response = null;
             }
 
-            var response = new Feedbackresponse
+            var response = new FeedbackResponse
             {
                 QuizFeedbackQuestionId = feedbackResponse.QuizFeedbackQuestionId,
                 LearnerId = feedbackResponse.LearnerId,
@@ -185,7 +185,7 @@ namespace LXP.Services
                 feedbackResponse.Response = null;
             }
 
-            var response = new Feedbackresponse
+            var response = new FeedbackResponse
             {
                 TopicFeedbackQuestionId = feedbackResponse.TopicFeedbackQuestionId,
                 LearnerId = feedbackResponse.LearnerId,
@@ -311,7 +311,7 @@ namespace LXP.Services
                 feedbackResponse.Response = null;
             }
 
-            var response = new Feedbackresponse
+            var response = new FeedbackResponse
             {
                 CourseFeedbackQuestionId = feedbackResponse.CourseFeedbackQuestionId,
                 LearnerId = feedbackResponse.LearnerId,

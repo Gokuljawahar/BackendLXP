@@ -1,6 +1,7 @@
-﻿namespace LXP.Common.Entities;
+﻿
+namespace LXP.Common.Entities;
 
-public partial class Feedbackquestionsoption
+public partial class FeedbackQuestionsOption
 {
     public Guid FeedbackQuestionOptionId { get; set; }
 
@@ -20,9 +21,9 @@ public partial class Feedbackquestionsoption
 
     public DateTime? ModifiedAt { get; set; }
 
-    public virtual Coursefeedbackquestion? CourseFeedbackQuestion { get; set; }
+    public virtual CourseFeedbackQuestion? CourseFeedbackQuestion { get; set; }
 
-    public virtual Quizfeedbackquestion? QuizFeedbackQuestion { get; set; }
+    public virtual QuizFeedbackQuestion? QuizFeedbackQuestion { get; set; }
 
-    public virtual Topicfeedbackquestion? TopicFeedbackQuestion { get; set; }
+    public virtual TopicFeedbackQuestion? TopicFeedbackQuestion { get; set; }
 }

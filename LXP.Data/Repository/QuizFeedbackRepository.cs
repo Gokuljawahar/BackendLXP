@@ -13,22 +13,22 @@ namespace LXP.Data.Repository
             _dbContext = dbContext;
         }
 
-        public void AddFeedbackQuestion(Quizfeedbackquestion questionEntity)
+        public void AddFeedbackQuestion(QuizFeedbackQuestion questionEntity)
         {
-            _dbContext.Quizfeedbackquestions.Add(questionEntity);
+            _dbContext.QuizFeedbackQuestions.Add(questionEntity);
             _dbContext.SaveChanges();
         }
 
-        public void AddFeedbackQuestionOptions(List<Feedbackquestionsoption> options)
+        public void AddFeedbackQuestionOptions(List<FeedbackQuestionsOption> options)
         {
-            _dbContext.Feedbackquestionsoptions.AddRange(options);
+            _dbContext.FeedbackQuestionsOptions.AddRange(options);
             _dbContext.SaveChanges();
         }
 
         public List<QuizfeedbackquestionNoViewModel> GetAllFeedbackQuestions()
         {
             return _dbContext
-                .Quizfeedbackquestions.Select(q => new QuizfeedbackquestionNoViewModel
+                .QuizFeedbackQuestions.Select(q => new QuizfeedbackquestionNoViewModel
                 {
                     QuizFeedbackQuestionId = q.QuizFeedbackQuestionId,
                     QuizId = q.QuizId,
@@ -36,7 +36,7 @@ namespace LXP.Data.Repository
                     Question = q.Question,
                     QuestionType = q.QuestionType,
                     Options = _dbContext
-                        .Feedbackquestionsoptions.Where(o =>
+                        .FeedbackQuestionsOptions.Where(o =>
                             o.QuizFeedbackQuestionId == q.QuizFeedbackQuestionId
                         )
                         .Select(o => new QuizFeedbackQuestionsOptionViewModel
@@ -51,7 +51,7 @@ namespace LXP.Data.Repository
         public List<QuizfeedbackquestionNoViewModel> GetFeedbackQuestionsByQuizId(Guid quizId)
         {
             return _dbContext
-                .Quizfeedbackquestions.Where(q => q.QuizId == quizId)
+                .QuizFeedbackQuestions.Where(q => q.QuizId == quizId)
                 .Select(q => new QuizfeedbackquestionNoViewModel
                 {
                     QuizFeedbackQuestionId = q.QuizFeedbackQuestionId,
@@ -60,7 +60,7 @@ namespace LXP.Data.Repository
                     Question = q.Question,
                     QuestionType = q.QuestionType,
                     Options = _dbContext
-                        .Feedbackquestionsoptions.Where(o =>
+                        .FeedbackQuestionsOptions.Where(o =>
                             o.QuizFeedbackQuestionId == q.QuizFeedbackQuestionId
                         )
                         .Select(o => new QuizFeedbackQuestionsOptionViewModel
@@ -75,56 +75,56 @@ namespace LXP.Data.Repository
         public int GetNextFeedbackQuestionNo(Guid quizId)
         {
             var lastQuestion = _dbContext
-                .Quizfeedbackquestions.Where(q => q.QuizId == quizId)
+                .QuizFeedbackQuestions.Where(q => q.QuizId == quizId)
                 .OrderByDescending(q => q.QuestionNo)
                 .FirstOrDefault();
             return lastQuestion != null ? lastQuestion.QuestionNo + 1 : 1;
         }
 
-        public Quizfeedbackquestion GetFeedbackQuestionEntityById(Guid quizFeedbackQuestionId)
+        public QuizFeedbackQuestion GetFeedbackQuestionEntityById(Guid quizFeedbackQuestionId)
         {
-            return _dbContext.Quizfeedbackquestions.FirstOrDefault(q =>
+            return _dbContext.QuizFeedbackQuestions.FirstOrDefault(q =>
                 q.QuizFeedbackQuestionId == quizFeedbackQuestionId
             );
         }
 
-        public void UpdateFeedbackQuestion(Quizfeedbackquestion questionEntity)
+        public void UpdateFeedbackQuestion(QuizFeedbackQuestion questionEntity)
         {
-            _dbContext.Quizfeedbackquestions.Update(questionEntity);
+            _dbContext.QuizFeedbackQuestions.Update(questionEntity);
             _dbContext.SaveChanges();
         }
 
-        public void DeleteFeedbackQuestion(Quizfeedbackquestion questionEntity)
+        public void DeleteFeedbackQuestion(QuizFeedbackQuestion questionEntity)
         {
-            _dbContext.Quizfeedbackquestions.Remove(questionEntity);
+            _dbContext.QuizFeedbackQuestions.Remove(questionEntity);
             _dbContext.SaveChanges();
         }
 
-        public List<Feedbackquestionsoption> GetFeedbackQuestionOptions(Guid quizFeedbackQuestionId)
+        public List<FeedbackQuestionsOption> GetFeedbackQuestionOptions(Guid quizFeedbackQuestionId)
         {
             return _dbContext
-                .Feedbackquestionsoptions.Where(o =>
+                .FeedbackQuestionsOptions.Where(o =>
                     o.QuizFeedbackQuestionId == quizFeedbackQuestionId
                 )
                 .ToList();
         }
 
-        public void DeleteFeedbackQuestionOptions(List<Feedbackquestionsoption> options)
+        public void DeleteFeedbackQuestionOptions(List<FeedbackQuestionsOption> options)
         {
-            _dbContext.Feedbackquestionsoptions.RemoveRange(options);
+            _dbContext.FeedbackQuestionsOptions.RemoveRange(options);
             _dbContext.SaveChanges();
         }
 
-        public void DeleteFeedbackResponses(List<Feedbackresponse> responses)
+        public void DeleteFeedbackResponses(List<FeedbackResponse> responses)
         {
-            _dbContext.Feedbackresponses.RemoveRange(responses);
+            _dbContext.FeedbackResponses.RemoveRange(responses);
             _dbContext.SaveChanges();
         }
 
-        public List<Feedbackresponse> GetFeedbackResponsesByQuestionId(Guid quizFeedbackQuestionId)
+        public List<FeedbackResponse> GetFeedbackResponsesByQuestionId(Guid quizFeedbackQuestionId)
         {
             return _dbContext
-                .Feedbackresponses.Where(r => r.QuizFeedbackQuestionId == quizFeedbackQuestionId)
+                .FeedbackResponses.Where(r => r.QuizFeedbackQuestionId == quizFeedbackQuestionId)
                 .ToList();
         }
     }

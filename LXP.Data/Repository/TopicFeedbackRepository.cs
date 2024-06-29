@@ -13,22 +13,22 @@ namespace LXP.Data.Repository
             _dbContext = dbContext;
         }
 
-        public void AddFeedbackQuestion(Topicfeedbackquestion questionEntity)
+        public void AddFeedbackQuestion(TopicFeedbackQuestion questionEntity)
         {
-            _dbContext.Topicfeedbackquestions.Add(questionEntity);
+            _dbContext.TopicFeedbackQuestions.Add(questionEntity);
             _dbContext.SaveChanges();
         }
 
-        public void AddFeedbackQuestionOptions(List<Feedbackquestionsoption> options)
+        public void AddFeedbackQuestionOptions(List<FeedbackQuestionsOption> options)
         {
-            _dbContext.Feedbackquestionsoptions.AddRange(options);
+            _dbContext.FeedbackQuestionsOptions.AddRange(options);
             _dbContext.SaveChanges();
         }
 
         public List<TopicFeedbackQuestionNoViewModel> GetAllFeedbackQuestions()
         {
             return _dbContext
-                .Topicfeedbackquestions.Select(q => new TopicFeedbackQuestionNoViewModel
+                .TopicFeedbackQuestions.Select(q => new TopicFeedbackQuestionNoViewModel
                 {
                     TopicFeedbackQuestionId = q.TopicFeedbackQuestionId,
                     TopicId = q.TopicId,
@@ -36,7 +36,7 @@ namespace LXP.Data.Repository
                     Question = q.Question,
                     QuestionType = q.QuestionType,
                     Options = _dbContext
-                        .Feedbackquestionsoptions.Where(o =>
+                        .FeedbackQuestionsOptions.Where(o =>
                             o.TopicFeedbackQuestionId == q.TopicFeedbackQuestionId
                         )
                         .Select(o => new TopicFeedbackQuestionsOptionViewModel
@@ -51,7 +51,7 @@ namespace LXP.Data.Repository
         public List<TopicFeedbackQuestionNoViewModel> GetFeedbackQuestionsByTopicId(Guid topicId)
         {
             return _dbContext
-                .Topicfeedbackquestions.Where(q => q.TopicId == topicId)
+                .TopicFeedbackQuestions.Where(q => q.TopicId == topicId)
                 .Select(q => new TopicFeedbackQuestionNoViewModel
                 {
                     TopicFeedbackQuestionId = q.TopicFeedbackQuestionId,
@@ -60,7 +60,7 @@ namespace LXP.Data.Repository
                     Question = q.Question,
                     QuestionType = q.QuestionType,
                     Options = _dbContext
-                        .Feedbackquestionsoptions.Where(o =>
+                        .FeedbackQuestionsOptions.Where(o =>
                             o.TopicFeedbackQuestionId == q.TopicFeedbackQuestionId
                         )
                         .Select(o => new TopicFeedbackQuestionsOptionViewModel
@@ -75,7 +75,7 @@ namespace LXP.Data.Repository
         public int GetNextFeedbackQuestionNo(Guid topicId)
         {
             var lastQuestion = _dbContext
-                .Topicfeedbackquestions.Where(q => q.TopicId == topicId)
+                .TopicFeedbackQuestions.Where(q => q.TopicId == topicId)
                 .OrderByDescending(q => q.QuestionNo)
                 .FirstOrDefault();
             return lastQuestion != null ? lastQuestion.QuestionNo + 1 : 1;
@@ -86,7 +86,7 @@ namespace LXP.Data.Repository
         )
         {
             var feedbackQuestion = _dbContext
-                .Topicfeedbackquestions.Where(q =>
+                .TopicFeedbackQuestions.Where(q =>
                     q.TopicFeedbackQuestionId == topicFeedbackQuestionId
                 )
                 .Select(q => new
@@ -97,7 +97,7 @@ namespace LXP.Data.Repository
                     q.Question,
                     q.QuestionType,
                     Options = _dbContext
-                        .Feedbackquestionsoptions.Where(o =>
+                        .FeedbackQuestionsOptions.Where(o =>
                             o.TopicFeedbackQuestionId == q.TopicFeedbackQuestionId
                         )
                         .Select(o => new TopicFeedbackQuestionsOptionViewModel
@@ -125,40 +125,40 @@ namespace LXP.Data.Repository
             };
         }
 
-        public void UpdateFeedbackQuestion(Topicfeedbackquestion questionEntity)
+        public void UpdateFeedbackQuestion(TopicFeedbackQuestion questionEntity)
         {
             _dbContext.SaveChanges();
         }
 
-        public void RemoveFeedbackQuestion(Topicfeedbackquestion questionEntity)
+        public void RemoveFeedbackQuestion(TopicFeedbackQuestion questionEntity)
         {
             // Delete related FeedbackResponses first
             var relatedResponses = _dbContext
-                .Feedbackresponses.Where(r =>
+                .FeedbackResponses.Where(r =>
                     r.TopicFeedbackQuestionId == questionEntity.TopicFeedbackQuestionId
                 )
                 .ToList();
 
             if (relatedResponses.Any())
             {
-                _dbContext.Feedbackresponses.RemoveRange(relatedResponses);
+                _dbContext.FeedbackResponses.RemoveRange(relatedResponses);
             }
 
             // Delete the FeedbackQuestion itself
-            _dbContext.Topicfeedbackquestions.Remove(questionEntity);
+            _dbContext.TopicFeedbackQuestions.Remove(questionEntity);
             _dbContext.SaveChanges();
         }
 
-        public void RemoveFeedbackQuestionOptions(List<Feedbackquestionsoption> options)
+        public void RemoveFeedbackQuestionOptions(List<FeedbackQuestionsOption> options)
         {
-            _dbContext.Feedbackquestionsoptions.RemoveRange(options);
+            _dbContext.FeedbackQuestionsOptions.RemoveRange(options);
             _dbContext.SaveChanges();
         }
 
         public void ReorderQuestionNos(Guid topicId, int deletedQuestionNo)
         {
             var questionsToUpdate = _dbContext
-                .Topicfeedbackquestions.Where(q =>
+                .TopicFeedbackQuestions.Where(q =>
                     q.TopicId == topicId && q.QuestionNo > deletedQuestionNo
                 )
                 .OrderBy(q => q.QuestionNo)
@@ -171,22 +171,22 @@ namespace LXP.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        public List<Feedbackquestionsoption> GetFeedbackQuestionOptionsById(
+        public List<FeedbackQuestionsOption> GetFeedbackQuestionOptionsById(
             Guid topicFeedbackQuestionId
         )
         {
             return _dbContext
-                .Feedbackquestionsoptions.Where(o =>
+                .FeedbackQuestionsOptions.Where(o =>
                     o.TopicFeedbackQuestionId == topicFeedbackQuestionId
                 )
                 .ToList();
         }
 
-        public Topicfeedbackquestion GetTopicFeedbackQuestionEntityById(
+        public TopicFeedbackQuestion GetTopicFeedbackQuestionEntityById(
             Guid topicFeedbackQuestionId
         )
         {
-            return _dbContext.Topicfeedbackquestions.FirstOrDefault(q =>
+            return _dbContext.TopicFeedbackQuestions.FirstOrDefault(q =>
                 q.TopicFeedbackQuestionId == topicFeedbackQuestionId
             );
         }

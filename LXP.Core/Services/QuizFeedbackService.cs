@@ -38,7 +38,7 @@ namespace LXP.Core.Services
             }
 
             // Create the feedback question entity
-            var questionEntity = new Quizfeedbackquestion
+            var questionEntity = new QuizFeedbackQuestion
             {
                 QuizId = quizfeedbackquestion.QuizId,
                 QuestionNo = _quizFeedbackRepository.GetNextFeedbackQuestionNo(
@@ -60,7 +60,7 @@ namespace LXP.Core.Services
             )
             {
                 var optionEntities = options
-                    .Select(option => new Feedbackquestionsoption
+                    .Select(option => new FeedbackQuestionsOption
                     {
                         QuizFeedbackQuestionId = questionEntity.QuizFeedbackQuestionId,
                         OptionText = option.OptionText,
@@ -161,7 +161,7 @@ namespace LXP.Core.Services
                 if (options != null && options.Count > 0)
                 {
                     var optionEntities = options
-                        .Select(option => new Feedbackquestionsoption
+                        .Select(option => new FeedbackQuestionsOption
                         {
                             QuizFeedbackQuestionId = quizFeedbackQuestionId,
                             OptionText = option.OptionText,

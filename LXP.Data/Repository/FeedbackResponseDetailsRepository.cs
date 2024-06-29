@@ -17,8 +17,8 @@ namespace LXP.Data.Repository
         public List<QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponses(Guid quizId)
         {
             var results = _context
-                .Feedbackresponses.Include(r => r.QuizFeedbackQuestion)
-                .Include(r => r.QuizFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.QuizFeedbackQuestion)
+                .Include(r => r.QuizFeedbackQuestion.FeedbackQuestionsOptions)
                 .Include(r => r.Learner.LearnerProfiles)
                 .Where(r => r.QuizFeedbackQuestion.QuizId == quizId)
                 .Select(r => new
@@ -30,7 +30,7 @@ namespace LXP.Data.Repository
                     r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .QuizFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .QuizFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -58,8 +58,8 @@ namespace LXP.Data.Repository
         public List<TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponses(Guid topicId)
         {
             var results = _context
-                .Feedbackresponses.Include(r => r.TopicFeedbackQuestion)
-                .Include(r => r.TopicFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.TopicFeedbackQuestion)
+                .Include(r => r.TopicFeedbackQuestion.FeedbackQuestionsOptions)
                 .Include(r => r.Learner.LearnerProfiles)
                 .Where(r => r.TopicFeedbackQuestion.TopicId == topicId)
                 .Select(r => new
@@ -71,7 +71,7 @@ namespace LXP.Data.Repository
                     r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .TopicFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .TopicFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -102,8 +102,8 @@ namespace LXP.Data.Repository
         )
         {
             return _context
-                .Feedbackresponses.Include(r => r.QuizFeedbackQuestion)
-                .Include(r => r.QuizFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.QuizFeedbackQuestion)
+                .Include(r => r.QuizFeedbackQuestion.FeedbackQuestionsOptions)
                 .Where(r => r.QuizFeedbackQuestion.QuizId == quizId && r.LearnerId == learnerId)
                 .Select(r => new QuizFeedbackResponseDetailsViewModel
                 {
@@ -114,7 +114,7 @@ namespace LXP.Data.Repository
                     Response = r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .QuizFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .QuizFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -129,8 +129,8 @@ namespace LXP.Data.Repository
         )
         {
             return _context
-                .Feedbackresponses.Include(r => r.TopicFeedbackQuestion)
-                .Include(r => r.TopicFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.TopicFeedbackQuestion)
+                .Include(r => r.TopicFeedbackQuestion.FeedbackQuestionsOptions)
                 .Where(r => r.TopicFeedbackQuestion.TopicId == topicId && r.LearnerId == learnerId)
                 .Select(r => new TopicFeedbackResponseDetailsViewModel
                 {
@@ -141,7 +141,7 @@ namespace LXP.Data.Repository
                     Response = r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .TopicFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .TopicFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -153,8 +153,8 @@ namespace LXP.Data.Repository
         public List<QuizFeedbackResponseDetailsViewModel> GetAllQuizFeedbackResponses()
         {
             var results = _context
-                .Feedbackresponses.Include(r => r.QuizFeedbackQuestion)
-                .Include(r => r.QuizFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.QuizFeedbackQuestion)
+                .Include(r => r.QuizFeedbackQuestion.FeedbackQuestionsOptions)
                 .Include(r => r.Learner.LearnerProfiles)
                 .Include(r => r.QuizFeedbackQuestion.Quiz) // Include Quiz to get QuizName
                 .Where(r => r.QuizFeedbackQuestion != null)
@@ -167,7 +167,7 @@ namespace LXP.Data.Repository
                     r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .QuizFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .QuizFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -197,8 +197,8 @@ namespace LXP.Data.Repository
         public List<TopicFeedbackResponseDetailsViewModel> GetAllTopicFeedbackResponses()
         {
             var results = _context
-                .Feedbackresponses.Include(r => r.TopicFeedbackQuestion)
-                .Include(r => r.TopicFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.TopicFeedbackQuestion)
+                .Include(r => r.TopicFeedbackQuestion.FeedbackQuestionsOptions)
                 .Include(r => r.Learner.LearnerProfiles)
                 .Include(r => r.TopicFeedbackQuestion.Topic) // Include Topic to get TopicName
                 .Where(r => r.TopicFeedbackQuestion != null)
@@ -211,7 +211,7 @@ namespace LXP.Data.Repository
                     r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .TopicFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .TopicFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -243,8 +243,8 @@ namespace LXP.Data.Repository
         )
         {
             var results = _context
-                .Feedbackresponses.Include(r => r.CourseFeedbackQuestion)
-                .Include(r => r.CourseFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.CourseFeedbackQuestion)
+                .Include(r => r.CourseFeedbackQuestion.FeedbackQuestionsOptions)
                 .Include(r => r.Learner.LearnerProfiles)
                 .Where(r => r.CourseFeedbackQuestion.CourseId == courseId)
                 .Select(r => new
@@ -256,7 +256,7 @@ namespace LXP.Data.Repository
                     r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .CourseFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .CourseFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -287,8 +287,8 @@ namespace LXP.Data.Repository
         )
         {
             return _context
-                .Feedbackresponses.Include(r => r.CourseFeedbackQuestion)
-                .Include(r => r.CourseFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.CourseFeedbackQuestion)
+                .Include(r => r.CourseFeedbackQuestion.FeedbackQuestionsOptions)
                 .Where(r =>
                     r.CourseFeedbackQuestion.CourseId == courseId && r.LearnerId == learnerId
                 )
@@ -301,7 +301,7 @@ namespace LXP.Data.Repository
                     Response = r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .CourseFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .CourseFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText
@@ -313,8 +313,8 @@ namespace LXP.Data.Repository
         public List<CourseFeedbackResponseDetailsViewModel> GetAllCourseFeedbackResponses()
         {
             var results = _context
-                .Feedbackresponses.Include(r => r.CourseFeedbackQuestion)
-                .Include(r => r.CourseFeedbackQuestion.Feedbackquestionsoptions)
+                .FeedbackResponses.Include(r => r.CourseFeedbackQuestion)
+                .Include(r => r.CourseFeedbackQuestion.FeedbackQuestionsOptions)
                 .Include(r => r.Learner.LearnerProfiles)
                 .Include(r => r.CourseFeedbackQuestion.Course) // Include Course
                 .Select(r => new
@@ -326,7 +326,7 @@ namespace LXP.Data.Repository
                     r.Response,
                     OptionText = r.OptionId.HasValue
                         ? r
-                            .CourseFeedbackQuestion.Feedbackquestionsoptions.FirstOrDefault(o =>
+                            .CourseFeedbackQuestion.FeedbackQuestionsOptions.FirstOrDefault(o =>
                                 o.FeedbackQuestionOptionId == r.OptionId.Value
                             )
                             .OptionText

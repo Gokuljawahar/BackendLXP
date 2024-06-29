@@ -144,7 +144,7 @@ namespace LXP.Data.Repository
         public List<string> GetFeedbackresponses()
         {
             var feedbackResponses = _lXPDbContext
-                .Feedbackresponses.OrderByDescending(e => e.GeneratedAt)
+                .FeedbackResponses.OrderByDescending(e => e.GeneratedAt)
                 .Where(p => p.Response != null)
                 .Select(p => p.Response) // Select only the 'Response' property
                 .Take(3)
@@ -204,14 +204,14 @@ namespace LXP.Data.Repository
         public IEnumerable<RecentFeedbackViewModel> GetRecentfeedbackResponses()
         {
             var RecentfeedbackResponses = _lXPDbContext
-                .Feedbackresponses.OrderByDescending(e => e.GeneratedAt)
+                .FeedbackResponses.OrderByDescending(e => e.GeneratedAt)
                 .Where(p => p.Response != "")
                 .Take(3)
                 .Select(g => new RecentFeedbackViewModel
                 {
                     Feedbackresponse = g.Response,
                     Topicfeedbackquestions = g.TopicFeedbackQuestion!.Question,
-                    FeedbackresponseId = g.FeedbackresponseId,
+                    FeedbackresponseId = g.FeedbackResponseId,
                     DateoftheResponse = (DateTime)g.GeneratedAt!,
                     TopicName = g.TopicFeedbackQuestion!.Topic.Name,
                     Coursename = g.TopicFeedbackQuestion.Topic.Course.Title,

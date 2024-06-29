@@ -1,4 +1,5 @@
-﻿namespace LXP.Common.Entities;
+﻿
+namespace LXP.Common.Entities;
 
 public partial class CourseCategory
 {

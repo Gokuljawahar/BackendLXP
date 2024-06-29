@@ -1,6 +1,7 @@
-﻿namespace LXP.Common.Entities;
+﻿
+namespace LXP.Common.Entities;
 
-public partial class Coursefeedbackquestion
+public partial class CourseFeedbackQuestion
 {
     public Guid CourseFeedbackQuestionId { get; set; }
 
@@ -22,9 +23,7 @@ public partial class Coursefeedbackquestion
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual ICollection<Feedbackquestionsoption> Feedbackquestionsoptions { get; set; } =
-        new List<Feedbackquestionsoption>();
+    public virtual ICollection<FeedbackQuestionsOption> FeedbackQuestionsOptions { get; set; } = new List<FeedbackQuestionsOption>();
 
-    public virtual ICollection<Feedbackresponse> Feedbackresponses { get; set; } =
-        new List<Feedbackresponse>();
+    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } = new List<FeedbackResponse>();
 }

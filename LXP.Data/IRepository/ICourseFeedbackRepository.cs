@@ -5,15 +5,15 @@ namespace LXP.Data.IRepository
 {
     public interface ICourseFeedbackRepository
     {
-        void AddFeedbackQuestion(Coursefeedbackquestion coursefeedbackquestion);
-        void AddFeedbackQuestionOptions(List<Feedbackquestionsoption> options);
+        void AddFeedbackQuestion(CourseFeedbackQuestion coursefeedbackquestion);
+        void AddFeedbackQuestionOptions(List<FeedbackQuestionsOption> options);
         List<CourseFeedbackQuestionNoViewModel> GetAllFeedbackQuestions();
         CourseFeedbackQuestionNoViewModel GetFeedbackQuestionById(Guid courseFeedbackQuestionId);
-        Coursefeedbackquestion GetCourseFeedbackQuestionEntityById(Guid courseFeedbackQuestionId);
-        void UpdateFeedbackQuestion(Coursefeedbackquestion coursefeedbackquestion);
-        List<Feedbackquestionsoption> GetFeedbackQuestionOptionsById(Guid courseFeedbackQuestionId);
-        void RemoveFeedbackQuestionOptions(List<Feedbackquestionsoption> options);
-        void DeleteFeedbackQuestion(Coursefeedbackquestion coursefeedbackquestion);
+        CourseFeedbackQuestion GetCourseFeedbackQuestionEntityById(Guid courseFeedbackQuestionId);
+        void UpdateFeedbackQuestion(CourseFeedbackQuestion coursefeedbackquestion);
+        List<FeedbackQuestionsOption> GetFeedbackQuestionOptionsById(Guid courseFeedbackQuestionId);
+        void RemoveFeedbackQuestionOptions(List<FeedbackQuestionsOption> options);
+        void DeleteFeedbackQuestion(CourseFeedbackQuestion coursefeedbackquestion);
         List<CourseFeedbackQuestionNoViewModel> GetFeedbackQuestionsByCourseId(Guid courseId);
         int GetNextFeedbackQuestionNo(Guid courseId);
     }

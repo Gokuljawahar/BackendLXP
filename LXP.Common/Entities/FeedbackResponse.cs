@@ -1,8 +1,9 @@
-﻿namespace LXP.Common.Entities;
+﻿
+namespace LXP.Common.Entities;
 
-public partial class Feedbackresponse
+public partial class FeedbackResponse
 {
-    public Guid FeedbackresponseId { get; set; }
+    public Guid FeedbackResponseId { get; set; }
 
     public Guid? QuizFeedbackQuestionId { get; set; }
 
@@ -24,11 +25,11 @@ public partial class Feedbackresponse
 
     public DateTime? ModifiedAt { get; set; }
 
-    public virtual Coursefeedbackquestion? CourseFeedbackQuestion { get; set; }
+    public virtual CourseFeedbackQuestion? CourseFeedbackQuestion { get; set; }
 
     public virtual Learner Learner { get; set; } = null!;
 
-    public virtual Quizfeedbackquestion? QuizFeedbackQuestion { get; set; }
+    public virtual QuizFeedbackQuestion? QuizFeedbackQuestion { get; set; }
 
-    public virtual Topicfeedbackquestion? TopicFeedbackQuestion { get; set; }
+    public virtual TopicFeedbackQuestion? TopicFeedbackQuestion { get; set; }
 }

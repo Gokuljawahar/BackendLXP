@@ -51,9 +51,9 @@ namespace LXP.Data.Repository
         }
 
         //
-        public IEnumerable<Quizfeedbackquestion> GetQuizFeedbackQuestionsByQuizId(Guid quizId)
+        public IEnumerable<QuizFeedbackQuestion> GetQuizFeedbackQuestionsByQuizId(Guid quizId)
         {
-            return _LXPDbContext.Quizfeedbackquestions.Where(q => q.QuizId == quizId).ToList();
+            return _LXPDbContext.QuizFeedbackQuestions.Where(q => q.QuizId == quizId).ToList();
         }
 
         //new

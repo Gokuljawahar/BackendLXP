@@ -1,4 +1,5 @@
-﻿namespace LXP.Common.Entities;
+﻿
+namespace LXP.Common.Entities;
 
 public partial class LearnerAttempt
 {
@@ -26,8 +27,7 @@ public partial class LearnerAttempt
 
     public virtual Learner Learner { get; set; } = null!;
 
-    public virtual ICollection<LearnerAnswer> LearnerAnswers { get; set; } =
-        new List<LearnerAnswer>();
+    public virtual ICollection<LearnerAnswer> LearnerAnswers { get; set; } = new List<LearnerAnswer>();
 
     public virtual Quiz Quiz { get; set; } = null!;
 }

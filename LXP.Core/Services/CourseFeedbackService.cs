@@ -35,7 +35,7 @@ namespace LXP.Core.Services
                     nameof(options)
                 );
 
-            var questionEntity = new Coursefeedbackquestion
+            var questionEntity = new CourseFeedbackQuestion
             {
                 CourseId = courseFeedbackQuestion.CourseId,
                 QuestionNo = _courseFeedbackRepository.GetNextFeedbackQuestionNo(
@@ -54,7 +54,7 @@ namespace LXP.Core.Services
                 if (options != null && options.Count > 0)
                 {
                     var optionEntities = options
-                        .Select(option => new Feedbackquestionsoption
+                        .Select(option => new FeedbackQuestionsOption
                         {
                             CourseFeedbackQuestionId = questionEntity.CourseFeedbackQuestionId,
                             OptionText = option.OptionText,
@@ -131,7 +131,7 @@ namespace LXP.Core.Services
                     if (options != null && options.Count > 0)
                     {
                         var optionEntities = options
-                            .Select(option => new Feedbackquestionsoption
+                            .Select(option => new FeedbackQuestionsOption
                             {
                                 CourseFeedbackQuestionId = courseFeedbackQuestionId,
                                 OptionText = option.OptionText,

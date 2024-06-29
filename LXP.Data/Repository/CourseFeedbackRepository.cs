@@ -14,22 +14,22 @@ namespace LXP.Data.Repository
             _context = context;
         }
 
-        public void AddFeedbackQuestion(Coursefeedbackquestion coursefeedbackquestion)
+        public void AddFeedbackQuestion(CourseFeedbackQuestion coursefeedbackquestion)
         {
-            _context.Coursefeedbackquestions.Add(coursefeedbackquestion);
+            _context.CourseFeedbackQuestions.Add(coursefeedbackquestion);
             _context.SaveChanges();
         }
 
-        public void AddFeedbackQuestionOptions(List<Feedbackquestionsoption> options)
+        public void AddFeedbackQuestionOptions(List<FeedbackQuestionsOption> options)
         {
-            _context.Feedbackquestionsoptions.AddRange(options);
+            _context.FeedbackQuestionsOptions.AddRange(options);
             _context.SaveChanges();
         }
 
         public List<CourseFeedbackQuestionNoViewModel> GetAllFeedbackQuestions()
         {
             var feedbackQuestions = _context
-                .Coursefeedbackquestions.Include(q => q.Feedbackquestionsoptions)
+                .CourseFeedbackQuestions.Include(q => q.FeedbackQuestionsOptions)
                 .ToList();
 
             return feedbackQuestions
@@ -41,7 +41,7 @@ namespace LXP.Data.Repository
                     Question = q.Question,
                     QuestionType = q.QuestionType,
                     Options = q
-                        .Feedbackquestionsoptions?.Select(
+                        .FeedbackQuestionsOptions?.Select(
                             o => new CourseFeedbackQuestionsOptionViewModel
                             {
                                 OptionText = o.OptionText
@@ -57,7 +57,7 @@ namespace LXP.Data.Repository
         )
         {
             var question = _context
-                .Coursefeedbackquestions.Include(q => q.Feedbackquestionsoptions)
+                .CourseFeedbackQuestions.Include(q => q.FeedbackQuestionsOptions)
                 .FirstOrDefault(q => q.CourseFeedbackQuestionId == courseFeedbackQuestionId);
 
             if (question == null)
@@ -73,7 +73,7 @@ namespace LXP.Data.Repository
                 Question = question.Question,
                 QuestionType = question.QuestionType,
                 Options = question
-                    .Feedbackquestionsoptions?.Select(
+                    .FeedbackQuestionsOptions?.Select(
                         o => new CourseFeedbackQuestionsOptionViewModel
                         {
                             OptionText = o.OptionText
@@ -83,49 +83,49 @@ namespace LXP.Data.Repository
             };
         }
 
-        public Coursefeedbackquestion GetCourseFeedbackQuestionEntityById(
+        public CourseFeedbackQuestion GetCourseFeedbackQuestionEntityById(
             Guid courseFeedbackQuestionId
         )
         {
             return _context
-                .Coursefeedbackquestions.Include(q => q.Feedbackquestionsoptions)
+                .CourseFeedbackQuestions.Include(q => q.FeedbackQuestionsOptions)
                 .FirstOrDefault(q => q.CourseFeedbackQuestionId == courseFeedbackQuestionId);
         }
 
-        public void UpdateFeedbackQuestion(Coursefeedbackquestion coursefeedbackquestion)
+        public void UpdateFeedbackQuestion(CourseFeedbackQuestion coursefeedbackquestion)
         {
-            _context.Coursefeedbackquestions.Update(coursefeedbackquestion);
+            _context.CourseFeedbackQuestions.Update(coursefeedbackquestion);
             _context.SaveChanges();
         }
 
-        public List<Feedbackquestionsoption> GetFeedbackQuestionOptionsById(
+        public List<FeedbackQuestionsOption> GetFeedbackQuestionOptionsById(
             Guid courseFeedbackQuestionId
         )
         {
             return _context
-                .Feedbackquestionsoptions.Where(o =>
+                .FeedbackQuestionsOptions.Where(o =>
                     o.CourseFeedbackQuestionId == courseFeedbackQuestionId
                 )
                 .ToList();
         }
 
-        public void RemoveFeedbackQuestionOptions(List<Feedbackquestionsoption> options)
+        public void RemoveFeedbackQuestionOptions(List<FeedbackQuestionsOption> options)
         {
-            _context.Feedbackquestionsoptions.RemoveRange(options);
+            _context.FeedbackQuestionsOptions.RemoveRange(options);
             _context.SaveChanges();
         }
 
-        public void DeleteFeedbackQuestion(Coursefeedbackquestion coursefeedbackquestion)
+        public void DeleteFeedbackQuestion(CourseFeedbackQuestion coursefeedbackquestion)
         {
-            _context.Coursefeedbackquestions.Remove(coursefeedbackquestion);
+            _context.CourseFeedbackQuestions.Remove(coursefeedbackquestion);
             _context.SaveChanges();
         }
 
         public List<CourseFeedbackQuestionNoViewModel> GetFeedbackQuestionsByCourseId(Guid courseId)
         {
             var feedbackQuestions = _context
-                .Coursefeedbackquestions.Where(q => q.CourseId == courseId)
-                .Include(q => q.Feedbackquestionsoptions)
+                .CourseFeedbackQuestions.Where(q => q.CourseId == courseId)
+                .Include(q => q.FeedbackQuestionsOptions)
                 .ToList();
 
             return feedbackQuestions
@@ -137,7 +137,7 @@ namespace LXP.Data.Repository
                     Question = q.Question,
                     QuestionType = q.QuestionType,
                     Options = q
-                        .Feedbackquestionsoptions?.Select(
+                        .FeedbackQuestionsOptions?.Select(
                             o => new CourseFeedbackQuestionsOptionViewModel
                             {
                                 OptionText = o.OptionText
@@ -151,7 +151,7 @@ namespace LXP.Data.Repository
         public int GetNextFeedbackQuestionNo(Guid courseId)
         {
             return _context
-                    .Coursefeedbackquestions.Where(q => q.CourseId == courseId)
+                    .CourseFeedbackQuestions.Where(q => q.CourseId == courseId)
                     .Max(q => (int?)q.QuestionNo) + 1
                 ?? 1;
         }

@@ -245,13 +245,13 @@ namespace LXP.Data.Repository
                                     select g.Key.PassMark
                                 ).Count() == 0
                                 : false,
-                            IsFeedBack = _lXPDbContext.Topicfeedbackquestions.Any(
+                            IsFeedBack = _lXPDbContext.TopicFeedbackQuestions.Any(
                                 topicfeedbackquesion =>
                                     topicfeedbackquesion.TopicId == topic.TopicId
                             )
                                 ? (
-                                    from tfq in _lXPDbContext.Topicfeedbackquestions
-                                    join fr in _lXPDbContext.Feedbackresponses
+                                    from tfq in _lXPDbContext.TopicFeedbackQuestions
+                                    join fr in _lXPDbContext.FeedbackResponses
                                         on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId
                                     where fr.LearnerId == learnerId && tfq.TopicId == topic.TopicId
                                     select tfq

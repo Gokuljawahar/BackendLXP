@@ -1,4 +1,5 @@
-﻿namespace LXP.Common.Entities;
+﻿
+namespace LXP.Common.Entities;
 
 public partial class Topic
 {
@@ -22,13 +23,11 @@ public partial class Topic
 
     public virtual Course Course { get; set; } = null!;
 
-    public virtual ICollection<LearnerProgress> LearnerProgresses { get; set; } =
-        new List<LearnerProgress>();
+    public virtual ICollection<LearnerProgress> LearnerProgresses { get; set; } = new List<LearnerProgress>();
 
     public virtual ICollection<Material> Materials { get; set; } = new List<Material>();
 
     public virtual ICollection<Quiz> Quizzes { get; set; } = new List<Quiz>();
 
-    public virtual ICollection<Topicfeedbackquestion> Topicfeedbackquestions { get; set; } =
-        new List<Topicfeedbackquestion>();
+    public virtual ICollection<TopicFeedbackQuestion> TopicFeedbackQuestions { get; set; } = new List<TopicFeedbackQuestion>();
 }

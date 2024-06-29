@@ -33,7 +33,7 @@ namespace LXP.Core.Services
                     nameof(options)
                 );
 
-            var questionEntity = new Topicfeedbackquestion
+            var questionEntity = new TopicFeedbackQuestion
             {
                 TopicId = topicFeedbackQuestion.TopicId,
                 QuestionNo = _topicFeedbackRepository.GetNextFeedbackQuestionNo(
@@ -52,7 +52,7 @@ namespace LXP.Core.Services
                 if (options != null && options.Count > 0)
                 {
                     var optionEntities = options
-                        .Select(option => new Feedbackquestionsoption
+                        .Select(option => new FeedbackQuestionsOption
                         {
                             TopicFeedbackQuestionId = questionEntity.TopicFeedbackQuestionId,
                             OptionText = option.OptionText,
@@ -129,7 +129,7 @@ namespace LXP.Core.Services
                     if (options != null && options.Count > 0)
                     {
                         var optionEntities = options
-                            .Select(option => new Feedbackquestionsoption
+                            .Select(option => new FeedbackQuestionsOption
                             {
                                 TopicFeedbackQuestionId = topicFeedbackQuestionId,
                                 OptionText = option.OptionText,
