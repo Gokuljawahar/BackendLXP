@@ -1,5 +1,7 @@
-﻿using FluentValidation;
+﻿
+using FluentValidation;
 using LXP.Common.ViewModels.QuizQuestionViewModel;
+using LXP.Common.Constants; // Add this namespace
 
 namespace LXP.Common.Validators
 {
@@ -20,33 +22,29 @@ namespace LXP.Common.Validators
             RuleFor(question => question.Options)
                 .NotEmpty()
                 .WithMessage("Options are required.")
-                .Must(
-                    (model, options) => ValidateOptionsByQuestionType(model.QuestionType, options)
-                )
+                .Must((model, options) => ValidateOptionsByQuestionType(model.QuestionType, options))
                 .WithMessage("Invalid options for the given question type.");
         }
 
         private bool BeAValidQuestionType(string questionType)
         {
-            var validQuestionTypes = new List<string> { "MSQ", "MCQ", "T/F" };
-            return validQuestionTypes.Contains(questionType.ToUpper());
+            return QuizQuestionTypes.MultiSelectQuestion.Equals(questionType, StringComparison.OrdinalIgnoreCase)
+                || QuizQuestionTypes.MultiChoiceQuestion.Equals(questionType, StringComparison.OrdinalIgnoreCase)
+                || QuizQuestionTypes.TrueFalseQuestion.Equals(questionType, StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool ValidateOptionsByQuestionType(
-            string questionType,
-            List<QuestionOptionViewModel> options
-        )
+        private bool ValidateOptionsByQuestionType(string questionType, List<QuestionOptionViewModel> options)
         {
             switch (questionType.ToUpper())
             {
-                case "MSQ":
+                case QuizQuestionTypes.MultiSelectQuestion:
                     return options.Count >= 5
                         && options.Count <= 8
                         && options.Count(o => o.IsCorrect) >= 2
                         && options.Count(o => o.IsCorrect) <= 3;
-                case "MCQ":
+                case QuizQuestionTypes.MultiChoiceQuestion:
                     return options.Count == 4 && options.Count(o => o.IsCorrect) == 1;
-                case "T/F":
+                case QuizQuestionTypes.TrueFalseQuestion:
                     return options.Count == 2
                         && options.Count(o => o.IsCorrect) == 1
                         && options.Any(o => o.Option.ToLower() == "true")
