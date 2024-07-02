@@ -35,8 +35,16 @@ namespace LXP.Core.Services
 
                     for (int row = 3; row <= worksheet.Dimension.End.Row; row++)
                     {
-                        var questionType = worksheet.Cells[row, 2].Value?.ToString();
-                        var question = worksheet.Cells[row, 3].Value?.ToString();
+                        var questionType = worksheet
+                            .Cells[row, ExcelDataExtractionColumnPositions.QuestiontypePosition]
+                            .Value?.ToString();
+                        var question = worksheet
+                            .Cells[row, ExcelDataExtractionColumnPositions.QuestionPosition]
+                            .Value?.ToString();
+                        if (!string.IsNullOrEmpty(question))
+                        {
+                            question = question.Replace("\n", " ").Replace("\r", "");
+                        }
                         if (string.IsNullOrEmpty(questionType) || string.IsNullOrEmpty(question))
                             continue;
 
@@ -45,8 +53,20 @@ namespace LXP.Core.Services
                             QuestionNumber = row - 2,
                             QuestionType = questionType,
                             Question = question,
-                            Options = ExtractOptions(worksheet, row, 4, 8, questionType),
-                            CorrectOptions = ExtractOptions(worksheet, row, 12, 3, questionType)
+                            Options = ExtractOptions(
+                                worksheet,
+                                row,
+                                ExcelDataExtractionColumnPositions.OptionsStartingPosition,
+                                ExcelDataExtractionColumnPositions.OverallOptionsCount,
+                                questionType
+                            ),
+                            CorrectOptions = ExtractOptions(
+                                worksheet,
+                                row,
+                                ExcelDataExtractionColumnPositions.CorrectOptionsStartingPosition,
+                                ExcelDataExtractionColumnPositions.CorrectOptionsCountTotalCount,
+                                questionType
+                            )
                         };
 
                         quizQuestions.Add(quizQuestion);
@@ -68,9 +88,12 @@ namespace LXP.Core.Services
                 if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
                 {
                     if (
-                        question.Options.Length != 4
-                        || question.Options.Distinct().Count() != 4
-                        || question.CorrectOptions.Length != 1
+                        question.Options.Length
+                            != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+                        || question.Options.Distinct().Count()
+                            != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+                        || question.CorrectOptions.Length
+                            != ExcelDataExtractionColumnPositions.CorrectOptionCountForMCQ
                         || !question.Options.Contains(question.CorrectOptions.First())
                     )
                     {
@@ -80,21 +103,15 @@ namespace LXP.Core.Services
                 else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
                 {
                     if (
-                        question.Options.Length != 2
-                        || !(
-                            question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
-                            || question.Options.Contains("1")
-                        )
-                        || !(
-                            question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
-                            || question.Options.Contains("0")
-                        )
-                        || question.CorrectOptions.Length != 1
-                        || (
-                            question.CorrectOptions.First().ToLower() != "true"
-                            && question.CorrectOptions.First().ToLower() != "false"
-                            && question.CorrectOptions.First() != "1"
-                            && question.CorrectOptions.First() != "0"
+                        question.Options.Length
+                            != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
+                        || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
+                        || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
+                        || question.CorrectOptions.Length
+                            != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
+                        || !question.CorrectOptions.Any(co =>
+                            co.Equals("True", StringComparison.OrdinalIgnoreCase)
+                            || co.Equals("False", StringComparison.OrdinalIgnoreCase)
                         )
                     )
                     {
@@ -104,11 +121,15 @@ namespace LXP.Core.Services
                 else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
                 {
                     if (
-                        question.Options.Length < 5
-                        || question.Options.Length > 8
+                        question.Options.Length
+                            < ExcelDataExtractionColumnPositions.OptionsStartingPositionForMSQ
+                        || question.Options.Length
+                            > ExcelDataExtractionColumnPositions.OptionsEndingPositionForMSQ
                         || question.Options.Distinct().Count() != question.Options.Length
-                        || question.CorrectOptions.Length < 2
-                        || question.CorrectOptions.Length > 3
+                        || question.CorrectOptions.Length
+                            < ExcelDataExtractionColumnPositions.CorrectOptionsStartingCountForMSQ
+                        || question.CorrectOptions.Length
+                            > ExcelDataExtractionColumnPositions.CorrectOptionsEndingCountForMSQ
                         || !question.CorrectOptions.All(co => question.Options.Contains(co))
                     )
                     {
@@ -160,7 +181,6 @@ namespace LXP.Core.Services
                                     IsCorrect = quizQuestion.CorrectOptions.Contains(option),
                                     CreatedAt = DateTime.Now,
                                     CreatedBy = "Admin",
-                                    ModifiedBy = "Admin"
                                 }
                         )
                         .ToList();
@@ -189,6 +209,7 @@ namespace LXP.Core.Services
                 var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
                 if (!string.IsNullOrEmpty(option))
                 {
+                    option = option.Replace("\n", " ").Replace("\r", " ");
                     if (questionType == QuizQuestionTypes.TrueFalseQuestion)
                     {
                         if (option == "1")
@@ -205,83 +226,8 @@ namespace LXP.Core.Services
 }
 
 
-
-/*
- *
- * //var quizQuestion = new QuizQuestionJsonViewModel
-                        //{
-                        //    QuestionNumber = row - 2,
-                        //    QuestionType = questionType,
-                        //    Question = question,
-                        //    Options = ExtractOptions(worksheet, row, 4, 8),
-                        //    CorrectOptions = ExtractOptions(worksheet, row, 12, 3)
-                        //};
- * //else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
-                //{
-                //    if (
-                //        question.Options.Length != 2
-                //        || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
-                //        || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
-                //        || question.CorrectOptions.Length != 1
-                //        || (
-                //            question.CorrectOptions.First().ToLower() != "true"
-                //            && question.CorrectOptions.First().ToLower() != "false"
-                //        )
-                //    )
-                //    {
-                //        continue;
-                //    }
-                //}
- *
- *
- * private string[] ExtractOptions(
-            ExcelWorksheet worksheet,
-            int row,
-            int startColumn,
-            int count
-        )
-        {
-            var options = new List<string>();
-            for (int i = 0; i < count; i++)
-            {
-                var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
-                if (!string.IsNullOrEmpty(option))
-                    options.Add(option);
-            }
-            return options.ToArray();
-        }
- *
- *
- *
- * private string[] ExtractOptions(
-    ExcelWorksheet worksheet,
-    int row,
-    int startColumn,
-    int count,
-    string questionType
-)
-{
-    var options = new List<string>();
-    for (int i = 0; i < count; i++)
-    {
-        var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
-        if (!string.IsNullOrEmpty(option))
-        {
-            if (questionType == QuizQuestionTypes.TrueFalseQuestion)
-            {
-                if (option == "1") option = "True";
-                else if (option == "0") option = "False";
-            }
-            options.Add(option);
-        }
-    }
-    return options.ToArray();
-}
-*/
-
-
-
 //using System.Transactions;
+//using LXP.Common.Constants;
 //using LXP.Common.Entities;
 //using LXP.Common.ViewModels.QuizQuestionViewModel;
 //using LXP.Core.IServices;
@@ -319,6 +265,7 @@ namespace LXP.Core.Services
 //                    {
 //                        var questionType = worksheet.Cells[row, 2].Value?.ToString();
 //                        var question = worksheet.Cells[row, 3].Value?.ToString();
+//                        question = question.Replace("\n", " ").Replace("\r", "");//added this to remove unwanted lines in questions
 //                        if (string.IsNullOrEmpty(questionType) || string.IsNullOrEmpty(question))
 //                            continue;
 
@@ -327,8 +274,8 @@ namespace LXP.Core.Services
 //                            QuestionNumber = row - 2,
 //                            QuestionType = questionType,
 //                            Question = question,
-//                            Options = ExtractOptions(worksheet, row, 4, 8),
-//                            CorrectOptions = ExtractOptions(worksheet, row, 12, 3)
+//                            Options = ExtractOptions(worksheet, row, 4, 8, questionType),
+//                            CorrectOptions = ExtractOptions(worksheet, row, 12, 3, questionType)
 //                        };
 
 //                        quizQuestions.Add(quizQuestion);
@@ -347,7 +294,7 @@ namespace LXP.Core.Services
 
 //            foreach (var question in quizData)
 //            {
-//                if (question.QuestionType == "MCQ")
+//                if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
 //                {
 //                    if (
 //                        question.Options.Length != 4
@@ -359,24 +306,22 @@ namespace LXP.Core.Services
 //                        continue;
 //                    }
 //                }
-//                else if (question.QuestionType == "T/F")
-//                //else if (question.QuestionType == "TF")
+
+//                else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
 //                {
 //                    if (
-//                        question.Options.Length != 2
-//                        || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
-//                        || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
-//                        || question.CorrectOptions.Length != 1
-//                        || (
-//                            question.CorrectOptions.First().ToLower() != "true"
-//                            && question.CorrectOptions.First().ToLower() != "false"
-//                        )
+//                        question.Options.Length != 2 ||
+//                        !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase) ||
+//                        !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase) ||
+//                        question.CorrectOptions.Length != 1 ||
+//                        !question.CorrectOptions.Any(co => co.Equals("True", StringComparison.OrdinalIgnoreCase) ||
+//                                                            co.Equals("False", StringComparison.OrdinalIgnoreCase))
 //                    )
 //                    {
 //                        continue;
 //                    }
 //                }
-//                else if (question.QuestionType == "MSQ")
+//                else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
 //                {
 //                    if (
 //                        question.Options.Length < 5
@@ -435,7 +380,7 @@ namespace LXP.Core.Services
 //                                    IsCorrect = quizQuestion.CorrectOptions.Contains(option),
 //                                    CreatedAt = DateTime.Now,
 //                                    CreatedBy = "Admin",
-//                                    ModifiedBy = "Admin"
+
 //                                }
 //                        )
 //                        .ToList();
@@ -454,7 +399,8 @@ namespace LXP.Core.Services
 //            ExcelWorksheet worksheet,
 //            int row,
 //            int startColumn,
-//            int count
+//            int count,
+//            string questionType
 //        )
 //        {
 //            var options = new List<string>();
@@ -462,7 +408,17 @@ namespace LXP.Core.Services
 //            {
 //                var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
 //                if (!string.IsNullOrEmpty(option))
+//                {
+//                    option = option.Replace("\n", " ").Replace("\r", " ");
+//                    if (questionType == QuizQuestionTypes.TrueFalseQuestion)
+//                    {
+//                        if (option == "1")
+//                            option = "True";
+//                        else if (option == "0")
+//                            option = "False";
+//                    }
 //                    options.Add(option);
+//                }
 //            }
 //            return options.ToArray();
 //        }
