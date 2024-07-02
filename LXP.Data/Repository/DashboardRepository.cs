@@ -205,7 +205,7 @@ namespace LXP.Data.Repository
         {
             var RecentfeedbackResponses = _lXPDbContext
                 .FeedbackResponses.OrderByDescending(e => e.GeneratedAt)
-                .Where(p => p.Response != null)
+                .Where(p => p.Response != null && p.TopicFeedbackQuestionId != null)
                 .Take(3)
                 .Select(g => new RecentFeedbackViewModel
                 {
