@@ -81,6 +81,8 @@ namespace LXP.Data.Repository
 
         public IEnumerable<CourseDetailsViewModel> GetAllCourse()
         {
+            // Get the course ratings
+            var courseRatings = GetCourseRating().ToDictionary(cr => cr.Course_Id);
             return _lXPDbContext
                 .Courses.Select(c => new CourseDetailsViewModel
                 {
@@ -102,12 +104,14 @@ namespace LXP.Data.Repository
                         c.Thumbnail
                     ),
                     ModifiedAt = c.ModifiedAt.ToString(),
+                    AverageRating = courseRatings.ContainsKey(c.CourseId) ? courseRatings[c.CourseId].Rating : 0
                 })
                 .ToList();
         }
 
         public IEnumerable<CourseDetailsViewModel> GetLimitedCourse()
         {
+            var courseRating = GetCourseRating().ToDictionary(cr=> cr.Course_Id);
             return _lXPDbContext
                 .Courses.OrderByDescending(c => c.CreatedAt)
                 .Select(c => new CourseDetailsViewModel
@@ -125,6 +129,7 @@ namespace LXP.Data.Repository
                         c.Thumbnail
                     ),
                     CreatedAt = c.CreatedAt,
+                  AverageRating = courseRating.ContainsKey(c.CourseId)?courseRating[c.CourseId].Rating : 0
                 })
                 .Take(9)
                 .ToList();
@@ -153,75 +158,6 @@ namespace LXP.Data.Repository
                 })
                 .ToList();
         }
-
-        //public async Task<dynamic> GetAllCourseDetailsByLearnerId(Guid learnerId)
-        //{
-        //    var query =
-        //        from course in _lXPDbContext.Courses
-        //        join enrollment in _lXPDbContext.Enrollments
-        //            on new { course.CourseId, LearnerId = learnerId } equals new
-        //            {
-        //                enrollment.CourseId,
-        //                enrollment.LearnerId
-        //            }
-        //            into enrollments
-        //        from enrollment in enrollments.DefaultIfEmpty()
-        //        where course.IsAvailable && course.IsActive
-        //        orderby course.CourseId, enrollment.EnrollmentId
-        //        select new
-        //        {
-        //            CourseId = course.CourseId,
-        //            Catagory = course.Category.Category,
-        //            Level = course.Level.Level,
-        //            Title = course.Title,
-        //            Description = course.Description,
-        //            Duration = course.Duration,
-        //            Thumbnailimage = String.Format(
-        //                "{0}://{1}{2}/wwwroot/CourseThumbnailImages/{3}", //name changed
-        //                _contextAccessor.HttpContext.Request.Scheme,
-        //                _contextAccessor.HttpContext.Request.Host,
-        //                _contextAccessor.HttpContext.Request.PathBase,
-        //                course.Thumbnail
-        //            ),
-        //            CreatedBy = "Admin",
-        //            CreatedAt = new DateTime(),
-        //            IsActive = true,
-        //            IsAvailable = true,
-        //            ModifiedAt = new DateTime(),
-        //            ModifiedBy = "Admin",
-
-        //            EnrollStatus = enrollment.EnrollStatus == null
-        //                ? false
-        //                : enrollment.EnrollStatus,
-        //        };
-
-        //    //var query = from course in _lXPDbContext.Courses
-        //    //            join enrollment in _lXPDbContext.Enrollments
-        //    //            on new { course.CourseId, LearnerId = learnerId } equals new { enrollment.CourseId, enrollment.LearnerId }
-        //    //            into enrollments
-        //    //            from enrollment in enrollments.DefaultIfEmpty()
-        //    //            where course.IsAvailable && course.IsActive
-        //    //            orderby course.CourseId, enrollment?.EnrollmentId ?? 0 // Handle nullable EnrollmentId
-        //    //            select new
-        //    //            {
-        //    //                Course = course,
-        //    //                EnrollmentId = enrollment?.EnrollmentId ?? 0, // Handle nullable EnrollmentId
-        //    //                LearnerId = enrollment.LearnerId,
-        //    //                EnrollmentDate = enrollment.EnrollmentDate,
-        //    //                EnrollStatus = enrollment.EnrollStatus,
-        //    //                EnrollRequestStatus = enrollment.EnrollRequestStatus,
-        //    //                EnrollmentCreatedBy = enrollment.CreatedBy,
-        //    //                EnrollmentCreatedAt = enrollment.CreatedAt,
-        //    //                EnrollmentModifiedBy = enrollment.ModifiedBy,
-        //    //                EnrollmentModifiedAt = enrollment.ModifiedAt                                          // Other fields...
-        //    //            };
-
-        //    //return query.ToList();
-
-
-        //    // Execute the query or further manipulate the results as needed
-        //    return query.ToList();
-        //}
 
         public async Task<dynamic> GetAllCourseDetailsByLearnerId(Guid learnerId)
         {
@@ -260,71 +196,53 @@ namespace LXP.Data.Repository
                     ModifiedBy = course.ModifiedBy,
                     EnrollStatus = enrollment.EnrollStatus == null ? false : enrollment.EnrollStatus
                 };
-
-            //from course in _lXPDbContext.Courses
-            //join enrollment in _lXPDbContext.Enrollments
-            //    on new { course.CourseId, LearnerId = learnerId } equals new
-            //    {
-            //        enrollment.CourseId,
-            //        enrollment.LearnerId
-            //    }
-            //    into enrollments
-            //from enrollment in enrollments.DefaultIfEmpty()
-            //where course.IsAvailable && course.IsActive
-            //orderby course.CourseId, enrollment.EnrollmentId
-            //select new
-            //{
-            //    CourseId = course.CourseId,
-            //    Catagory = course.Category.Category,
-            //    Level = course.Level.Level,
-            //    Title = course.Title,
-            //    Description = course.Description,
-            //    Duration = course.Duration,
-            //    Thumbnailimage = String.Format(
-            //        "{0}://{1}{2}/wwwroot/CourseThumbnailImages/{3}", //name changed
-            //        _contextAccessor.HttpContext.Request.Scheme,
-            //        _contextAccessor.HttpContext.Request.Host,
-            //        _contextAccessor.HttpContext.Request.PathBase,
-            //        course.Thumbnail
-            //    ),
-            //    CreatedBy = course.CreatedBy,
-            //    CreatedAt = course.CreatedAt,
-            //    IsActive = true,
-            //    IsAvailable = true,
-            //    ModifiedAt = course.ModifiedAt,
-            //    ModifiedBy = course.ModifiedBy,
-
-            //    EnrollStatus = enrollment.EnrollStatus == null
-            //        ? false
-            //        : enrollment.EnrollStatus,
-            //};
-
-            //var query = from course in _lXPDbContext.Courses
-            //            join enrollment in _lXPDbContext.Enrollments
-            //            on new { course.CourseId, LearnerId = learnerId } equals new { enrollment.CourseId, enrollment.LearnerId }
-            //            into enrollments
-            //            from enrollment in enrollments.DefaultIfEmpty()
-            //            where course.IsAvailable && course.IsActive
-            //            orderby course.CourseId, enrollment?.EnrollmentId ?? 0 // Handle nullable EnrollmentId
-            //            select new
-            //            {
-            //                Course = course,
-            //                EnrollmentId = enrollment?.EnrollmentId ?? 0, // Handle nullable EnrollmentId
-            //                LearnerId = enrollment.LearnerId,
-            //                EnrollmentDate = enrollment.EnrollmentDate,
-            //                EnrollStatus = enrollment.EnrollStatus,
-            //                EnrollRequestStatus = enrollment.EnrollRequestStatus,
-            //                EnrollmentCreatedBy = enrollment.CreatedBy,
-            //                EnrollmentCreatedAt = enrollment.CreatedAt,
-            //                EnrollmentModifiedBy = enrollment.ModifiedBy,
-            //                EnrollmentModifiedAt = enrollment.ModifiedAt                                          // Other fields...
-            //            };
-
-            //return query.ToList();
-
-
-            // Execute the query or further manipulate the results as needed
             return query.ToList();
         }
+
+
+        public IEnumerable<CourseRatingViewModel> GetCourseRating()
+        {
+
+            var queryrating = from c in _lXPDbContext.Courses
+                              join cfq in _lXPDbContext.CourseFeedbackQuestions on c.CourseId equals cfq.CourseId into cfqGroup
+                              from cfq in cfqGroup.DefaultIfEmpty()
+                              join fr in _lXPDbContext.FeedbackResponses on cfq.CourseFeedbackQuestionId equals fr.CourseFeedbackQuestionId into frGroup
+                              from fr in frGroup.DefaultIfEmpty()
+                              join fqo in _lXPDbContext.FeedbackQuestionsOptions on fr.OptionId equals fqo.FeedbackQuestionOptionId into fqoGroup
+                              from fqo in fqoGroup.DefaultIfEmpty()
+                              group new { c, fqo } by new { c.CourseId, c.Title } into g
+                              select new CourseRatingViewModel
+                              {
+                                  Course_Id = g.Key.CourseId,
+                                  Title = g.Key.Title,
+                                  Rating = g.Average(x => (decimal?)Convert.ToDecimal(x.fqo.OptionText)) ?? 0
+                              };
+
+            return queryrating.ToList();
+
+        }
+
+
+        public IEnumerable<TopicRatingViewModel> GetTopicRating()
+        {
+            var queryTopicRating = from t in _lXPDbContext.Topics
+                                   join tfq in _lXPDbContext.TopicFeedbackQuestions on t.TopicId equals tfq.TopicId into tfqGroup
+                                   from tfq in tfqGroup.DefaultIfEmpty()
+                                   join fr in _lXPDbContext.FeedbackResponses on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId into frGroup
+                                   from fr in frGroup.DefaultIfEmpty()
+                                   join fqo in _lXPDbContext.FeedbackQuestionsOptions on fr.OptionId equals fqo.FeedbackQuestionOptionId into fqoGroup
+                                   from fqo in fqoGroup.DefaultIfEmpty()
+                                   group new { t, fqo } by new { t.TopicId, t.Name } into g
+                                   select new TopicRatingViewModel
+                                   {
+                                       Topic_Id = g.Key.TopicId,
+                                       Name = g.Key.Name,
+                                       Rating = g.Average(x => (decimal?)Convert.ToDecimal(x.fqo.OptionText)) ?? 0
+                                   };
+
+            return queryTopicRating.ToList();
+        }
+
+
     }
 }

@@ -235,6 +235,16 @@ namespace LXP.Core.Services
             return _courseRepository.GetAllCourseDetails();
         }
 
+
+    //    public IEnumerable<CourseRatingViewModel>GetCourseRating()
+    //    {
+    //           return _courseRepository.GetCourseRating();
+    //    }
+
+       public IEnumerable<TopicRatingViewModel> GetTopicRating()
+       {
+             return _courseRepository.GetTopicRating();
+       }
         public async Task<dynamic> GetAllCourseDetailsByLearnerId(string learnerId)
         {
             Guid LearnerId = Guid.Parse(learnerId);
