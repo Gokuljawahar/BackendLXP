@@ -118,5 +118,6 @@ namespace LXP.Api.Controllers
             var CourseTopic = _courseTopicServices.GetTopicDetails(id);
             return Ok(CreateSuccessResponse(CourseTopic));
         }
+
     }
 }
