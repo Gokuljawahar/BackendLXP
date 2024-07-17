@@ -5,6 +5,8 @@ namespace LXP.Data.IRepository
     public interface ICourseTopicRepository
     {
         object GetTopicDetails(string courseId);
+
+        // IEnumerable<TopicRatingViewModel> GetTopicRating();
         List<Topic> GetAllTopics();
         Task AddCourseTopic(Topic topic);
         bool AnyTopicByTopicName(string topicName);

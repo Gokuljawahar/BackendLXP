@@ -155,6 +155,24 @@ namespace LXP.Api.Controllers
             return Ok(CreateSuccessResponse(course));
         }
 
+        // [HttpGet("/lxp/view/CourseRating")]
+
+        // public IActionResult GetCourseRating()
+        // {
+        //     var courserating=_courseServices.GetCourseRating();
+
+        //     return Ok(CreateSuccessResponse(courserating));
+        // }
+
+        // [HttpGet("/lxp/view/TopicRating")]
+
+        // public IActionResult GetTopicRating()
+        // {
+        //     var topicrating =_courseServices.GetTopicRating();
+
+        //     return Ok(CreateSuccessResponse(topicrating));
+        // }
+
         [HttpGet("/lxp/view/Getallcoursebylearnerid/{learnerId}")]
         public async Task<IActionResult> GetAllCourseDetailsByLearnerId(string learnerId)
         {
