@@ -95,7 +95,7 @@ namespace LXP.Data.Repository
         }
 
 
-        public object GetAllTopicDetailsByCourseId(string courseId)
+   public object GetAllTopicDetailsByCourseId(string courseId)
         {
             var result =
                 from course in _lXPDbContext.Courses
@@ -120,6 +120,13 @@ namespace LXP.Data.Repository
                                     quizzes.TopicId == topic.TopicId
                                 )
                             ),
+                            Rating = (
+                                from tfq in _lXPDbContext.TopicFeedbackQuestions
+                                join fr in _lXPDbContext.FeedbackResponses on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId
+                                join fqo in _lXPDbContext.FeedbackQuestionsOptions on fr.OptionId equals fqo.FeedbackQuestionOptionId
+                                where tfq.TopicId == topic.TopicId
+                                select (decimal?)Convert.ToDecimal(fqo.OptionText)
+                            ).Average() ?? 0,
                             Materials = (
                                 from material in _lXPDbContext.Materials
                                 join materialType in _lXPDbContext.MaterialTypes
@@ -141,7 +148,19 @@ namespace LXP.Data.Repository
 
                                     MaterialDuration = material.Duration
                                 }
-                            ).ToList()
+                            ).ToList(),
+                            FeddbackResponses = (
+                        from c in _lXPDbContext.Topics
+                        join tfq in _lXPDbContext.TopicFeedbackQuestions on c.TopicId equals tfq.TopicId into tfqGroup
+                        from tfq in tfqGroup.DefaultIfEmpty()
+                        join fr in _lXPDbContext.FeedbackResponses on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId into frGroup
+                        from fr in frGroup.DefaultIfEmpty()
+                        where c.TopicId == topic.TopicId
+                        select new
+                        {
+                            Response = fr.Response ?? "NULL"
+                        }
+                    ).ToList()
                         }
                     ).ToList()
                 };
@@ -149,7 +168,7 @@ namespace LXP.Data.Repository
             return result;
         }
 
-        public bool AnyTopicByTopicName(string topicName)
+   public bool AnyTopicByTopicName(string topicName)
         {
             return _lXPDbContext.Topics.Any(topic => topic.Name == topicName);
         }

@@ -87,6 +87,7 @@ namespace LXP.Core.Services
        public async Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId)
         {
             Course course = _courseRepository.GetCourseDetailsByCourseId(Guid.Parse(courseId));
+            var courseRating =_courseRepository.GetCourseRating().ToDictionary(cr=> cr.Course_Id);
 
             CourseListDetailsViewModel courseDetails = new CourseListDetailsViewModel()
             {
@@ -112,6 +113,8 @@ namespace LXP.Core.Services
                 ModifiedAt = course.ModifiedAt,
                 CreatedBy = course.CreatedBy,
                 ModifiedBy = course.ModifiedBy,
+                AverageRating = courseRating.ContainsKey(course.CourseId)?courseRating[course.CourseId].Rating : 0
+
             };
 
             return courseDetails;
