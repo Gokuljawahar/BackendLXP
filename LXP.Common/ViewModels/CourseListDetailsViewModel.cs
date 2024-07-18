@@ -62,5 +62,7 @@
 
         public DateTime? ModifiedAt { get; set; } = null!;
         public string Thumbnail { get; set; }
+        public decimal AverageRating { get; set; } // Add this property
+
     }
 }
