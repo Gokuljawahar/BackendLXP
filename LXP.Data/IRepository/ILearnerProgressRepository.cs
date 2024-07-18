@@ -21,5 +21,11 @@ namespace LXP.Data.IRepository
         Task<Enrollment> GetEnrollmentByIdAsync(Guid learnerId, Guid enrollmentId);
 
         Task<bool> AnyLearnerProgressByLearnerIdAndMaterialId(Guid LearnerId, Guid MaterialId);
+
+        Task<LearnerProgress> GetLearnerMaterialProgressAsync(Guid materialId, Guid learnerId);
+
+       Task Changewatchtime(LearnerProgress learnerprogress);
+
+       
     }
 }
