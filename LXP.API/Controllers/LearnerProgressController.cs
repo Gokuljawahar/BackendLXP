@@ -13,7 +13,7 @@ namespace LXP.Api.Controllers
     {
         //private readonly ILearnerProgressService _learnerProgressService;
         private readonly ILearnerProgressService _Progress;
-
+      
         public LearnerProgressController(ILearnerProgressService Progress)
         {
             _Progress = Progress;
@@ -80,21 +80,22 @@ namespace LXP.Api.Controllers
         //    }
         //}
 
+
         [HttpGet("course-completion-percentage/{learnerId}/{enrollmentId}")]
         public async Task<IActionResult> GetCourseCompletionPercentage(
-            Guid learnerId,
-            Guid enrollmentId
-        )
+           Guid learnerId,
+             Guid enrollmentId
+)
         {
             try
             {
-                var percentage = await _Progress.GetCourseCompletionPercentageAsync(
+                var (percentage, courseId) = await _Progress.GetCourseCompletionAndCourseIdAsync(
                     learnerId,
                     enrollmentId
                 );
-                if (percentage.HasValue)
+                if (percentage.HasValue && courseId.HasValue)
                 {
-                    return Ok(new { CourseCompletionPercentage = percentage.Value });
+                    return Ok(new { CourseCompletionPercentage = percentage.Value, CourseId = courseId.Value });
                 }
                 else
                 {
@@ -107,11 +108,50 @@ namespace LXP.Api.Controllers
                     500,
                     new
                     {
-                        Message = "An error occurred while fetching the course completion percentage.",
+                        Message = "An error occurred while fetching the course completion percentage and course ID.",
                         Details = ex.Message
                     }
                 );
             }
         }
+
+
+
+
+        [HttpGet("{materialId}/progress/{learnerId}")]
+        public async Task<ActionResult<double>> GetMaterialProgress(Guid materialId, Guid learnerId)
+        {
+            var progress = await _Progress.CalculateMaterialProgressAsync(materialId, learnerId);
+            return Ok(progress);
+        }
+
+
+
+
+
+
+
+
+        //[HttpGet("combined-progress")]
+        //public async Task<IActionResult> GetCombinedProgress(Guid learnerId, Guid enrollmentId, Guid materialId)
+        //{
+        //    try
+        //    {
+        //        // Call your learner progress service to calculate combined progress
+        //        var (combinedProgress, courseId) = await _Progress.CalculateCombinedProgressAsync(learnerId, enrollmentId, materialId);
+
+        //        return Ok(new
+        //        {
+        //            CombinedProgress = combinedProgress,
+        //            CourseId = courseId
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle exceptions (e.g., invalid input, database errors)
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+
     }
 }
