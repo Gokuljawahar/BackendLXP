@@ -84,17 +84,20 @@ namespace LXP.Core.Services
             }
         }
 
-        public async Task<CourseListViewModel> GetCourseDetailsByCourseId(string courseId)
+       public async Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId)
         {
             Course course = _courseRepository.GetCourseDetailsByCourseId(Guid.Parse(courseId));
 
-            CourseListViewModel courseDetails = new CourseListViewModel()
+            CourseListDetailsViewModel courseDetails = new CourseListDetailsViewModel()
             {
                 CourseId = course.CourseId,
                 Title = course.Title,
                 Description = course.Description,
+                
                 Category = course.Category.Category,
                 Level = course.Level.Level,
+                CategoryId = course.Category.CategoryId,
+                LevelId = course.Level.LevelId,
                 Duration = course.Duration,
                 Thumbnail = String.Format(
                     "{0}://{1}{2}/wwwroot/CourseThumbnailImages/{3}",

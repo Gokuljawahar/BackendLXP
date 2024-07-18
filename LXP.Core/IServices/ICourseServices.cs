@@ -5,8 +5,8 @@ namespace LXP.Core.IServices
 {
     public interface ICourseServices
     {
-        Task<CourseListViewModel> GetCourseDetailsByCourseId(string courseId);
-        Course GetCourseByCourseId(Guid courseId);
+       Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId);
+         Course GetCourseByCourseId(Guid courseId);
 
         CourseListViewModel GetCourseDetailsByCourseName(string courseName);
         CourseListViewModel AddCourse(CourseViewModel course);
