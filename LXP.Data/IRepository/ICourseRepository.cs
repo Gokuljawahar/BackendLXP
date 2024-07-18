@@ -25,6 +25,11 @@ namespace LXP.Data.IRepository
         IEnumerable<CourseDetailsViewModel> GetLimitedCourse();
         IEnumerable<CourseListViewModel> GetAllCourseDetails();
 
+        IEnumerable<CourseRatingViewModel> GetCourseRating();
+
+        IEnumerable<TopicRatingViewModel> GetTopicRating();
+
+
         Task<dynamic> GetAllCourseDetailsByLearnerId(Guid learnerId);
     }
 }
