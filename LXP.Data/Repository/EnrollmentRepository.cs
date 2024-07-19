@@ -45,6 +45,7 @@ namespace LXP.Data.Repository
                 {
                     enrollmentid = enrollment.EnrollmentId,
                     enrolledCourseId = enrollment.CourseId,
+                    completedStatus=enrollment.CompletedStatus,
                     enrolledCoursename = enrollment.Course.Title,
                     enrolledcoursedescription = enrollment.Course.Description,
                     enrolledcoursecategory = enrollment.Course.Category.Category,
