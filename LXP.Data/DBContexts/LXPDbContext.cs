@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using LXP.Data;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
-namespace LXP.Common.Entities;
+namespace LXP.Data;
 
 public partial class LXPDbContext : DbContext
 {
@@ -21,11 +20,11 @@ public partial class LXPDbContext : DbContext
 
     public virtual DbSet<CourseCategory> CourseCategories { get; set; }
 
-    public virtual DbSet<CourseFeedbackQuestion> CourseFeedbackQuestions { get; set; }
-
     public virtual DbSet<CourseLevel> CourseLevels { get; set; }
 
     public virtual DbSet<Enrollment> Enrollments { get; set; }
+
+    public virtual DbSet<FeedbackQuestion> FeedbackQuestions { get; set; }
 
     public virtual DbSet<FeedbackQuestionsOption> FeedbackQuestionsOptions { get; set; }
 
@@ -51,17 +50,13 @@ public partial class LXPDbContext : DbContext
 
     public virtual DbSet<Quiz> Quizzes { get; set; }
 
-    public virtual DbSet<QuizFeedbackQuestion> QuizFeedbackQuestions { get; set; }
-
     public virtual DbSet<QuizQuestion> QuizQuestions { get; set; }
 
     public virtual DbSet<Topic> Topics { get; set; }
 
-    public virtual DbSet<TopicFeedbackQuestion> TopicFeedbackQuestions { get; set; }
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;database=Relevantz.LXP;uid=root;pwd=Password@12345", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
+        => optionsBuilder.UseMySql("server=localhost;database=Relevantz.lxp;uid=root;pwd=Password@12345", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -138,29 +133,6 @@ public partial class LXPDbContext : DbContext
             entity.Property(e => e.ModifiedBy).HasColumnName("modified_by");
         });
 
-        modelBuilder.Entity<CourseFeedbackQuestion>(entity =>
-        {
-            entity.HasKey(e => e.CourseFeedbackQuestionId).HasName("PRIMARY");
-
-            entity.ToTable("course_feedback_questions");
-
-            entity.HasIndex(e => e.CourseId, "IX_CourseFeedbackQuestions_course_id");
-
-            entity.Property(e => e.CourseFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-            entity.Property(e => e.CourseId)
-                .HasColumnName("course_id")
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Course).WithMany(p => p.CourseFeedbackQuestions)
-                .HasForeignKey(d => d.CourseId)
-                .HasConstraintName("FK_CourseFeedbackQuestions_course_course_id");
-        });
-
         modelBuilder.Entity<CourseLevel>(entity =>
         {
             entity.HasKey(e => e.LevelId).HasName("PRIMARY");
@@ -225,44 +197,62 @@ public partial class LXPDbContext : DbContext
             entity.HasOne(d => d.Learner).WithMany(p => p.Enrollments).HasForeignKey(d => d.LearnerId);
         });
 
+        modelBuilder.Entity<FeedbackQuestion>(entity =>
+        {
+            entity.HasKey(e => e.FeedbackQuestionId).HasName("PRIMARY");
+
+            entity.ToTable("feedback_questions");
+
+            entity.HasIndex(e => e.FeedbackEntityId, "FK_FeedbackQuestions_quizzes_EntityId");
+
+            entity.HasIndex(e => new { e.FeedbackType, e.FeedbackEntityId }, "IX_FeedbackQuestions_EntityType_EntityId");
+
+            entity.Property(e => e.FeedbackQuestionId)
+                .UseCollation("ascii_general_ci")
+                .HasCharSet("ascii");
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.FeedbackEntityId)
+                .UseCollation("ascii_general_ci")
+                .HasCharSet("ascii");
+            entity.Property(e => e.FeedbackType)
+                .HasMaxLength(15)
+                .IsFixedLength();
+            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
+
+            entity.HasOne(d => d.FeedbackEntity).WithMany(p => p.FeedbackQuestions)
+                .HasForeignKey(d => d.FeedbackEntityId)
+                .HasConstraintName("FK_FeedbackQuestions_course_EntityId");
+
+            entity.HasOne(d => d.FeedbackEntityNavigation).WithMany(p => p.FeedbackQuestions)
+                .HasForeignKey(d => d.FeedbackEntityId)
+                .HasConstraintName("FK_FeedbackQuestions_quizzes_EntityId");
+
+            entity.HasOne(d => d.FeedbackEntity1).WithMany(p => p.FeedbackQuestions)
+                .HasForeignKey(d => d.FeedbackEntityId)
+                .HasConstraintName("FK_FeedbackQuestions_topic_EntityId");
+        });
+
         modelBuilder.Entity<FeedbackQuestionsOption>(entity =>
         {
             entity.HasKey(e => e.FeedbackQuestionOptionId).HasName("PRIMARY");
 
             entity.ToTable("feedback_questions_options");
 
-            entity.HasIndex(e => e.CourseFeedbackQuestionId, "IX_FeedbackQuestionsOptions_CourseFeedbackQuestionId");
-
-            entity.HasIndex(e => e.QuizFeedbackQuestionId, "IX_FeedbackQuestionsOptions_QuizFeedbackQuestionId");
-
-            entity.HasIndex(e => e.TopicFeedbackQuestionId, "IX_FeedbackQuestionsOptions_TopicFeedbackQuestionId");
+            entity.HasIndex(e => e.FeedbackQuestionId, "IX_FeedbackQuestionsOptions_FeedbackQuestionId");
 
             entity.Property(e => e.FeedbackQuestionOptionId)
                 .UseCollation("ascii_general_ci")
                 .HasCharSet("ascii");
-            entity.Property(e => e.CourseFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.FeedbackQuestionId)
+                .UseCollation("ascii_general_ci")
+                .HasCharSet("ascii");
             entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
-            entity.Property(e => e.QuizFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-            entity.Property(e => e.TopicFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
 
-            entity.HasOne(d => d.CourseFeedbackQuestion).WithMany(p => p.FeedbackQuestionsOptions)
-                .HasForeignKey(d => d.CourseFeedbackQuestionId)
-                .HasConstraintName("FK_FeedbackQuestionsOptions_CourseFeedbackQuestions_CourseFeedb~");
-
-            entity.HasOne(d => d.QuizFeedbackQuestion).WithMany(p => p.FeedbackQuestionsOptions)
-                .HasForeignKey(d => d.QuizFeedbackQuestionId)
-                .HasConstraintName("FK_FeedbackQuestionsOptions_QuizFeedbackQuestions_QuizFeedbackQ~");
-
-            entity.HasOne(d => d.TopicFeedbackQuestion).WithMany(p => p.FeedbackQuestionsOptions)
-                .HasForeignKey(d => d.TopicFeedbackQuestionId)
-                .HasConstraintName("FK_FeedbackQuestionsOptions_TopicFeedbackQuestions_TopicFeedbac~");
+            entity.HasOne(d => d.FeedbackQuestion).WithMany(p => p.FeedbackQuestionsOptions)
+                .HasForeignKey(d => d.FeedbackQuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_FeedbackQuestionsOptions_FeedbackQuestions_FeedbackQuestionId");
         });
 
         modelBuilder.Entity<FeedbackResponse>(entity =>
@@ -271,18 +261,14 @@ public partial class LXPDbContext : DbContext
 
             entity.ToTable("feedback_responses");
 
-            entity.HasIndex(e => e.CourseFeedbackQuestionId, "IX_FeedbackResponses_CourseFeedbackQuestionId");
-
-            entity.HasIndex(e => e.QuizFeedbackQuestionId, "IX_FeedbackResponses_QuizFeedbackQuestionId");
-
-            entity.HasIndex(e => e.TopicFeedbackQuestionId, "IX_FeedbackResponses_TopicFeedbackQuestionId");
+            entity.HasIndex(e => e.FeedbackQuestionId, "IX_FeedbackResponses_FeedbackQuestionId");
 
             entity.HasIndex(e => e.LearnerId, "IX_FeedbackResponses_learner_id");
 
             entity.Property(e => e.FeedbackResponseId)
                 .UseCollation("ascii_general_ci")
                 .HasCharSet("ascii");
-            entity.Property(e => e.CourseFeedbackQuestionId)
+            entity.Property(e => e.FeedbackQuestionId)
                 .UseCollation("ascii_general_ci")
                 .HasCharSet("ascii");
             entity.Property(e => e.GeneratedAt).HasColumnType("datetime");
@@ -294,28 +280,15 @@ public partial class LXPDbContext : DbContext
             entity.Property(e => e.OptionId)
                 .UseCollation("ascii_general_ci")
                 .HasCharSet("ascii");
-            entity.Property(e => e.QuizFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-            entity.Property(e => e.TopicFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
 
-            entity.HasOne(d => d.CourseFeedbackQuestion).WithMany(p => p.FeedbackResponses)
-                .HasForeignKey(d => d.CourseFeedbackQuestionId)
-                .HasConstraintName("FK_FeedbackResponses_CourseFeedbackQuestions_CourseFeedbackQues~");
+            entity.HasOne(d => d.FeedbackQuestion).WithMany(p => p.FeedbackResponses)
+                .HasForeignKey(d => d.FeedbackQuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_FeedbackResponses_FeedbackQuestions_FeedbackQuestionId");
 
             entity.HasOne(d => d.Learner).WithMany(p => p.FeedbackResponses)
                 .HasForeignKey(d => d.LearnerId)
                 .HasConstraintName("FK_FeedbackResponses_learners_learner_id");
-
-            entity.HasOne(d => d.QuizFeedbackQuestion).WithMany(p => p.FeedbackResponses)
-                .HasForeignKey(d => d.QuizFeedbackQuestionId)
-                .HasConstraintName("FK_FeedbackResponses_QuizFeedbackQuestions_QuizFeedbackQuestion~");
-
-            entity.HasOne(d => d.TopicFeedbackQuestion).WithMany(p => p.FeedbackResponses)
-                .HasForeignKey(d => d.TopicFeedbackQuestionId)
-                .HasConstraintName("FK_FeedbackResponses_TopicFeedbackQuestions_TopicFeedbackQuesti~");
         });
 
         modelBuilder.Entity<Learner>(entity =>
@@ -702,29 +675,6 @@ public partial class LXPDbContext : DbContext
             entity.HasOne(d => d.Topic).WithMany(p => p.Quizzes).HasForeignKey(d => d.TopicId);
         });
 
-        modelBuilder.Entity<QuizFeedbackQuestion>(entity =>
-        {
-            entity.HasKey(e => e.QuizFeedbackQuestionId).HasName("PRIMARY");
-
-            entity.ToTable("quiz_feedback_questions");
-
-            entity.HasIndex(e => e.QuizId, "IX_QuizFeedbackQuestions_quiz_id");
-
-            entity.Property(e => e.QuizFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
-            entity.Property(e => e.QuizId)
-                .HasColumnName("quiz_id")
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-
-            entity.HasOne(d => d.Quiz).WithMany(p => p.QuizFeedbackQuestions)
-                .HasForeignKey(d => d.QuizId)
-                .HasConstraintName("FK_QuizFeedbackQuestions_quizzes_quiz_id");
-        });
-
         modelBuilder.Entity<QuizQuestion>(entity =>
         {
             entity.HasKey(e => e.QuizQuestionId).HasName("PRIMARY");
@@ -791,29 +741,6 @@ public partial class LXPDbContext : DbContext
                 .HasColumnName("name");
 
             entity.HasOne(d => d.Course).WithMany(p => p.Topics).HasForeignKey(d => d.CourseId);
-        });
-
-        modelBuilder.Entity<TopicFeedbackQuestion>(entity =>
-        {
-            entity.HasKey(e => e.TopicFeedbackQuestionId).HasName("PRIMARY");
-
-            entity.ToTable("topic_feedback_questions");
-
-            entity.HasIndex(e => e.TopicId, "IX_TopicFeedbackQuestions_topic_id");
-
-            entity.Property(e => e.TopicFeedbackQuestionId)
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
-            entity.Property(e => e.ModifiedAt).HasColumnType("datetime");
-            entity.Property(e => e.TopicId)
-                .HasColumnName("topic_id")
-                .UseCollation("ascii_general_ci")
-                .HasCharSet("ascii");
-
-            entity.HasOne(d => d.Topic).WithMany(p => p.TopicFeedbackQuestions)
-                .HasForeignKey(d => d.TopicId)
-                .HasConstraintName("FK_TopicFeedbackQuestions_topic_topic_id");
         });
 
         OnModelCreatingPartial(modelBuilder);
