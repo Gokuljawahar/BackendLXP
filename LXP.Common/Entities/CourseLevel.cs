@@ -1,5 +1,7 @@
-﻿
-namespace LXP.Common.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace LXP.Data;
 
 public partial class CourseLevel
 {

@@ -1,15 +1,13 @@
-﻿
-namespace LXP.Common.Entities;
+﻿using System;
+using System.Collections.Generic;
+
+namespace LXP.Data;
 
 public partial class FeedbackResponse
 {
     public Guid FeedbackResponseId { get; set; }
 
-    public Guid? QuizFeedbackQuestionId { get; set; }
-
-    public Guid? TopicFeedbackQuestionId { get; set; }
-
-    public Guid? CourseFeedbackQuestionId { get; set; }
+    public Guid FeedbackQuestionId { get; set; }
 
     public Guid LearnerId { get; set; }
 
@@ -25,11 +23,7 @@ public partial class FeedbackResponse
 
     public DateTime? ModifiedAt { get; set; }
 
-    public virtual CourseFeedbackQuestion? CourseFeedbackQuestion { get; set; }
+    public virtual FeedbackQuestion FeedbackQuestion { get; set; } = null!;
 
     public virtual Learner Learner { get; set; } = null!;
-
-    public virtual QuizFeedbackQuestion? QuizFeedbackQuestion { get; set; }
-
-    public virtual TopicFeedbackQuestion? TopicFeedbackQuestion { get; set; }
 }
