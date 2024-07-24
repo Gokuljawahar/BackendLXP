@@ -32,5 +32,7 @@
         ///</summary>
 
         public bool EnrollRequestStatus { get; set; }
+
+        public bool? CourseStarted { get; set; }
     }
 }

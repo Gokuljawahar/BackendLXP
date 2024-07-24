@@ -46,6 +46,8 @@ namespace LXP.Data.Repository
                     enrollmentid = enrollment.EnrollmentId,
                     enrolledCourseId = enrollment.CourseId,
                     enrolledCoursename = enrollment.Course.Title,
+                    completedStatus=enrollment.CompletedStatus,
+                    courseStarted=enrollment.CourseStarted,
                     enrolledcoursedescription = enrollment.Course.Description,
                     enrolledcoursecategory = enrollment.Course.Category.Category,
                     enrolledcourselevels = enrollment.Course.Level.Level,
@@ -199,6 +201,12 @@ namespace LXP.Data.Repository
         public async Task DeleteEnrollment(Enrollment enrollment)
         {
             _lXPDbContext.Enrollments.Remove(enrollment);
+            await _lXPDbContext.SaveChangesAsync();
+        }
+
+               public async Task UpdateCourseStarted(Enrollment enrollment)
+        {
+            _lXPDbContext.Enrollments.Update(enrollment);
             await _lXPDbContext.SaveChangesAsync();
         }
 
