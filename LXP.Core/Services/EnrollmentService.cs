@@ -121,5 +121,13 @@ namespace LXP.Core.Services
                 learnerId
             );
         } //2106
+
+          public async Task UpdateCourseStarted(Guid enrollmentId)
+        {
+            Enrollment enrollment = _enrollmentRepository.FindEnrollmentId(enrollmentId);
+            // Enrollment enrollment1=new Enrollment()
+            enrollment.CourseStarted = true;
+            await _enrollmentRepository.UpdateCourseStarted(enrollment);
+        }
     }
 }

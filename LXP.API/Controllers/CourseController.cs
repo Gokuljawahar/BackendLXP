@@ -42,7 +42,7 @@ namespace LXP.Api.Controllers
         [HttpGet("/lxp/course/{id}")]
         public async Task<IActionResult> GetCourseDetailsByCourseId(string id)
         {
-            CourseListViewModel course = await _courseServices.GetCourseDetailsByCourseId(id);
+            CourseListDetailsViewModel course = await _courseServices.GetCourseDetailsByCourseId(id);
             return Ok(CreateSuccessResponse(course));
         }
 
@@ -154,6 +154,24 @@ namespace LXP.Api.Controllers
             var course = _courseServices.GetAllCourseDetails();
             return Ok(CreateSuccessResponse(course));
         }
+
+        // [HttpGet("/lxp/view/CourseRating")]
+
+        // public IActionResult GetCourseRating()
+        // {
+        //     var courserating=_courseServices.GetCourseRating();
+
+        //     return Ok(CreateSuccessResponse(courserating));
+        // }
+
+        // [HttpGet("/lxp/view/TopicRating")]
+
+        // public IActionResult GetTopicRating()
+        // {
+        //     var topicrating =_courseServices.GetTopicRating();
+
+        //     return Ok(CreateSuccessResponse(topicrating));
+        // }
 
         [HttpGet("/lxp/view/Getallcoursebylearnerid/{learnerId}")]
         public async Task<IActionResult> GetAllCourseDetailsByLearnerId(string learnerId)

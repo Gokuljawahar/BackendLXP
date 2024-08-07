@@ -82,5 +82,11 @@ namespace LXP.Data.Repository
             _lXPDbContext.Materials.Update(material);
             return await _lXPDbContext.SaveChangesAsync();
         }
+
+        //public async Task<Material> GetmeterialDurationByMaterialId(Guid materialId)
+        //{
+        //    return await _lXPDbContext.Materials.Where(material =>
+        //         material.MaterialId == materialId);
+        //}
     }
 }

@@ -158,39 +158,46 @@ namespace LXP.Data.Repository
                 var quizScore = lastAttempt != null ? lastAttempt.Score : 0;
 
                 // Maximum quiz score (assuming max score is 100)
-                var maxQuizScore = 100;
+               
+                var Findpassmark = _context.Quizzes.Find(lastAttempt!.QuizId);
+
+                var maxQuizScore = Findpassmark!.PassMark;
 
                 // Ensure maxQuizScore is not zero to avoid division by zero
-                if (maxQuizScore == 0)
+                if (quizScore > maxQuizScore)
                 {
-                    maxQuizScore = 1; // or handle the case appropriately
-                }
+                    var materialCompletionPercentage = (watchedDuration / totalCourseDuration) * 70;
+                    //var quizCompletionPercentage = (quizScore / (double)maxQuizScore) * 30;
+                    var quizCompletionPercentage = 30;
+                    var courseCompletionPercentage =
+                        materialCompletionPercentage + quizCompletionPercentage;
 
-                // Calculate the course completion percentage
-                var materialCompletionPercentage = (watchedDuration / totalCourseDuration) * 70;
-                var quizCompletionPercentage = (quizScore / (double)maxQuizScore) * 30;
-                var courseCompletionPercentage =
-                    materialCompletionPercentage + quizCompletionPercentage;
+                    // Cap the course completion percentage at 100%
+                    courseCompletionPercentage = Math.Min(courseCompletionPercentage, 100);
 
-                // Cap the course completion percentage at 100%
-                courseCompletionPercentage = Math.Min(courseCompletionPercentage, 100);
-
-                // Update the enrollment table with the calculated percentage
-                var enrollmentToUpdate = await _context.Enrollments.FindAsync(
-                    enrollment.EnrollmentId
-                );
-                if (enrollmentToUpdate != null)
-                {
-                    enrollmentToUpdate.CourseCompletionPercentage =
-                        (decimal)courseCompletionPercentage;
-                    if (enrollmentToUpdate.CourseCompletionPercentage == 100)
+                    // Update the enrollment table with the calculated percentage
+                    var enrollmentToUpdate = await _context.Enrollments.FindAsync(
+                        enrollment.EnrollmentId
+                    );
+                    if (enrollmentToUpdate != null)
                     {
-                        enrollmentToUpdate.CompletedStatus = 1;
+                        enrollmentToUpdate.CourseCompletionPercentage =
+                            (decimal)courseCompletionPercentage;
+                        if (enrollmentToUpdate.CourseCompletionPercentage == 100)
+                        {
+                            enrollmentToUpdate.CompletedStatus = 1;
+                        }
+                        _context.Enrollments.Update(enrollmentToUpdate);
                     }
-                    _context.Enrollments.Update(enrollmentToUpdate);
+
                 }
+
+                // Calculate the course completion percentage 
+
+               
             }
 
+            
             await _context.SaveChangesAsync();
         }
 
@@ -286,5 +293,28 @@ namespace LXP.Data.Repository
                 e.LearnerId == learnerId && e.EnrollmentId == enrollmentId
             );
         }
+
+
+        public async Task<LearnerProgress> GetLearnerMaterialProgressAsync(Guid materialId, Guid learnerId)
+        {
+            return await _context.LearnerProgresses
+                .FirstOrDefaultAsync(lp => lp.MaterialId == materialId && lp.LearnerId == learnerId);
+
+           
+
+        }
+
+        public async Task Changewatchtime(LearnerProgress learnerprogress)
+        {
+            _context.LearnerProgresses.Update(learnerprogress);
+            await _context.SaveChangesAsync();
+        }
+
+
+
+
+
+
+
     }
 }
