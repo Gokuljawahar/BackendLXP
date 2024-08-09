@@ -20,6 +20,6 @@ namespace LXP.Core.IServices
         Task<bool> DeleteEnrollment(Guid enrollmentId);
 
         object GetCourseandTopicsByCourseId(Guid courseId, Guid learnerId); //2106
-          Task UpdateCourseStarted(Guid enrollmentId);
+        Task UpdateCourseStarted(Guid enrollmentId);
     }
 }

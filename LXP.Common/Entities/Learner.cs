@@ -1,5 +1,4 @@
-﻿
-namespace LXP.Common.Entities;
+﻿namespace LXP.Common.Entities;
 
 public partial class Learner
 {
@@ -27,13 +26,18 @@ public partial class Learner
 
     public virtual ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
-    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } = new List<FeedbackResponse>();
+    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } =
+        new List<FeedbackResponse>();
 
-    public virtual ICollection<LearnerAttempt> LearnerAttempts { get; set; } = new List<LearnerAttempt>();
+    public virtual ICollection<LearnerAttempt> LearnerAttempts { get; set; } =
+        new List<LearnerAttempt>();
 
-    public virtual ICollection<LearnerProfile> LearnerProfiles { get; set; } = new List<LearnerProfile>();
+    public virtual ICollection<LearnerProfile> LearnerProfiles { get; set; } =
+        new List<LearnerProfile>();
 
-    public virtual ICollection<LearnerProgress> LearnerProgresses { get; set; } = new List<LearnerProgress>();
+    public virtual ICollection<LearnerProgress> LearnerProgresses { get; set; } =
+        new List<LearnerProgress>();
 
-    public virtual ICollection<PasswordHistory> PasswordHistories { get; set; } = new List<PasswordHistory>();
+    public virtual ICollection<PasswordHistory> PasswordHistories { get; set; } =
+        new List<PasswordHistory>();
 }

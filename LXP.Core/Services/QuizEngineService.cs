@@ -161,8 +161,6 @@ namespace LXP.Core.Services
             return new LearnerPassStatusViewModel { IsPassed = attempt.Score >= quiz.PassMark };
         }
 
-        
-
         public async Task SubmitQuizAttemptAsync(Guid attemptId)
         {
             var attempt = await _quizEngineRepository.GetLearnerAttemptByIdAsync(attemptId);
@@ -253,8 +251,6 @@ namespace LXP.Core.Services
             );
             return attempt.LearnerAttemptId;
         }
-
-        
 
         private async Task<float> CalculateQuestionScore(
             Guid quizQuestionId,

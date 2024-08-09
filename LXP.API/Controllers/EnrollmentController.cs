@@ -87,8 +87,7 @@ namespace LXP.Api.Controllers
             return Ok(CreateFailureResponse("Enrollment Id is not found", 400));
         }
 
-
-         [HttpPut("lxp/updateCourseStarted/{enrollmentId}")]
+        [HttpPut("lxp/updateCourseStarted/{enrollmentId}")]
         public async Task UpdateCourseStarted(Guid enrollmentId)
         {
             await _enrollmentService.UpdateCourseStarted(enrollmentId);

@@ -2,7 +2,7 @@ namespace LXP.Common.Constants
 {
     public static class ExcelDataExtractionColumnPositions
     {
-        public  const int QuestiontypePosition = 2;
+        public const int QuestiontypePosition = 2;
         public const int QuestionPosition = 3;
         public const int OptionsStartingPosition = 4;
         public const int OptionsEndingPosition = 11;

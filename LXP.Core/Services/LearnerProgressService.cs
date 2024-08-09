@@ -230,9 +230,10 @@ namespace LXP.Core.Services
         //    return enrollment?.CourseCompletionPercentage;
         //}
 
-        public async Task<(decimal? CourseCompletionPercentage, Guid? CourseId)> GetCourseCompletionAndCourseIdAsync(
-    Guid learnerId,
-    Guid enrollmentId)
+        public async Task<(
+            decimal? CourseCompletionPercentage,
+            Guid? CourseId
+        )> GetCourseCompletionAndCourseIdAsync(Guid learnerId, Guid enrollmentId)
         {
             await _learnerProgressRepository.CalculateAndUpdateCourseCompletionAsync(learnerId);
             var enrollment = await _learnerProgressRepository.GetEnrollmentByIdAsync(
@@ -245,7 +246,11 @@ namespace LXP.Core.Services
         public async Task<double> CalculateMaterialProgressAsync(Guid materialId, Guid learnerId)
         {
             Material material1 = await _materialRepository.GetMaterialById(materialId);
-            LearnerProgress learnerProgress = await _learnerProgressRepository.GetLearnerMaterialProgressAsync(materialId, learnerId);
+            LearnerProgress learnerProgress =
+                await _learnerProgressRepository.GetLearnerMaterialProgressAsync(
+                    materialId,
+                    learnerId
+                );
 
             //if (material == null || learnerProgress == null)
             //{
@@ -262,24 +267,13 @@ namespace LXP.Core.Services
 
             if (material1.Duration == learnerProgress.WatchTime)
             {
-
                 learnerProgress.IsWatched = 1;
                 await _learnerProgressRepository.Changewatchtime(learnerProgress);
-
-
-
-
             }
 
-
             return (watchTime.TotalSeconds / materialDuration.TotalSeconds) * 100;
-
-           
         }
 
-
-        
-       
         //public async Task<(decimal CombinedProgress, Guid? CourseId)> CalculateCombinedProgressAsync(Guid learnerId, Guid enrollmentId, Guid materialId)
         //{
         //    // Calculate course completion percentage and get course ID
@@ -322,6 +316,5 @@ namespace LXP.Core.Services
 
 
         //}
-
     }
 }

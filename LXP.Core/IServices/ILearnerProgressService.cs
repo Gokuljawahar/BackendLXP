@@ -23,10 +23,10 @@ namespace LXP.Core.IServices
 
         //  Task<decimal?> GetCourseCompletionPercentageAsync(Guid learnerId, Guid enrollmentId);
 
-        Task<(decimal? CourseCompletionPercentage, Guid? CourseId)> GetCourseCompletionAndCourseIdAsync(
-    Guid learnerId,
-    Guid enrollmentId
-);
+        Task<(
+            decimal? CourseCompletionPercentage,
+            Guid? CourseId
+        )> GetCourseCompletionAndCourseIdAsync(Guid learnerId, Guid enrollmentId);
         Task<LearnerProgress> GetLearnerProgressByLearnerIdAndMaterialId(
             string LearnerId,
             string MaterialId
@@ -36,9 +36,7 @@ namespace LXP.Core.IServices
 
         Task<double> CalculateMaterialProgressAsync(Guid materialId, Guid learnerId);
 
-       // Task<(decimal CombinedProgress, Guid? CourseId)> CalculateCombinedProgressAsync(Guid learnerId, Guid enrollmentId, Guid materialId);
-
-
+        // Task<(decimal CombinedProgress, Guid? CourseId)> CalculateCombinedProgressAsync(Guid learnerId, Guid enrollmentId, Guid materialId);
     }
     //public interface ILearnerProgressService
     //{
