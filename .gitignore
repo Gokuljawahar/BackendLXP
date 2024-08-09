@@ -4,8 +4,8 @@
 ## Get latest from `dotnet new gitignore`
 
 # .idx
-.vscode
-.Document /
+# .vscode
+# .Document /
 
 # dotenv files
 .env
