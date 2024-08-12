@@ -77,14 +77,99 @@ namespace LXP.Core.Services
             return quizQuestions;
         }
 
+        // public List<QuizQuestionJsonViewModel> ValidateQuizData(
+        //     List<QuizQuestionJsonViewModel> quizData
+        // )
+        // {
+        //     var validQuizData = new List<QuizQuestionJsonViewModel>();
+
+        //     foreach (var question in quizData)
+        //     {
+        //         if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
+        //         {
+        //             if (
+        //                 question.Options.Length
+        //                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+        //                 || question.Options.Distinct().Count()
+        //                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+        //                 || question.CorrectOptions.Length
+        //                     != ExcelDataExtractionColumnPositions.CorrectOptionCountForMCQ
+        //                 || !question.Options.Contains(question.CorrectOptions.First())
+        //             )
+        //             {
+        //                 continue;
+        //             }
+        //         }
+        //         // else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
+        //         // {
+        //         //     if (
+        //         //         question.Options.Length
+        //         //             != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
+        //         //         || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
+        //         //         || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
+        //         //         || question.CorrectOptions.Length
+        //         //             != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
+        //         //         || !question.CorrectOptions.Any(co =>
+        //         //             co.Equals("True", StringComparison.OrdinalIgnoreCase)
+        //         //             || co.Equals("False", StringComparison.OrdinalIgnoreCase)
+        //         //         )
+        //         //     )
+        //         //     {
+        //         //         continue;
+        //         //     }
+        //         // }
+        //         else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
+        //         {
+        //             if (
+        //                 question.Options.Length
+        //                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
+        //                 || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
+        //                 || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
+        //                 || question.CorrectOptions.Length
+        //                     != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
+        //                 || !question.CorrectOptions.Any(co =>
+        //                     co.Equals("True", StringComparison.OrdinalIgnoreCase)
+        //                     || co.Equals("False", StringComparison.OrdinalIgnoreCase)
+        //                 )
+        //             )
+        //             {
+        //                 continue;
+        //             }
+        //         }
+        //         else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
+        //         {
+        //             if (
+        //                 question.Options.Length
+        //                     < ExcelDataExtractionColumnPositions.OptionsStartingPositionForMSQ
+        //                 || question.Options.Length
+        //                     > ExcelDataExtractionColumnPositions.OptionsEndingPositionForMSQ
+        //                 || question.Options.Distinct().Count() != question.Options.Length
+        //                 || question.CorrectOptions.Length
+        //                     < ExcelDataExtractionColumnPositions.CorrectOptionsStartingCountForMSQ
+        //                 || question.CorrectOptions.Length
+        //                     > ExcelDataExtractionColumnPositions.CorrectOptionsEndingCountForMSQ
+        //                 || !question.CorrectOptions.All(co => question.Options.Contains(co))
+        //             )
+        //             {
+        //                 continue;
+        //             }
+        //         }
+        //         validQuizData.Add(question);
+        //     }
+
+        //     return validQuizData;
+        // }
         public List<QuizQuestionJsonViewModel> ValidateQuizData(
             List<QuizQuestionJsonViewModel> quizData
         )
         {
             var validQuizData = new List<QuizQuestionJsonViewModel>();
+            var invalidQuizData = new List<QuizQuestionJsonViewModel>();
 
             foreach (var question in quizData)
             {
+                bool isValid = true;
+
                 if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
                 {
                     if (
@@ -97,7 +182,7 @@ namespace LXP.Core.Services
                         || !question.Options.Contains(question.CorrectOptions.First())
                     )
                     {
-                        continue;
+                        isValid = false;
                     }
                 }
                 else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
@@ -115,7 +200,7 @@ namespace LXP.Core.Services
                         )
                     )
                     {
-                        continue;
+                        isValid = false;
                     }
                 }
                 else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
@@ -133,12 +218,22 @@ namespace LXP.Core.Services
                         || !question.CorrectOptions.All(co => question.Options.Contains(co))
                     )
                     {
-                        continue;
+                        isValid = false;
                     }
                 }
-                validQuizData.Add(question);
+
+                if (isValid)
+                {
+                    validQuizData.Add(question);
+                }
+                else
+                {
+                    invalidQuizData.Add(question); // Log or store invalid questions
+                    Console.WriteLine($"Invalid question ignored: {question.Question}");
+                }
             }
 
+            // Return or log invalid questions for further analysis if needed.
             return validQuizData;
         }
 
@@ -195,6 +290,33 @@ namespace LXP.Core.Services
             }
         }
 
+        // private string[] ExtractOptions(
+        //     ExcelWorksheet worksheet,
+        //     int row,
+        //     int startColumn,
+        //     int count,
+        //     string questionType
+        // )
+        // {
+        //     var options = new List<string>();
+        //     for (int i = 0; i < count; i++)
+        //     {
+        //         var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
+        //         if (!string.IsNullOrEmpty(option))
+        //         {
+        //             option = option.Replace("\n", " ").Replace("\r", " ");
+        //             if (questionType == QuizQuestionTypes.TrueFalseQuestion)
+        //             {
+        //                 if (option == "1")
+        //                     option = "True";
+        //                 else if (option == "0")
+        //                     option = "False";
+        //             }
+        //             options.Add(option);
+        //         }
+        //     }
+        //     return options.ToArray();
+        // }
         private string[] ExtractOptions(
             ExcelWorksheet worksheet,
             int row,
@@ -206,21 +328,25 @@ namespace LXP.Core.Services
             var options = new List<string>();
             for (int i = 0; i < count; i++)
             {
-                var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
+                var option = worksheet.Cells[row, startColumn + i].Value?.ToString()?.Trim();
                 if (!string.IsNullOrEmpty(option))
                 {
-                    option = option.Replace("\n", " ").Replace("\r", " ");
+                    option = option.Replace("\n", " ").Replace("\r", " ").Trim();
                     if (questionType == QuizQuestionTypes.TrueFalseQuestion)
                     {
-                        if (option == "1")
+                        if (option.Equals("1"))
                             option = "True";
-                        else if (option == "0")
+                        else if (option.Equals("0"))
+                            option = "False";
+                        else if (option.Equals("True", StringComparison.OrdinalIgnoreCase))
+                            option = "True";
+                        else if (option.Equals("False", StringComparison.OrdinalIgnoreCase))
                             option = "False";
                     }
                     options.Add(option);
                 }
             }
-            return options.ToArray();
+            return options.Where(x => !string.IsNullOrEmpty(x)).ToArray();
         }
     }
 }
