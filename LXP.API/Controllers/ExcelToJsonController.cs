@@ -36,22 +36,18 @@ namespace LXP.Api.Controllers
             try
             {
                 var jsonData = await _excelToJsonService.ConvertExcelToJsonAsync(file);
-                var validatedJsonData = _excelToJsonService.ValidateQuizData(jsonData);
-                await _excelToJsonService.SaveQuizDataAsync(validatedJsonData, quizId);
+                var (validQuizData, invalidQuizData) = _excelToJsonService.ValidateQuizData(
+                    jsonData
+                );
+                await _excelToJsonService.SaveQuizDataAsync(validQuizData, quizId);
 
-                var options = new JsonSerializerOptions
+                var response = new
                 {
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                    WriteIndented = true
+                    ValidQuestions = validQuizData,
+                    IgnoredQuestions = invalidQuizData
                 };
 
-                var jsonString = JsonSerializer.Serialize(validatedJsonData, options);
-                var byteArray = System.Text.Encoding.UTF8.GetBytes(jsonString);
-                var stream = new MemoryStream(byteArray);
-
-                // return File(stream, "application/json", "convertedData.json");
-
-                return Ok(validatedJsonData);
+                return Ok(response);
             }
             catch (Exception ex)
             {
