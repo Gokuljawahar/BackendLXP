@@ -64,7 +64,7 @@ namespace LXP.Core.Services
                                 worksheet,
                                 row,
                                 ExcelDataExtractionColumnPositions.CorrectOptionsStartingPosition,
-                                ExcelDataExtractionColumnPositions.CorrectOptionsCountTotalCount,
+                                ExcelDataExtractionColumnPositions.CorrectOptionsTotalCount,
                                 questionType
                             )
                         };
