@@ -36,18 +36,31 @@ namespace LXP.Api.Controllers
             try
             {
                 var jsonData = await _excelToJsonService.ConvertExcelToJsonAsync(file);
+
+                // Capture the tuple result in a variable
                 var (validQuizData, invalidQuizData) = _excelToJsonService.ValidateQuizData(
                     jsonData
                 );
+
                 await _excelToJsonService.SaveQuizDataAsync(validQuizData, quizId);
 
                 var response = new
                 {
-                    ValidQuestions = validQuizData,
-                    IgnoredQuestions = invalidQuizData
+                    ValidQuizData = validQuizData,
+                    InvalidQuizData = invalidQuizData
                 };
 
-                return Ok(response);
+                var options = new JsonSerializerOptions
+                {
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+                    WriteIndented = true
+                };
+
+                var jsonString = JsonSerializer.Serialize(response, options);
+                var byteArray = System.Text.Encoding.UTF8.GetBytes(jsonString);
+                var stream = new MemoryStream(byteArray);
+
+                return File(stream, "application/json", "convertedData.json");
             }
             catch (Exception ex)
             {
