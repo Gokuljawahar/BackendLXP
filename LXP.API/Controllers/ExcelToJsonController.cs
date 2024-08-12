@@ -49,7 +49,9 @@ namespace LXP.Api.Controllers
                 var byteArray = System.Text.Encoding.UTF8.GetBytes(jsonString);
                 var stream = new MemoryStream(byteArray);
 
-                return File(stream, "application/json", "convertedData.json");
+                // return File(stream, "application/json", "convertedData.json");
+
+                return Ok(validatedJsonData);
             }
             catch (Exception ex)
             {
