@@ -8,7 +8,7 @@ namespace LXP.Common.Constants
         public const int OptionsEndingPosition = 11;
         public const int CorrectOptionsStartingPosition = 12;
         public const int CorrectOptionsEndingPosition = 14;
-        public const int CorrectOptionsCountTotalCount = 3;
+        public const int CorrectOptionsTotalCount = 3;
         public const int OverallOptionsCount = 8;
         public const int CorrectOptionCountForMCQ = 1;
         public const int CorrectOptionCountForTorF = 1;
