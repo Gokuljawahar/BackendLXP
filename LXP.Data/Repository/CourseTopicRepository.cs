@@ -88,8 +88,14 @@ namespace LXP.Data.Repository
                                     on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId
                                     into frGroup
                                 from fr in frGroup.DefaultIfEmpty()
-                                where c.TopicId == topic.TopicId
-                                select new { Response = fr.Response ?? "NULL" }
+                             join lp in _lXPDbContext.LearnerProfiles on fr.LearnerId equals lp.LearnerId into lpGroup
+                        from lp in lpGroup.DefaultIfEmpty()
+                        where c.TopicId == topic.TopicId
+                        select new
+                        {
+                            Response = fr.Response ?? "NULL",
+                            LearnerName=lp.FirstName ?? "NULL",
+                        }
                             ).ToList()
                         }
                     ).ToList()
