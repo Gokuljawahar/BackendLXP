@@ -1,5 +1,4 @@
-﻿
-namespace LXP.Common.Entities;
+﻿namespace LXP.Common.Entities;
 
 public partial class TopicFeedbackQuestion
 {
@@ -21,9 +20,11 @@ public partial class TopicFeedbackQuestion
 
     public DateTime? ModifiedAt { get; set; }
 
-    public virtual ICollection<FeedbackQuestionsOption> FeedbackQuestionsOptions { get; set; } = new List<FeedbackQuestionsOption>();
+    public virtual ICollection<FeedbackQuestionsOption> FeedbackQuestionsOptions { get; set; } =
+        new List<FeedbackQuestionsOption>();
 
-    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } = new List<FeedbackResponse>();
+    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } =
+        new List<FeedbackResponse>();
 
     public virtual Topic Topic { get; set; } = null!;
 }

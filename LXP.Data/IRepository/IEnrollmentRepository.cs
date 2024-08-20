@@ -22,7 +22,7 @@ namespace LXP.Data.IRepository
         Enrollment FindEnrollmentId(Guid enrollmentId);
         Task DeleteEnrollment(Enrollment enrollment);
         object GetCourseandTopicsByCourseIdAndLearnerId(Guid courseId, Guid learnerId);
-       
+
         Task UpdateCourseStarted(Enrollment enrollment);
     }
 }

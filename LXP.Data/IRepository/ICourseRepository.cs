@@ -29,7 +29,6 @@ namespace LXP.Data.IRepository
 
         IEnumerable<TopicRatingViewModel> GetTopicRating();
 
-
         Task<dynamic> GetAllCourseDetailsByLearnerId(Guid learnerId);
     }
 }

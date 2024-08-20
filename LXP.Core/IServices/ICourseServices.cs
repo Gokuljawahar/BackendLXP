@@ -5,8 +5,8 @@ namespace LXP.Core.IServices
 {
     public interface ICourseServices
     {
-       Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId);
-         Course GetCourseByCourseId(Guid courseId);
+        Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId);
+        Course GetCourseByCourseId(Guid courseId);
 
         CourseListViewModel GetCourseDetailsByCourseName(string courseName);
         CourseListViewModel AddCourse(CourseViewModel course);
@@ -22,13 +22,11 @@ namespace LXP.Core.IServices
         IEnumerable<CourseDetailsViewModel> GetAllCourse();
         IEnumerable<CourseDetailsViewModel> GetLimitedCourse();
         IEnumerable<CourseListViewModel> GetAllCourseDetails();
-         
+
         //  IEnumerable<CourseRatingViewModel> GetCourseRating();
 
 
-         IEnumerable<TopicRatingViewModel> GetTopicRating();
-        
-        
+        IEnumerable<TopicRatingViewModel> GetTopicRating();
 
         Task<dynamic> GetAllCourseDetailsByLearnerId(string learnerId);
     }

@@ -24,8 +24,6 @@ namespace LXP.Data.IRepository
 
         Task<LearnerProgress> GetLearnerMaterialProgressAsync(Guid materialId, Guid learnerId);
 
-       Task Changewatchtime(LearnerProgress learnerprogress);
-
-       
+        Task Changewatchtime(LearnerProgress learnerprogress);
     }
 }

@@ -78,7 +78,7 @@ namespace LXP.Data.Repository
         //     return option?.FeedbackQuestionOptionId;
         // }
 
-         public Guid? GetOptionIdByText(Guid questionId, string optionText)
+        public Guid? GetOptionIdByText(Guid questionId, string optionText)
         {
             var option =
                 _context.FeedbackQuestionsOptions.FirstOrDefault(o =>
@@ -93,7 +93,7 @@ namespace LXP.Data.Repository
                     o.CourseFeedbackQuestionId == questionId
                     && o.OptionText.ToLower() == optionText.ToLower()
                 );
- 
+
             return option?.FeedbackQuestionOptionId;
         } // new code
 

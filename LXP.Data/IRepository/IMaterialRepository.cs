@@ -13,6 +13,6 @@ namespace LXP.Data.IRepository
         Task<int> UpdateMaterial(Material material);
         Task<Material> GetMaterialByMaterialId(Guid materialId);
 
-      //  Task<Material> GetmeterialDurationByMaterialId(Guid materialId);
+        //  Task<Material> GetmeterialDurationByMaterialId(Guid materialId);
     }
 }
