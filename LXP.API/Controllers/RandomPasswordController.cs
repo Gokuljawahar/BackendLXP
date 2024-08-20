@@ -1,28 +1,20 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Api.Controllers;
+
+using LXP.Common.ViewModels;
 using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class RandomPasswordController(IService services) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RandomPasswordController : ControllerBase
+    private readonly IService _services = services;
+
+    [HttpPost]
+    public async Task<ActionResult> ForgetPassword([FromBody] RandomPasswordEmail randompassword)
     {
-        private readonly IService _services;
+        var randomstore = this._services.ForgetPassword(randompassword.Email);
 
-        public RandomPasswordController(IService services)
-        {
-            _services = services;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> ForgetPassword(
-            [FromBody] RandomPasswordEmail randompassword
-        )
-        {
-            var randomstore = _services.ForgetPassword(randompassword.Email);
-
-            return Ok(randomstore);
-        }
+        return this.Ok(randomstore);
     }
 }

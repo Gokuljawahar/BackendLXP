@@ -1,193 +1,197 @@
-﻿using LXP.Common.Constants;
+namespace LXP.Core.Services;
+
+using LXP.Common.Constants;
 using LXP.Common.Entities;
 using LXP.Common.ViewModels.CourseFeedbackQuestionViewModel;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class CourseFeedbackService(ICourseFeedbackRepository courseFeedbackRepository)
+    : ICourseFeedbackService
 {
-    public class CourseFeedbackService : ICourseFeedbackService
+    private readonly ICourseFeedbackRepository _courseFeedbackRepository = courseFeedbackRepository;
+
+    public Guid AddFeedbackQuestion(
+        CourseFeedbackQuestionViewModel courseFeedbackQuestion,
+        List<CourseFeedbackQuestionsOptionViewModel> options
+    )
     {
-        private readonly ICourseFeedbackRepository _courseFeedbackRepository;
+        var normalizedQuestionType = courseFeedbackQuestion.QuestionType.ToUpper(
+            System.Globalization.CultureInfo.CurrentCulture
+        );
 
-        public CourseFeedbackService(ICourseFeedbackRepository courseFeedbackRepository)
-        {
-            _courseFeedbackRepository = courseFeedbackRepository;
-        }
-
-        public Guid AddFeedbackQuestion(
-            CourseFeedbackQuestionViewModel courseFeedbackQuestion,
-            List<CourseFeedbackQuestionsOptionViewModel> options
+        if (
+            normalizedQuestionType.Equals(
+                FeedbackQuestionTypes.DescriptiveQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
         )
         {
-            var normalizedQuestionType = courseFeedbackQuestion.QuestionType.ToUpper();
+            options = null;
+        }
 
-            if (normalizedQuestionType == FeedbackQuestionTypes.DescriptiveQuestion.ToUpper())
+        if (!ValidateOptionsByFeedbackQuestionType(courseFeedbackQuestion.QuestionType, options))
+        {
+            throw new ArgumentException(
+                "Invalid options for the given question type.",
+                nameof(options)
+            );
+        }
+
+        var questionEntity = new CourseFeedbackQuestion
+        {
+            CourseId = courseFeedbackQuestion.CourseId,
+            QuestionNo = this._courseFeedbackRepository.GetNextFeedbackQuestionNo(
+                courseFeedbackQuestion.CourseId
+            ),
+            Question = courseFeedbackQuestion.Question,
+            QuestionType = normalizedQuestionType,
+            CreatedBy = "Admin",
+            CreatedAt = DateTime.Now
+        };
+
+        this._courseFeedbackRepository.AddFeedbackQuestion(questionEntity);
+
+        if (
+            normalizedQuestionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+        {
+            if (options != null && options.Count > 0)
             {
-                options = null;
+                var optionEntities = options
+                    .Select(option => new FeedbackQuestionsOption
+                    {
+                        CourseFeedbackQuestionId = questionEntity.CourseFeedbackQuestionId,
+                        OptionText = option.OptionText,
+                        CreatedAt = DateTime.Now,
+                        CreatedBy = "Admin"
+                    })
+                    .ToList();
+
+                this._courseFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
+            }
+        }
+
+        return questionEntity.CourseFeedbackQuestionId;
+    }
+
+    public List<CourseFeedbackQuestionNoViewModel> GetAllFeedbackQuestions() =>
+        this._courseFeedbackRepository.GetAllFeedbackQuestions();
+
+    public CourseFeedbackQuestionNoViewModel GetFeedbackQuestionById(
+        Guid courseFeedbackQuestionId
+    ) => this._courseFeedbackRepository.GetFeedbackQuestionById(courseFeedbackQuestionId);
+
+    public bool UpdateFeedbackQuestion(
+        Guid courseFeedbackQuestionId,
+        CourseFeedbackQuestionViewModel courseFeedbackQuestion,
+        List<CourseFeedbackQuestionsOptionViewModel> options
+    )
+    {
+        var existingQuestion = this._courseFeedbackRepository.GetCourseFeedbackQuestionEntityById(
+            courseFeedbackQuestionId
+        );
+        if (existingQuestion != null)
+        {
+            if (
+                !existingQuestion.QuestionType.Equals(
+                    courseFeedbackQuestion.QuestionType,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            {
+                throw new InvalidOperationException("Question type cannot be modified.");
             }
 
+            existingQuestion.Question = courseFeedbackQuestion.Question;
+            existingQuestion.ModifiedAt = DateTime.Now;
+            existingQuestion.ModifiedBy = "Admin";
+            this._courseFeedbackRepository.UpdateFeedbackQuestion(existingQuestion);
+
             if (
-                !ValidateOptionsByFeedbackQuestionType(courseFeedbackQuestion.QuestionType, options)
+                existingQuestion.QuestionType.Equals(
+                    FeedbackQuestionTypes.MultiChoiceQuestion,
+                    StringComparison.OrdinalIgnoreCase
+                )
             )
-                throw new ArgumentException(
-                    "Invalid options for the given question type.",
-                    nameof(options)
+            {
+                if (!ValidateOptionsByFeedbackQuestionType(existingQuestion.QuestionType, options))
+                {
+                    throw new ArgumentException("Invalid options for the given question type.");
+                }
+
+                var existingOptions = this._courseFeedbackRepository.GetFeedbackQuestionOptionsById(
+                    courseFeedbackQuestionId
                 );
+                this._courseFeedbackRepository.RemoveFeedbackQuestionOptions(existingOptions);
 
-            var questionEntity = new CourseFeedbackQuestion
-            {
-                CourseId = courseFeedbackQuestion.CourseId,
-                QuestionNo = _courseFeedbackRepository.GetNextFeedbackQuestionNo(
-                    courseFeedbackQuestion.CourseId
-                ),
-                Question = courseFeedbackQuestion.Question,
-                QuestionType = normalizedQuestionType,
-                CreatedBy = "Admin",
-                CreatedAt = DateTime.Now
-            };
-
-            _courseFeedbackRepository.AddFeedbackQuestion(questionEntity);
-
-            if (normalizedQuestionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
-            {
                 if (options != null && options.Count > 0)
                 {
                     var optionEntities = options
                         .Select(option => new FeedbackQuestionsOption
                         {
-                            CourseFeedbackQuestionId = questionEntity.CourseFeedbackQuestionId,
+                            CourseFeedbackQuestionId = courseFeedbackQuestionId,
                             OptionText = option.OptionText,
                             CreatedAt = DateTime.Now,
                             CreatedBy = "Admin"
                         })
                         .ToList();
 
-                    _courseFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
+                    this._courseFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
                 }
-            }
-
-            return questionEntity.CourseFeedbackQuestionId;
-        }
-
-        public List<CourseFeedbackQuestionNoViewModel> GetAllFeedbackQuestions()
-        {
-            return _courseFeedbackRepository.GetAllFeedbackQuestions();
-        }
-
-        public CourseFeedbackQuestionNoViewModel GetFeedbackQuestionById(
-            Guid courseFeedbackQuestionId
-        )
-        {
-            return _courseFeedbackRepository.GetFeedbackQuestionById(courseFeedbackQuestionId);
-        }
-
-        public bool UpdateFeedbackQuestion(
-            Guid courseFeedbackQuestionId,
-            CourseFeedbackQuestionViewModel courseFeedbackQuestion,
-            List<CourseFeedbackQuestionsOptionViewModel> options
-        )
-        {
-            var existingQuestion = _courseFeedbackRepository.GetCourseFeedbackQuestionEntityById(
-                courseFeedbackQuestionId
-            );
-            if (existingQuestion != null)
-            {
-                if (
-                    !existingQuestion.QuestionType.Equals(
-                        courseFeedbackQuestion.QuestionType,
-                        StringComparison.OrdinalIgnoreCase
-                    )
-                )
-                {
-                    throw new InvalidOperationException("Question type cannot be modified.");
-                }
-
-                existingQuestion.Question = courseFeedbackQuestion.Question;
-                existingQuestion.ModifiedAt = DateTime.Now;
-                existingQuestion.ModifiedBy = "Admin";
-                _courseFeedbackRepository.UpdateFeedbackQuestion(existingQuestion);
-
-                if (
-                    existingQuestion.QuestionType
-                    == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper()
-                )
-                {
-                    if (
-                        !ValidateOptionsByFeedbackQuestionType(
-                            existingQuestion.QuestionType,
-                            options
-                        )
-                    )
-                    {
-                        throw new ArgumentException("Invalid options for the given question type.");
-                    }
-
-                    var existingOptions = _courseFeedbackRepository.GetFeedbackQuestionOptionsById(
-                        courseFeedbackQuestionId
-                    );
-                    _courseFeedbackRepository.RemoveFeedbackQuestionOptions(existingOptions);
-
-                    if (options != null && options.Count > 0)
-                    {
-                        var optionEntities = options
-                            .Select(option => new FeedbackQuestionsOption
-                            {
-                                CourseFeedbackQuestionId = courseFeedbackQuestionId,
-                                OptionText = option.OptionText,
-                                CreatedAt = DateTime.Now,
-                                CreatedBy = "Admin"
-                            })
-                            .ToList();
-
-                        _courseFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
-                    }
-                }
-
-                return true;
-            }
-            return false;
-        }
-
-        public bool DeleteFeedbackQuestion(Guid courseFeedbackQuestionId)
-        {
-            var existingQuestion = _courseFeedbackRepository.GetCourseFeedbackQuestionEntityById(
-                courseFeedbackQuestionId
-            );
-            if (existingQuestion != null)
-            {
-                var options = _courseFeedbackRepository.GetFeedbackQuestionOptionsById(
-                    courseFeedbackQuestionId
-                );
-                _courseFeedbackRepository.RemoveFeedbackQuestionOptions(options);
-                _courseFeedbackRepository.DeleteFeedbackQuestion(existingQuestion);
-                return true;
-            }
-            return false;
-        }
-
-        public List<CourseFeedbackQuestionNoViewModel> GetFeedbackQuestionsByCourseId(Guid courseId)
-        {
-            return _courseFeedbackRepository.GetFeedbackQuestionsByCourseId(courseId);
-        }
-
-        private bool ValidateOptionsByFeedbackQuestionType(
-            string questionType,
-            List<CourseFeedbackQuestionsOptionViewModel> options
-        )
-        {
-            if (string.IsNullOrWhiteSpace(questionType))
-            {
-                return false;
-            }
-
-            var normalizedQuestionType = questionType.ToUpper();
-            if (normalizedQuestionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
-            {
-                return options != null && options.Count > 0;
             }
 
             return true;
         }
+        return false;
+    }
+
+    public bool DeleteFeedbackQuestion(Guid courseFeedbackQuestionId)
+    {
+        var existingQuestion = this._courseFeedbackRepository.GetCourseFeedbackQuestionEntityById(
+            courseFeedbackQuestionId
+        );
+        if (existingQuestion != null)
+        {
+            var options = this._courseFeedbackRepository.GetFeedbackQuestionOptionsById(
+                courseFeedbackQuestionId
+            );
+            this._courseFeedbackRepository.RemoveFeedbackQuestionOptions(options);
+            this._courseFeedbackRepository.DeleteFeedbackQuestion(existingQuestion);
+            return true;
+        }
+        return false;
+    }
+
+    public List<CourseFeedbackQuestionNoViewModel> GetFeedbackQuestionsByCourseId(Guid courseId) =>
+        this._courseFeedbackRepository.GetFeedbackQuestionsByCourseId(courseId);
+
+    private static bool ValidateOptionsByFeedbackQuestionType(
+        string questionType,
+        List<CourseFeedbackQuestionsOptionViewModel> options
+    )
+    {
+        if (string.IsNullOrWhiteSpace(questionType))
+        {
+            return false;
+        }
+
+        var normalizedQuestionType = questionType.ToUpper(
+            System.Globalization.CultureInfo.CurrentCulture
+        );
+        if (
+            normalizedQuestionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+        {
+            return options != null && options.Count > 0;
+        }
+
+        return true;
     }
 }

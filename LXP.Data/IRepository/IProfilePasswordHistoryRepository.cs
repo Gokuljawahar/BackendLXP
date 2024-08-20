@@ -1,9 +1,8 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Data.IRepository;
 
-namespace LXP.Data.IRepository
+using LXP.Common.Entities;
+
+public interface IProfilePasswordHistoryRepository
 {
-    public interface IProfilePasswordHistoryRepository
-    {
-        void AddPasswordHistory1(PasswordHistory passwordHistory);
-    };
-}
+    void AddPasswordHistory1(PasswordHistory passwordHistory);
+};

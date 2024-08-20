@@ -1,14 +1,13 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface ILoginService
 {
-    public interface ILoginService
-    {
-        public Task<LoginRole> LoginLearner(LoginModel loginmodel);
+    public Task<LoginRole> LoginLearner(LoginModel loginmodel);
 
-        //Task<bool> ForgetPassword(string Email);
+    //Task<bool> ForgetPassword(string Email);
 
 
-        //Task<ResultUpdatePassword> UpdatePassword(UpdatePassword updatePassword);
-    }
+    //Task<ResultUpdatePassword> UpdatePassword(UpdatePassword updatePassword);
 }

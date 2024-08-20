@@ -1,13 +1,11 @@
-﻿namespace LXP.Common.ViewModels.QuizQuestionViewModel
+namespace LXP.Common.ViewModels.QuizQuestionViewModel;
+
+public class QuizQuestionViewModel
 {
-    public class QuizQuestionViewModel
-    {
-        public Guid QuizId { get; set; }
+    public Guid QuizId { get; set; }
 
-        public string Question { get; set; } = null!;
-        public string QuestionType { get; set; } = null!;
+    public string Question { get; set; } = null!;
+    public string QuestionType { get; set; } = null!;
 
-        public List<QuestionOptionViewModel> Options { get; set; } =
-            new List<QuestionOptionViewModel>();
-    }
+    public List<QuestionOptionViewModel> Options { get; set; } = [];
 }

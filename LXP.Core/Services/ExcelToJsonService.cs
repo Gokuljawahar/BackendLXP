@@ -1,3 +1,5 @@
+namespace LXP.Core.Services;
+
 using System.Transactions;
 using LXP.Common.Constants;
 using LXP.Common.Entities;
@@ -7,346 +9,348 @@ using LXP.Data.IRepository;
 using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 
-namespace LXP.Core.Services
+public class ExcelToJsonService(IQuizQuestionJsonRepository quizQuestionRepository)
+    : IExcelToJsonService
 {
-    public class ExcelToJsonService : IExcelToJsonService
+    private readonly IQuizQuestionJsonRepository _quizQuestionRepository = quizQuestionRepository;
+
+    public async Task<List<QuizQuestionJsonViewModel>> ConvertExcelToJsonAsync(IFormFile file)
     {
-        private readonly IQuizQuestionJsonRepository _quizQuestionRepository;
+        var quizQuestions = new List<QuizQuestionJsonViewModel>();
 
-        public ExcelToJsonService(IQuizQuestionJsonRepository quizQuestionRepository)
+        using (var stream = new MemoryStream())
         {
-            _quizQuestionRepository = quizQuestionRepository;
-        }
+            await file.CopyToAsync(stream);
+            stream.Position = 0;
 
-        public async Task<List<QuizQuestionJsonViewModel>> ConvertExcelToJsonAsync(IFormFile file)
-        {
-            var quizQuestions = new List<QuizQuestionJsonViewModel>();
-
-            using (var stream = new MemoryStream())
+            using (var package = new ExcelPackage(stream))
             {
-                await file.CopyToAsync(stream);
-                stream.Position = 0;
+                var worksheet =
+                    package.Workbook.Worksheets.FirstOrDefault()
+                    ?? throw new ArgumentException("Worksheet not found.");
 
-                using (var package = new ExcelPackage(stream))
+                for (var row = 3; row <= worksheet.Dimension.End.Row; row++)
                 {
-                    var worksheet = package.Workbook.Worksheets.FirstOrDefault();
-                    if (worksheet == null)
-                        throw new ArgumentException("Worksheet not found.");
-
-                    for (int row = 3; row <= worksheet.Dimension.End.Row; row++)
+                    var questionType = worksheet
+                        .Cells[row, ExcelDataExtractionColumnPositions.QuestiontypePosition]
+                        .Value?.ToString();
+                    var question = worksheet
+                        .Cells[row, ExcelDataExtractionColumnPositions.QuestionPosition]
+                        .Value?.ToString();
+                    if (!string.IsNullOrEmpty(question))
                     {
-                        var questionType = worksheet
-                            .Cells[row, ExcelDataExtractionColumnPositions.QuestiontypePosition]
-                            .Value?.ToString();
-                        var question = worksheet
-                            .Cells[row, ExcelDataExtractionColumnPositions.QuestionPosition]
-                            .Value?.ToString();
-                        if (!string.IsNullOrEmpty(question))
-                        {
-                            question = question.Replace("\n", " ").Replace("\r", "");
-                        }
-                        if (string.IsNullOrEmpty(questionType) || string.IsNullOrEmpty(question))
-                            continue;
-
-                        var quizQuestion = new QuizQuestionJsonViewModel
-                        {
-                            QuestionNumber = row - 2,
-                            QuestionType = questionType,
-                            Question = question,
-                            Options = ExtractOptions(
-                                worksheet,
-                                row,
-                                ExcelDataExtractionColumnPositions.OptionsStartingPosition,
-                                ExcelDataExtractionColumnPositions.OverallOptionsCount,
-                                questionType
-                            ),
-                            CorrectOptions = ExtractOptions(
-                                worksheet,
-                                row,
-                                ExcelDataExtractionColumnPositions.CorrectOptionsStartingPosition,
-                                ExcelDataExtractionColumnPositions.CorrectOptionsTotalCount,
-                                questionType
-                            )
-                        };
-
-                        quizQuestions.Add(quizQuestion);
+                        question = question.Replace("\n", " ").Replace("\r", "");
                     }
-                }
-            }
-
-            return quizQuestions;
-        }
-
-        // public List<QuizQuestionJsonViewModel> ValidateQuizData(
-        //     List<QuizQuestionJsonViewModel> quizData
-        // )
-        // {
-        //     var validQuizData = new List<QuizQuestionJsonViewModel>();
-
-        //     foreach (var question in quizData)
-        //     {
-        //         if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
-        //         {
-        //             if (
-        //                 question.Options.Length
-        //                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
-        //                 || question.Options.Distinct().Count()
-        //                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
-        //                 || question.CorrectOptions.Length
-        //                     != ExcelDataExtractionColumnPositions.CorrectOptionCountForMCQ
-        //                 || !question.Options.Contains(question.CorrectOptions.First())
-        //             )
-        //             {
-        //                 continue;
-        //             }
-        //         }
-        //         // else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
-        //         // {
-        //         //     if (
-        //         //         question.Options.Length
-        //         //             != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
-        //         //         || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
-        //         //         || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
-        //         //         || question.CorrectOptions.Length
-        //         //             != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
-        //         //         || !question.CorrectOptions.Any(co =>
-        //         //             co.Equals("True", StringComparison.OrdinalIgnoreCase)
-        //         //             || co.Equals("False", StringComparison.OrdinalIgnoreCase)
-        //         //         )
-        //         //     )
-        //         //     {
-        //         //         continue;
-        //         //     }
-        //         // }
-        //         else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
-        //         {
-        //             if (
-        //                 question.Options.Length
-        //                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
-        //                 || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
-        //                 || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
-        //                 || question.CorrectOptions.Length
-        //                     != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
-        //                 || !question.CorrectOptions.Any(co =>
-        //                     co.Equals("True", StringComparison.OrdinalIgnoreCase)
-        //                     || co.Equals("False", StringComparison.OrdinalIgnoreCase)
-        //                 )
-        //             )
-        //             {
-        //                 continue;
-        //             }
-        //         }
-        //         else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
-        //         {
-        //             if (
-        //                 question.Options.Length
-        //                     < ExcelDataExtractionColumnPositions.OptionsStartingPositionForMSQ
-        //                 || question.Options.Length
-        //                     > ExcelDataExtractionColumnPositions.OptionsEndingPositionForMSQ
-        //                 || question.Options.Distinct().Count() != question.Options.Length
-        //                 || question.CorrectOptions.Length
-        //                     < ExcelDataExtractionColumnPositions.CorrectOptionsStartingCountForMSQ
-        //                 || question.CorrectOptions.Length
-        //                     > ExcelDataExtractionColumnPositions.CorrectOptionsEndingCountForMSQ
-        //                 || !question.CorrectOptions.All(co => question.Options.Contains(co))
-        //             )
-        //             {
-        //                 continue;
-        //             }
-        //         }
-        //         validQuizData.Add(question);
-        //     }
-
-        //     return validQuizData;
-        // }
-        public List<QuizQuestionJsonViewModel> ValidateQuizData(
-            List<QuizQuestionJsonViewModel> quizData
-        )
-        {
-            var validQuizData = new List<QuizQuestionJsonViewModel>();
-            var invalidQuizData = new List<QuizQuestionJsonViewModel>();
-
-            foreach (var question in quizData)
-            {
-                bool isValid = true;
-
-                if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
-                {
-                    if (
-                        question.Options.Length
-                            != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
-                        || question.Options.Distinct().Count()
-                            != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
-                        || question.CorrectOptions.Length
-                            != ExcelDataExtractionColumnPositions.CorrectOptionCountForMCQ
-                        || !question.Options.Contains(question.CorrectOptions.First())
-                    )
+                    if (string.IsNullOrEmpty(questionType) || string.IsNullOrEmpty(question))
                     {
-                        isValid = false;
+                        continue;
                     }
-                }
-                else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
-                {
-                    if (
-                        question.Options.Length
-                            != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
-                        || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
-                        || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
-                        || question.CorrectOptions.Length
-                            != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
-                        || !question.CorrectOptions.Any(co =>
-                            co.Equals("True", StringComparison.OrdinalIgnoreCase)
-                            || co.Equals("False", StringComparison.OrdinalIgnoreCase)
+
+                    var quizQuestion = new QuizQuestionJsonViewModel
+                    {
+                        QuestionNumber = row - 2,
+                        QuestionType = questionType,
+                        Question = question,
+                        Options = ExtractOptions(
+                            worksheet,
+                            row,
+                            ExcelDataExtractionColumnPositions.OptionsStartingPosition,
+                            ExcelDataExtractionColumnPositions.OverallOptionsCount,
+                            questionType
+                        ),
+                        CorrectOptions = ExtractOptions(
+                            worksheet,
+                            row,
+                            ExcelDataExtractionColumnPositions.CorrectOptionsStartingPosition,
+                            ExcelDataExtractionColumnPositions.CorrectOptionsTotalCount,
+                            questionType
                         )
-                    )
-                    {
-                        isValid = false;
-                    }
-                }
-                else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
-                {
-                    if (
-                        question.Options.Length
-                            < ExcelDataExtractionColumnPositions.OptionsStartingPositionForMSQ
-                        || question.Options.Length
-                            > ExcelDataExtractionColumnPositions.OptionsEndingPositionForMSQ
-                        || question.Options.Distinct().Count() != question.Options.Length
-                        || question.CorrectOptions.Length
-                            < ExcelDataExtractionColumnPositions.CorrectOptionsStartingCountForMSQ
-                        || question.CorrectOptions.Length
-                            > ExcelDataExtractionColumnPositions.CorrectOptionsEndingCountForMSQ
-                        || !question.CorrectOptions.All(co => question.Options.Contains(co))
-                    )
-                    {
-                        isValid = false;
-                    }
-                }
-
-                if (isValid)
-                {
-                    validQuizData.Add(question);
-                }
-                else
-                {
-                    invalidQuizData.Add(question); // Log or store invalid questions
-                    Console.WriteLine($"Invalid question ignored: {question.Question}");
-                }
-            }
-
-            // Return or log invalid questions for further analysis if needed.
-            return validQuizData;
-        }
-
-        public async Task SaveQuizDataAsync(
-            List<QuizQuestionJsonViewModel> quizQuestions,
-            Guid quizId
-        )
-        {
-            foreach (var quizQuestion in quizQuestions)
-            {
-                using (
-                    var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled)
-                )
-                {
-                    int nextQuestionNo = await _quizQuestionRepository.GetNextQuestionNoAsync(
-                        quizId
-                    );
-
-                    var questionEntity = new QuizQuestion
-                    {
-                        QuizId = quizId,
-                        QuestionNo = nextQuestionNo,
-                        QuestionType = quizQuestion.QuestionType,
-                        Question = quizQuestion.Question,
-                        CreatedBy = "Admin",
-                        CreatedAt = DateTime.Now
                     };
 
-                    await _quizQuestionRepository.AddQuestionsAsync(
-                        new List<QuizQuestion> { questionEntity }
-                    );
-
-                    var optionEntities = quizQuestion
-                        .Options.Select(
-                            (option, index) =>
-                                new QuestionOption
-                                {
-                                    QuizQuestionId = questionEntity.QuizQuestionId,
-                                    Option = option,
-                                    IsCorrect = quizQuestion.CorrectOptions.Contains(option),
-                                    CreatedAt = DateTime.Now,
-                                    CreatedBy = "Admin",
-                                }
-                        )
-                        .ToList();
-
-                    await _quizQuestionRepository.AddOptionsAsync(
-                        optionEntities,
-                        questionEntity.QuizQuestionId
-                    );
-
-                    transaction.Complete();
+                    quizQuestions.Add(quizQuestion);
                 }
             }
         }
 
-        // private string[] ExtractOptions(
-        //     ExcelWorksheet worksheet,
-        //     int row,
-        //     int startColumn,
-        //     int count,
-        //     string questionType
-        // )
-        // {
-        //     var options = new List<string>();
-        //     for (int i = 0; i < count; i++)
-        //     {
-        //         var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
-        //         if (!string.IsNullOrEmpty(option))
-        //         {
-        //             option = option.Replace("\n", " ").Replace("\r", " ");
-        //             if (questionType == QuizQuestionTypes.TrueFalseQuestion)
-        //             {
-        //                 if (option == "1")
-        //                     option = "True";
-        //                 else if (option == "0")
-        //                     option = "False";
-        //             }
-        //             options.Add(option);
-        //         }
-        //     }
-        //     return options.ToArray();
-        // }
-        private string[] ExtractOptions(
-            ExcelWorksheet worksheet,
-            int row,
-            int startColumn,
-            int count,
-            string questionType
-        )
+        return quizQuestions;
+    }
+
+
+    public List<QuizQuestionJsonViewModel> ValidateQuizData(
+        List<QuizQuestionJsonViewModel> quizData
+    )
+    {
+        var validQuizData = new List<QuizQuestionJsonViewModel>();
+        var invalidQuizData = new List<QuizQuestionJsonViewModel>();
+
+        foreach (var question in quizData)
         {
-            var options = new List<string>();
-            for (int i = 0; i < count; i++)
+            var isValid = true;
+
+            if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
             {
-                var option = worksheet.Cells[row, startColumn + i].Value?.ToString()?.Trim();
-                if (!string.IsNullOrEmpty(option))
+                if (
+                    question.Options.Length
+                        != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+                    || question.Options.Distinct().Count()
+                        != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+                    || question.CorrectOptions.Length
+                        != ExcelDataExtractionColumnPositions.CorrectOptionCountForMCQ
+                    || !question.Options.Contains(question.CorrectOptions.First())
+                )
                 {
-                    option = option.Replace("\n", " ").Replace("\r", " ").Trim();
-                    if (questionType == QuizQuestionTypes.TrueFalseQuestion)
-                    {
-                        if (option.Equals("1"))
-                            option = "True";
-                        else if (option.Equals("0"))
-                            option = "False";
-                        else if (option.Equals("True", StringComparison.OrdinalIgnoreCase))
-                            option = "True";
-                        else if (option.Equals("False", StringComparison.OrdinalIgnoreCase))
-                            option = "False";
-                    }
-                    options.Add(option);
+                    isValid = false;
                 }
             }
-            return options.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
+            {
+                if (
+                    question.Options.Length
+                        != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
+                    || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
+                    || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
+                    || question.CorrectOptions.Length
+                        != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
+                    || !question.CorrectOptions.Any(co =>
+                        co.Equals("True", StringComparison.OrdinalIgnoreCase)
+                        || co.Equals("False", StringComparison.OrdinalIgnoreCase)
+                    )
+                )
+                {
+                    isValid = false;
+                }
+            }
+            else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
+            {
+                if (
+                    question.Options.Length
+                        < ExcelDataExtractionColumnPositions.OptionsStartingPositionForMSQ
+                    || question.Options.Length
+                        > ExcelDataExtractionColumnPositions.OptionsEndingPositionForMSQ
+                    || question.Options.Distinct().Count() != question.Options.Length
+                    || question.CorrectOptions.Length
+                        < ExcelDataExtractionColumnPositions.CorrectOptionsStartingCountForMSQ
+                    || question.CorrectOptions.Length
+                        > ExcelDataExtractionColumnPositions.CorrectOptionsEndingCountForMSQ
+                    || !question.CorrectOptions.All(co => question.Options.Contains(co))
+                )
+                {
+                    isValid = false;
+                }
+            }
+
+            if (isValid)
+            {
+                validQuizData.Add(question);
+            }
+            else
+            {
+                invalidQuizData.Add(question); // Log or store invalid questions
+                Console.WriteLine($"Invalid question ignored: {question.Question}");
+            }
+        }
+
+        // Return or log invalid questions for further analysis if needed.
+        return validQuizData;
+    }
+
+    public async Task SaveQuizDataAsync(List<QuizQuestionJsonViewModel> quizData, Guid quizId)
+    {
+        foreach (var quizQuestion in quizData)
+        {
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var nextQuestionNo = await this._quizQuestionRepository.GetNextQuestionNoAsync(
+                    quizId
+                );
+
+                var questionEntity = new QuizQuestion
+                {
+                    QuizId = quizId,
+                    QuestionNo = nextQuestionNo,
+                    QuestionType = quizQuestion.QuestionType,
+                    Question = quizQuestion.Question,
+                    CreatedBy = "Admin",
+                    CreatedAt = DateTime.Now
+                };
+
+                await this._quizQuestionRepository.AddQuestionsAsync([questionEntity]);
+
+                var optionEntities = quizQuestion
+                    .Options.Select(
+                        (option, index) =>
+                            new QuestionOption
+                            {
+                                QuizQuestionId = questionEntity.QuizQuestionId,
+                                Option = option,
+                                IsCorrect = quizQuestion.CorrectOptions.Contains(option),
+                                CreatedAt = DateTime.Now,
+                                CreatedBy = "Admin",
+                            }
+                    )
+                    .ToList();
+
+                await this._quizQuestionRepository.AddOptionsAsync(
+                    optionEntities,
+                    questionEntity.QuizQuestionId
+                );
+
+                transaction.Complete();
+            }
         }
     }
+
+
+    private static string[] ExtractOptions(
+        ExcelWorksheet worksheet,
+        int row,
+        int startColumn,
+        int count,
+        string questionType
+    )
+    {
+        var options = new List<string>();
+        for (var i = 0; i < count; i++)
+        {
+            var option = worksheet.Cells[row, startColumn + i].Value?.ToString()?.Trim();
+            if (!string.IsNullOrEmpty(option))
+            {
+                option = option.Replace("\n", " ").Replace("\r", " ").Trim();
+                if (questionType == QuizQuestionTypes.TrueFalseQuestion)
+                {
+                    if (option.Equals("1", StringComparison.Ordinal))
+                    {
+                        option = "True";
+                    }
+                    else if (option.Equals("0", StringComparison.Ordinal))
+                    {
+                        option = "False";
+                    }
+                    else if (option.Equals("True", StringComparison.OrdinalIgnoreCase))
+                    {
+                        option = "True";
+                    }
+                    else if (option.Equals("False", StringComparison.OrdinalIgnoreCase))
+                    {
+                        option = "False";
+                    }
+                }
+                options.Add(option);
+            }
+        }
+        return options.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+    }
 }
+
+
+
+// public List<QuizQuestionJsonViewModel> ValidateQuizData(
+//     List<QuizQuestionJsonViewModel> quizData
+// )
+// {
+//     var validQuizData = new List<QuizQuestionJsonViewModel>();
+
+//     foreach (var question in quizData)
+//     {
+//         if (question.QuestionType == QuizQuestionTypes.MultiChoiceQuestion)
+//         {
+//             if (
+//                 question.Options.Length
+//                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+//                 || question.Options.Distinct().Count()
+//                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForMCQ
+//                 || question.CorrectOptions.Length
+//                     != ExcelDataExtractionColumnPositions.CorrectOptionCountForMCQ
+//                 || !question.Options.Contains(question.CorrectOptions.First())
+//             )
+//             {
+//                 continue;
+//             }
+//         }
+//         // else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
+//         // {
+//         //     if (
+//         //         question.Options.Length
+//         //             != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
+//         //         || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
+//         //         || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
+//         //         || question.CorrectOptions.Length
+//         //             != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
+//         //         || !question.CorrectOptions.Any(co =>
+//         //             co.Equals("True", StringComparison.OrdinalIgnoreCase)
+//         //             || co.Equals("False", StringComparison.OrdinalIgnoreCase)
+//         //         )
+//         //     )
+//         //     {
+//         //         continue;
+//         //     }
+//         // }
+//         else if (question.QuestionType == QuizQuestionTypes.TrueFalseQuestion)
+//         {
+//             if (
+//                 question.Options.Length
+//                     != ExcelDataExtractionColumnPositions.OptionsTotalCountForTorF
+//                 || !question.Options.Contains("True", StringComparer.OrdinalIgnoreCase)
+//                 || !question.Options.Contains("False", StringComparer.OrdinalIgnoreCase)
+//                 || question.CorrectOptions.Length
+//                     != ExcelDataExtractionColumnPositions.CorrectOptionCountForTorF
+//                 || !question.CorrectOptions.Any(co =>
+//                     co.Equals("True", StringComparison.OrdinalIgnoreCase)
+//                     || co.Equals("False", StringComparison.OrdinalIgnoreCase)
+//                 )
+//             )
+//             {
+//                 continue;
+//             }
+//         }
+//         else if (question.QuestionType == QuizQuestionTypes.MultiSelectQuestion)
+//         {
+//             if (
+//                 question.Options.Length
+//                     < ExcelDataExtractionColumnPositions.OptionsStartingPositionForMSQ
+//                 || question.Options.Length
+//                     > ExcelDataExtractionColumnPositions.OptionsEndingPositionForMSQ
+//                 || question.Options.Distinct().Count() != question.Options.Length
+//                 || question.CorrectOptions.Length
+//                     < ExcelDataExtractionColumnPositions.CorrectOptionsStartingCountForMSQ
+//                 || question.CorrectOptions.Length
+//                     > ExcelDataExtractionColumnPositions.CorrectOptionsEndingCountForMSQ
+//                 || !question.CorrectOptions.All(co => question.Options.Contains(co))
+//             )
+//             {
+//                 continue;
+//             }
+//         }
+//         validQuizData.Add(question);
+//     }
+
+//     return validQuizData;
+// }
+
+// private string[] ExtractOptions(
+//     ExcelWorksheet worksheet,
+//     int row,
+//     int startColumn,
+//     int count,
+//     string questionType
+// )
+// {
+//     var options = new List<string>();
+//     for (int i = 0; i < count; i++)
+//     {
+//         var option = worksheet.Cells[row, startColumn + i].Value?.ToString();
+//         if (!string.IsNullOrEmpty(option))
+//         {
+//             option = option.Replace("\n", " ").Replace("\r", " ");
+//             if (questionType == QuizQuestionTypes.TrueFalseQuestion)
+//             {
+//                 if (option == "1")
+//                     option = "True";
+//                 else if (option == "0")
+//                     option = "False";
+//             }
+//             options.Add(option);
+//         }
+//     }
+//     return options.ToArray();
+// }

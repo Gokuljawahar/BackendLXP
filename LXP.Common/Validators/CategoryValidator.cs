@@ -5,11 +5,11 @@ public class CourseCategoryViewModelValidator : AbstractValidator<CourseCategory
 {
     public CourseCategoryViewModelValidator()
     {
-        RuleFor(courseCategory => courseCategory.Category)
+        this.RuleFor(courseCategory => courseCategory.Category)
             .NotEmpty()
             .WithMessage("Category is required");
 
-        RuleFor(courseCategory => courseCategory.CreatedBy)
+        this.RuleFor(courseCategory => courseCategory.CreatedBy)
             .NotEmpty()
             .WithMessage("CreatedBy is required");
     }

@@ -1,12 +1,11 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Data.IRepository;
 
-namespace LXP.Data.IRepository
+using LXP.Common.Entities;
+
+public interface ICourseLevelRepository
 {
-    public interface ICourseLevelRepository
-    {
-        Task AddCourseLevel(CourseLevel level);
+    Task AddCourseLevel(CourseLevel level);
 
-        Task<List<CourseLevel>> GetAllCourseLevel();
-        CourseLevel GetCourseLevelByCourseLevelId(Guid courseLevelId);
-    }
+    Task<List<CourseLevel>> GetAllCourseLevel();
+    CourseLevel GetCourseLevelByCourseLevelId(Guid courseLevelId);
 }

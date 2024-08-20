@@ -1,7 +1,6 @@
-﻿namespace LXP.Core.IServices
+namespace LXP.Core.IServices;
+
+public interface IEmailService
 {
-    public interface IEmailService
-    {
-        Task<bool> SendEmailAsync(string recipientEmail, string subject, string body);
-    }
+    Task<bool> SendEmailAsync(string recipientEmail, string subject, string body);
 }

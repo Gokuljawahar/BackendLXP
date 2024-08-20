@@ -1,9 +1,8 @@
-﻿namespace LXP.Common.ViewModels
+namespace LXP.Common.ViewModels;
+
+public class CourseWiseViewModel
 {
-    public class CourseWiseViewModel
-    {
-        public int Count { get; set; }
-        public string CourseName { get; set; }
-        public Guid CourseId { get; set; }
-    }
+    public int Count { get; set; }
+    public string CourseName { get; set; }
+    public Guid CourseId { get; set; }
 }

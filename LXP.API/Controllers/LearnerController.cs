@@ -1,65 +1,58 @@
-﻿using LXP.Core.IServices;
+namespace LXP.Api.Controllers;
+
+using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]/[Action]")]
+[ApiController]
+public class LearnerController(
+    ILearnerServices learnerServices,
+    IUserReportServices userReportServices
+) : BaseController
 {
-    [Route("api/[controller]/[Action]")]
-    [ApiController]
-    public class LearnerController : BaseController
+    private readonly ILearnerServices _learnerServices = learnerServices;
+    private readonly IUserReportServices _userReportServices = userReportServices;
+
+    ///<summary>
+    ///Getting All learners
+    ///</summary>
+    ///<response code="200">Success</response>
+    ///<response code="404">Internal server Error</response>
+    [HttpGet("/lxp/learner/getalllearnerdetails")]
+    public IActionResult GetAllLearners()
     {
-        private readonly ILearnerServices _learnerServices;
-        private readonly IUserReportServices _userReportServices;
+        var learners = this._learnerServices.GetLearners();
 
-        public LearnerController(
-            ILearnerServices learnerServices,
-            IUserReportServices userReportServices
-        )
-        {
-            _learnerServices = learnerServices;
-            _userReportServices = userReportServices;
-        }
+        return this.Ok(this.CreateSuccessResponse(learners));
+    }
 
-        ///<summary>
-        ///Getting All learners
-        ///</summary>
-        ///<response code="200">Success</response>
-        ///<response code="404">Internal server Error</response>
-        [HttpGet("/lxp/learner/getalllearnerdetails")]
-        public IActionResult GetAllLearners()
-        {
-            var learners = _learnerServices.GetLearners();
+    ///<summary>
+    ///Learner profile by learner id
+    ///</summary>
+    ///<response code="200">Success</response>
+    [HttpGet("/lxp/learner/{learnerid}/learnerdetails")]
+    public IActionResult GetAllLearnerDetailsByLearnerId(Guid learnerid)
+    {
+        var learner = this._learnerServices.GetAllLearnerDetailsByLearnerId(learnerid);
+        return this.Ok(this.CreateSuccessResponse(learner));
+    }
 
-            return Ok(CreateSuccessResponse(learners));
-        }
+    ///<summary>
+    ///Enrolled course details by learner id
+    ///</summary>
+    ///<response code="200">Success</response>
 
-        ///<summary>
-        ///Learner profile by learner id
-        ///</summary>
-        ///<response code="200">Success</response>
-        [HttpGet("/lxp/learner/{learnerid}/learnerdetails")]
-        public IActionResult GetAllLearnerDetailsByLearnerId(Guid learnerid)
-        {
-            var learner = _learnerServices.GetAllLearnerDetailsByLearnerId(learnerid);
-            return Ok(CreateSuccessResponse(learner));
-        }
+    [HttpGet("/lxp/learner/{learnerid}/entrolledcourse")]
+    public IActionResult GetLearnerEntrolledcourseByLearnerId(Guid learnerid)
+    {
+        var learner = this._learnerServices.GetLearnerEnrolledcourseByLearnerId(learnerid);
+        return this.Ok(this.CreateSuccessResponse(learner));
+    }
 
-        ///<summary>
-        ///Enrolled course details by learner id
-        ///</summary>
-        ///<response code="200">Success</response>
-
-        [HttpGet("/lxp/learner/{learnerid}/entrolledcourse")]
-        public IActionResult GetLearnerEntrolledcourseByLearnerId(Guid learnerid)
-        {
-            var learner = _learnerServices.GetLearnerEnrolledcourseByLearnerId(learnerid);
-            return Ok(CreateSuccessResponse(learner));
-        }
-
-        [HttpGet("/lxp/learnerReport")]
-        public IActionResult GetLearnerReport()
-        {
-            var report = _userReportServices.GetUserReport();
-            return Ok(CreateSuccessResponse(report));
-        }
+    [HttpGet("/lxp/learnerReport")]
+    public IActionResult GetLearnerReport()
+    {
+        var report = this._userReportServices.GetUserReport();
+        return this.Ok(this.CreateSuccessResponse(report));
     }
 }

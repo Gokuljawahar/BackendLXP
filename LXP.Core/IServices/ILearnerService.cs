@@ -1,17 +1,16 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Core.IServices;
+
+using LXP.Common.Entities;
 using LXP.Common.ViewModels;
 
-namespace LXP.Core.IServices
+public interface ILearnerService
 {
-    public interface ILearnerService
-    {
-        Task<bool> LearnerRegistration(RegisterUserViewModel registerUserViewModel);
+    Task<bool> LearnerRegistration(RegisterUserViewModel registerUserViewModel);
 
-        Task<List<GetLearnerViewModel>> GetAllLearner();
+    Task<List<GetLearnerViewModel>> GetAllLearner();
 
-        //Task<List<Learner>>Updateall
+    //Task<List<Learner>>Updateall
 
-        Learner GetLearnerById(string id);
-        Task<LearnerAndProfileViewModel> LearnerGetLearnerById(string id);
-    }
+    Learner GetLearnerById(string id);
+    Task<LearnerAndProfileViewModel> LearnerGetLearnerById(string id);
 }

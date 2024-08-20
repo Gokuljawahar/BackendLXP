@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using LXP.Data;
-using Microsoft.EntityFrameworkCore;
-using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
-
 namespace LXP.Common.Entities;
+
+using Microsoft.EntityFrameworkCore;
 
 public partial class LXPDbContext : DbContext
 {
@@ -60,7 +56,7 @@ public partial class LXPDbContext : DbContext
         =>
         optionsBuilder.UseMySql(
             "server=localhost;database=Relevantz.LXP;uid=root;pwd=Password@12345",
-            Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql")
+            ServerVersion.Parse("8.0.33-mysql")
         );
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -904,7 +900,7 @@ public partial class LXPDbContext : DbContext
                 .HasConstraintName("FK_TopicFeedbackQuestions_topic_topic_id");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        this.OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

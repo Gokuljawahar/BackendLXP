@@ -1,9 +1,8 @@
-﻿namespace LXP.Data.IRepository
-{
-    public interface ILearnerAttemptRepository
-    {
-        object GetScoreByTopicIdAndLernerId(Guid LearnerId);
+namespace LXP.Data.IRepository;
 
-        object GetScoreByLearnerId(Guid LearnerId);
-    }
+public interface ILearnerAttemptRepository
+{
+    object GetScoreByTopicIdAndLernerId(Guid LearnerId);
+
+    object GetScoreByLearnerId(Guid LearnerId);
 }

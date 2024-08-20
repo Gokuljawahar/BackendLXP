@@ -1,9 +1,8 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface IUpdatePasswordService
 {
-    public interface IUpdatePasswordService
-    {
-        Task<bool> UpdatePassword(UpdatePassword updatePassword);
-    }
+    Task<bool> UpdatePassword(UpdatePassword updatePassword);
 }

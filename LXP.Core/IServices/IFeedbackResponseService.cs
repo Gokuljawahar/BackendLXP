@@ -1,22 +1,19 @@
-﻿using LXP.Common.ViewModels.FeedbackResponseViewModel;
+namespace LXP.Services.IServices;
 
-namespace LXP.Services.IServices
+using LXP.Common.ViewModels.FeedbackResponseViewModel;
+
+public interface IFeedbackResponseService
 {
-    public interface IFeedbackResponseService
-    {
-        void SubmitFeedbackResponse(QuizFeedbackResponseViewModel feedbackResponse);
-        void SubmitFeedbackResponse(TopicFeedbackResponseViewModel feedbackResponse);
-        void SubmitFeedbackResponses(IEnumerable<QuizFeedbackResponseViewModel> feedbackResponses);
-        void SubmitFeedbackResponses(IEnumerable<TopicFeedbackResponseViewModel> feedbackResponses);
+    void SubmitFeedbackResponse(QuizFeedbackResponseViewModel feedbackResponse);
+    void SubmitFeedbackResponse(TopicFeedbackResponseViewModel feedbackResponse);
+    void SubmitFeedbackResponses(IEnumerable<QuizFeedbackResponseViewModel> feedbackResponses);
+    void SubmitFeedbackResponses(IEnumerable<TopicFeedbackResponseViewModel> feedbackResponses);
 
-        //new
-        LearnerFeedbackStatusViewModel GetQuizFeedbackStatus(Guid learnerId, Guid quizId);
-        LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topicId);
+    //new
+    LearnerFeedbackStatusViewModel GetQuizFeedbackStatus(Guid learnerId, Guid quizId);
+    LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topicId);
 
-        void SubmitFeedbackResponse(CourseFeedbackResponseViewModel feedbackResponse);
-        void SubmitFeedbackResponses(
-            IEnumerable<CourseFeedbackResponseViewModel> feedbackResponses
-        );
-        LearnerFeedbackStatusViewModel GetCourseFeedbackStatus(Guid learnerId, Guid courseId);
-    }
+    void SubmitFeedbackResponse(CourseFeedbackResponseViewModel feedbackResponse);
+    void SubmitFeedbackResponses(IEnumerable<CourseFeedbackResponseViewModel> feedbackResponses);
+    LearnerFeedbackStatusViewModel GetCourseFeedbackStatus(Guid learnerId, Guid courseId);
 }

@@ -1,96 +1,88 @@
+namespace LXP.Api.Controllers;
+
 using LXP.Common.ViewModels;
 using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class EnrollmentController(IEnrollmentService enrollmentService) : BaseController
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class EnrollmentController : BaseController
+    private readonly IEnrollmentService _enrollmentService = enrollmentService;
+
+    [HttpPost("/lxp/enroll")]
+    public async Task<IActionResult> Addenroll(EnrollmentViewModel enroll)
     {
-        private readonly IEnrollmentService _enrollmentService;
-
-        public EnrollmentController(IEnrollmentService enrollmentService)
+        //validate model state
+        if (!this.ModelState.IsValid)
         {
-            _enrollmentService = enrollmentService;
+            return this.BadRequest(this.ModelState);
         }
 
-        [HttpPost("/lxp/enroll")]
-        public async Task<IActionResult> Addenroll(EnrollmentViewModel enroll)
+        var isEnrolled = await this._enrollmentService.Addenroll(enroll);
+
+        if (isEnrolled)
         {
-            //validate model state
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var isEnrolled = await _enrollmentService.Addenroll(enroll);
-
-            if (isEnrolled)
-            {
-                return Ok(CreateSuccessResponse(null));
-            }
-            return Ok(CreateFailureResponse("AlreadyEnrolled", 400));
+            return this.Ok(this.CreateSuccessResponse(null));
         }
-
-        [HttpGet("/lxp/enroll/{learnerId}/course/topic")]
-        public IActionResult GetCourseandTopicsByLearnerId(Guid learnerId)
-        {
-            var learner = _enrollmentService.GetCourseandTopicsByLearnerId(learnerId);
-            return Ok(CreateSuccessResponse(learner));
-        }
-
-        [HttpGet("lxp/enrollment/report")]
-        public IActionResult GetAllEnrollemet()
-        {
-            var report = _enrollmentService.GetEnrollmentsReport();
-            return Ok(CreateSuccessResponse(report));
-        }
-
-        [HttpGet("lxp/enrollment/course/{courseId}")]
-        public IActionResult GetEnrolledUsers(Guid courseId)
-        {
-            var enrolledusers = _enrollmentService.GetEnrolledUsers(courseId);
-            return Ok(CreateSuccessResponse(enrolledusers));
-        }
-
-        [HttpGet("lxp/enrollment/Inprogress/LearnerList")]
-        public IActionResult GetInProgressLearnerList(Guid courseId)
-        {
-            var users = _enrollmentService.GetEnrolledInprogressLearnerbyCourseId(courseId);
-            return Ok(CreateSuccessResponse(users));
-        }
-
-        [HttpGet("lxp/enrollment/Completed/LearnerList")]
-        public IActionResult GetCompletedLearnerList(Guid courseId)
-        {
-            var users = _enrollmentService.GetEnrolledCompletedLearnerbyCourseId(courseId);
-            return Ok(CreateSuccessResponse(users));
-        }
-
-        [HttpGet("/lxp/enroll/{learnerId}/course/{courseId}/topic")]
-        public IActionResult GetCourseandTopicsByCourseId(Guid courseId, Guid learnerId)
-        {
-            var courses = _enrollmentService.GetCourseandTopicsByCourseId(courseId, learnerId);
-            return Ok(CreateSuccessResponse(courses));
-        }
-
-        [HttpDelete("lxp/enroll/delete/{enrollmentId}")]
-        public async Task<IActionResult> DeleteEnrollment(Guid enrollmentId)
-        {
-            bool enrollment = await _enrollmentService.DeleteEnrollment(enrollmentId);
-
-            if (enrollment == true)
-            {
-                return Ok(CreateSuccessResponse(enrollment));
-            }
-            return Ok(CreateFailureResponse("Enrollment Id is not found", 400));
-        }
-
-        [HttpPut("lxp/updateCourseStarted/{enrollmentId}")]
-        public async Task UpdateCourseStarted(Guid enrollmentId)
-        {
-            await _enrollmentService.UpdateCourseStarted(enrollmentId);
-        }
+        return this.Ok(this.CreateFailureResponse("AlreadyEnrolled", 400));
     }
+
+    [HttpGet("/lxp/enroll/{learnerId}/course/topic")]
+    public IActionResult GetCourseandTopicsByLearnerId(Guid learnerId)
+    {
+        var learner = this._enrollmentService.GetCourseandTopicsByLearnerId(learnerId);
+        return this.Ok(this.CreateSuccessResponse(learner));
+    }
+
+    [HttpGet("lxp/enrollment/report")]
+    public IActionResult GetAllEnrollemet()
+    {
+        var report = this._enrollmentService.GetEnrollmentsReport();
+        return this.Ok(this.CreateSuccessResponse(report));
+    }
+
+    [HttpGet("lxp/enrollment/course/{courseId}")]
+    public IActionResult GetEnrolledUsers(Guid courseId)
+    {
+        var enrolledusers = this._enrollmentService.GetEnrolledUsers(courseId);
+        return this.Ok(this.CreateSuccessResponse(enrolledusers));
+    }
+
+    [HttpGet("lxp/enrollment/Inprogress/LearnerList")]
+    public IActionResult GetInProgressLearnerList(Guid courseId)
+    {
+        var users = this._enrollmentService.GetEnrolledInprogressLearnerbyCourseId(courseId);
+        return this.Ok(this.CreateSuccessResponse(users));
+    }
+
+    [HttpGet("lxp/enrollment/Completed/LearnerList")]
+    public IActionResult GetCompletedLearnerList(Guid courseId)
+    {
+        var users = this._enrollmentService.GetEnrolledCompletedLearnerbyCourseId(courseId);
+        return this.Ok(this.CreateSuccessResponse(users));
+    }
+
+    [HttpGet("/lxp/enroll/{learnerId}/course/{courseId}/topic")]
+    public IActionResult GetCourseandTopicsByCourseId(Guid courseId, Guid learnerId)
+    {
+        var courses = this._enrollmentService.GetCourseandTopicsByCourseId(courseId, learnerId);
+        return this.Ok(this.CreateSuccessResponse(courses));
+    }
+
+    [HttpDelete("lxp/enroll/delete/{enrollmentId}")]
+    public async Task<IActionResult> DeleteEnrollment(Guid enrollmentId)
+    {
+        var enrollment = await this._enrollmentService.DeleteEnrollment(enrollmentId);
+
+        if (enrollment)
+        {
+            return this.Ok(this.CreateSuccessResponse(enrollment));
+        }
+        return this.Ok(this.CreateFailureResponse("Enrollment Id is not found", 400));
+    }
+
+    [HttpPut("lxp/updateCourseStarted/{enrollmentId}")]
+    public async Task UpdateCourseStarted(Guid enrollmentId) =>
+        await this._enrollmentService.UpdateCourseStarted(enrollmentId);
 }

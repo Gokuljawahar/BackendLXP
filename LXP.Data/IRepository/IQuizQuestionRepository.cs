@@ -1,25 +1,24 @@
-﻿using LXP.Common.ViewModels.QuizQuestionViewModel;
+namespace LXP.Data.IRepository;
 
-namespace LXP.Data.IRepository
+using LXP.Common.ViewModels.QuizQuestionViewModel;
+
+public interface IQuizQuestionRepository
 {
-    public interface IQuizQuestionRepository
-    {
-        Task<Guid> AddQuestionAsync(
-            QuizQuestionViewModel quizQuestion,
-            List<QuestionOptionViewModel> options
-        );
-        Task<bool> UpdateQuestionAsync(
-            Guid quizQuestionId,
-            QuizQuestionViewModel quizQuestion,
-            List<QuestionOptionViewModel> options
-        );
-        Task<bool> DeleteQuestionAsync(Guid quizQuestionId);
-        Task<List<QuizQuestionNoViewModel>> GetAllQuestionsAsync();
-        Task<List<QuizQuestionNoViewModel>> GetAllQuestionsByQuizIdAsync(Guid quizId);
-        Task<QuizQuestionNoViewModel> GetQuestionByIdAsync(Guid quizQuestionId);
-        Task<int> GetNextQuestionNoAsync(Guid quizId);
-        void ReorderQuestionNos(Guid quizId, int deletedQuestionNo);
-    }
+    Task<Guid> AddQuestionAsync(
+        QuizQuestionViewModel quizQuestion,
+        List<QuestionOptionViewModel> options
+    );
+    Task<bool> UpdateQuestionAsync(
+        Guid quizQuestionId,
+        QuizQuestionViewModel quizQuestion,
+        List<QuestionOptionViewModel> options
+    );
+    Task<bool> DeleteQuestionAsync(Guid quizQuestionId);
+    Task<List<QuizQuestionNoViewModel>> GetAllQuestionsAsync();
+    Task<List<QuizQuestionNoViewModel>> GetAllQuestionsByQuizIdAsync(Guid quizId);
+    Task<QuizQuestionNoViewModel> GetQuestionByIdAsync(Guid quizQuestionId);
+    Task<int> GetNextQuestionNoAsync(Guid quizId);
+    void ReorderQuestionNos(Guid quizId, int deletedQuestionNo);
 }
 //using LXP.Common.ViewModels.QuizQuestionViewModel;
 

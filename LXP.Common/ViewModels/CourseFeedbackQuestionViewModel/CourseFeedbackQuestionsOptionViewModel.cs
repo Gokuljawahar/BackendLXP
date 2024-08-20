@@ -1,7 +1,6 @@
-﻿namespace LXP.Common.ViewModels.CourseFeedbackQuestionViewModel
+namespace LXP.Common.ViewModels.CourseFeedbackQuestionViewModel;
+
+public class CourseFeedbackQuestionsOptionViewModel
 {
-    public class CourseFeedbackQuestionsOptionViewModel
-    {
-        public string OptionText { get; set; } = null!;
-    }
+    public string OptionText { get; set; } = null!;
 }

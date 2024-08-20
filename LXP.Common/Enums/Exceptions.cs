@@ -1,12 +1,11 @@
-﻿namespace LXP.Common.Enums
+namespace LXP.Common.Enums;
+
+public enum Exceptions
 {
-    public enum Exceptions
-    {
-        UnauthorizedAccessException,
-        ArgumentException,
-        ArgumentNullException,
-        ArgumentOutOfRangeException,
-        FormatException,
-        InvalidEnumArgumentException,
-    }
+    UnauthorizedAccessException,
+    ArgumentException,
+    ArgumentNullException,
+    ArgumentOutOfRangeException,
+    FormatException,
+    InvalidEnumArgumentException,
 }

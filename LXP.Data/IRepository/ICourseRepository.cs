@@ -1,34 +1,33 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Data.IRepository;
+
+using LXP.Common.Entities;
 using LXP.Common.ViewModels;
 
-namespace LXP.Data.IRepository
+public interface ICourseRepository
 {
-    public interface ICourseRepository
-    {
-        void AddCourse(Course course);
-        bool AnyCourseByCourseTitle(string courseTitle);
-        Course GetCourseDetailsByCourseName(string courseName);
+    void AddCourse(Course course);
+    bool AnyCourseByCourseTitle(string courseTitle);
+    Course GetCourseDetailsByCourseName(string courseName);
 
-        Course GetCourseDetailsByCourseId(Guid CourseId);
+    Course GetCourseDetailsByCourseId(Guid CourseId);
 
-        Course FindCourseid(Guid courseid);
+    Course FindCourseid(Guid courseid);
 
-        public Enrollment FindEntrollmentcourse(Guid Courseid);
+    public Enrollment FindEntrollmentcourse(Guid Courseid);
 
-        Task Deletecourse(Course course);
+    Task Deletecourse(Course course);
 
-        Task Changecoursestatus(Course course);
+    Task Changecoursestatus(Course course);
 
-        Task Updatecourse(Course course);
+    Task Updatecourse(Course course);
 
-        IEnumerable<CourseDetailsViewModel> GetAllCourse();
-        IEnumerable<CourseDetailsViewModel> GetLimitedCourse();
-        IEnumerable<CourseListViewModel> GetAllCourseDetails();
+    IEnumerable<CourseDetailsViewModel> GetAllCourse();
+    IEnumerable<CourseDetailsViewModel> GetLimitedCourse();
+    IEnumerable<CourseListViewModel> GetAllCourseDetails();
 
-        IEnumerable<CourseRatingViewModel> GetCourseRating();
+    IEnumerable<CourseRatingViewModel> GetCourseRating();
 
-        IEnumerable<TopicRatingViewModel> GetTopicRating();
+    IEnumerable<TopicRatingViewModel> GetTopicRating();
 
-        Task<dynamic> GetAllCourseDetailsByLearnerId(Guid learnerId);
-    }
+    Task<dynamic> GetAllCourseDetailsByLearnerId(Guid learnerId);
 }

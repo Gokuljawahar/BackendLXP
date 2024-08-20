@@ -1,11 +1,10 @@
-﻿namespace LXP.Common.ViewModels
+namespace LXP.Common.ViewModels;
+
+public class LearnerDashboardCourseCountViewModel
 {
-    public class LearnerDashboardCourseCountViewModel
-    {
-        public int CompletedCount { get; set; }
+    public int CompletedCount { get; set; }
 
-        public int InProgressCount { get; set; }
+    public int InProgressCount { get; set; }
 
-        public int EnrolledCourseCount { get; set; }
-    }
+    public int EnrolledCourseCount { get; set; }
 }

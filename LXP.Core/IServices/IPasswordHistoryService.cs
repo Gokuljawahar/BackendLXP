@@ -1,7 +1,6 @@
-﻿namespace LXP.Core.IServices
+namespace LXP.Core.IServices;
+
+public interface IPasswordHistoryService
 {
-    public interface IPasswordHistoryService
-    {
-        Task<bool> UpdatePassword(string learnerId, string oldPassword, string newPassword);
-    }
+    Task<bool> UpdatePassword(string learnerId, string oldPassword, string newPassword);
 }

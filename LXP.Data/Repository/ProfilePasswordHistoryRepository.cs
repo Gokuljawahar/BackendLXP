@@ -1,22 +1,17 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Data.Repository;
+
+using LXP.Common.Entities;
 using LXP.Data.IRepository;
 
-namespace LXP.Data.Repository
+public class ProfilePasswordHistoryRepository(LXPDbContext context)
+    : IProfilePasswordHistoryRepository
 {
-    public class ProfilePasswordHistoryRepository : IProfilePasswordHistoryRepository
+    private readonly LXPDbContext _lXPDbContext = context;
+
+    public void AddPasswordHistory1(PasswordHistory passwordHistory)
     {
-        private readonly LXPDbContext _lXPDbContext;
+        this._lXPDbContext.PasswordHistories.Add(passwordHistory);
 
-        public ProfilePasswordHistoryRepository(LXPDbContext context)
-        {
-            _lXPDbContext = context;
-        }
-
-        public void AddPasswordHistory1(PasswordHistory passwordHistory)
-        {
-            _lXPDbContext.PasswordHistories.Add(passwordHistory);
-
-            _lXPDbContext.SaveChanges();
-        }
+        this._lXPDbContext.SaveChanges();
     }
 }

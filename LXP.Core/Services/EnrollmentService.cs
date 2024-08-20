@@ -1,4 +1,6 @@
-﻿//using AutoMapper;
+//using AutoMapper;
+namespace LXP.Core.Services;
+
 using LXP.Common.Entities;
 using LXP.Common.ViewModels;
 using LXP.Core.IServices;
@@ -6,128 +8,95 @@ using LXP.Data.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace LXP.Core.Services
+public class EnrollmentService(
+    IEnrollmentRepository enrollmentRepository,
+    ILearnerRepository learnerRepository,
+    ICourseRepository courseRepository,
+    IWebHostEnvironment webHostEnvironment,
+    IHttpContextAccessor httpContextAccessor
+) : IEnrollmentService
 {
-    public class EnrollmentService : IEnrollmentService
+    private readonly IEnrollmentRepository _enrollmentRepository = enrollmentRepository;
+    private readonly ILearnerRepository _learnerRepository = learnerRepository;
+    private readonly ICourseRepository _courseRepository = courseRepository;
+    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
+
+    public async Task<bool> Addenroll(EnrollmentViewModel enrollment)
     {
-        private readonly IEnrollmentRepository _enrollmentRepository;
-        private readonly ILearnerRepository _learnerRepository;
-        private readonly ICourseRepository _courseRepository;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        var isEnrolledExists = this._enrollmentRepository.AnyEnrollmentByLearnerAndCourse(
+            enrollment.LearnerId,
+            enrollment.CourseId
+        );
 
-        //private Mapper _enrollMapper;//Mapper1
-
-        public EnrollmentService(
-            IEnrollmentRepository enrollmentRepository,
-            ILearnerRepository learnerRepository,
-            ICourseRepository courseRepository,
-            IWebHostEnvironment webHostEnvironment,
-            IHttpContextAccessor httpContextAccessor
-        )
+        if (!isEnrolledExists)
         {
-            _enrollmentRepository = enrollmentRepository;
-            _learnerRepository = learnerRepository;
-            _courseRepository = courseRepository;
-            _webHostEnvironment = webHostEnvironment;
-            _httpContextAccessor = httpContextAccessor;
-            //var _configEnrollment = new MapperConfiguration(cfg => cfg.CreateMap<Enrollment, EnrollmentViewModel>().ReverseMap());//mapper 2
-            //_enrollMapper = new Mapper(_configEnrollment); //mapper 3
-        }
-
-        public async Task<bool> Addenroll(EnrollmentViewModel enrollment)
-        {
-            bool isEnrolledExists = _enrollmentRepository.AnyEnrollmentByLearnerAndCourse(
-                enrollment.LearnerId,
-                enrollment.CourseId
+            var learner = this._learnerRepository.GetLearnerDetailsByLearnerId(
+                enrollment.LearnerId
             );
 
-            if (!isEnrolledExists)
+            var course = this._courseRepository.GetCourseDetailsByCourseId(enrollment.CourseId);
+
+            var newEnrollment = new Enrollment
             {
-                Learner learner = _learnerRepository.GetLearnerDetailsByLearnerId(
-                    enrollment.LearnerId
-                );
+                EnrollmentId = Guid.NewGuid(),
+                LearnerId = enrollment.LearnerId,
+                CourseId = enrollment.CourseId,
+                EnrollmentDate = DateTime.Now,
+                EnrollStatus = true,
+                CompletedStatus = 0,
+                CreatedBy = "Admin",
+                CreatedAt = DateTime.Now,
+                ModifiedAt = DateTime.Now,
+                ModifiedBy = "Admin"
+            };
 
-                Course course = _courseRepository.GetCourseDetailsByCourseId(enrollment.CourseId);
+            this._enrollmentRepository.Addenroll(newEnrollment);
 
-                Enrollment newEnrollment = new Enrollment
-                {
-                    EnrollmentId = Guid.NewGuid(),
-                    LearnerId = enrollment.LearnerId,
-                    CourseId = enrollment.CourseId,
-                    EnrollmentDate = DateTime.Now,
-                    EnrollStatus = true,
-                    CompletedStatus = 0,
-                    CreatedBy = "Admin",
-                    CreatedAt = DateTime.Now,
-                    ModifiedAt = DateTime.Now,
-                    ModifiedBy = "Admin"
-                };
-
-                _enrollmentRepository.Addenroll(newEnrollment);
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
-
-        public object GetCourseandTopicsByLearnerId(Guid learnerId)
+        else
         {
-            return _enrollmentRepository.GetCourseandTopicsByLearnerId(learnerId);
-        }
-
-        public IEnumerable<EnrolledUserViewModel> GetEnrolledUsers(Guid courseId)
-        {
-            return _enrollmentRepository.GetEnrolledUser(courseId);
-        }
-
-        public IEnumerable<EnrollmentReportViewModel> GetEnrollmentsReport()
-        {
-            return _enrollmentRepository.GetEnrollmentReport();
-        }
-
-        public IEnumerable<EnrollmentReportViewModel> GetEnrolledCompletedLearnerbyCourseId(
-            Guid courseId
-        )
-        {
-            return _enrollmentRepository.GetEnrolledCompletedLearnerbyCourseId(courseId);
-        }
-
-        public IEnumerable<EnrollmentReportViewModel> GetEnrolledInprogressLearnerbyCourseId(
-            Guid courseId
-        )
-        {
-            return _enrollmentRepository.GetEnrolledInprogressLearnerbyCourseId(courseId);
-        }
-
-        public async Task<bool> DeleteEnrollment(Guid enrollmentId)
-        {
-            var enrollment = _enrollmentRepository.FindEnrollmentId(enrollmentId);
-            if (enrollment != null)
-            {
-                _enrollmentRepository.DeleteEnrollment(enrollment);
-                return true;
-            }
             return false;
         }
+    }
 
-        public object GetCourseandTopicsByCourseId(Guid courseId, Guid learnerId)
-        {
-            return _enrollmentRepository.GetCourseandTopicsByCourseIdAndLearnerId(
-                courseId,
-                learnerId
-            );
-        } //2106
+    public object GetCourseandTopicsByLearnerId(Guid learnerId) =>
+        this._enrollmentRepository.GetCourseandTopicsByLearnerId(learnerId);
 
-        public async Task UpdateCourseStarted(Guid enrollmentId)
+    public IEnumerable<EnrolledUserViewModel> GetEnrolledUsers(Guid courseId) =>
+        this._enrollmentRepository.GetEnrolledUser(courseId);
+
+    public IEnumerable<EnrollmentReportViewModel> GetEnrollmentsReport() =>
+        this._enrollmentRepository.GetEnrollmentReport();
+
+    public IEnumerable<EnrollmentReportViewModel> GetEnrolledCompletedLearnerbyCourseId(
+        Guid courseId
+    ) => this._enrollmentRepository.GetEnrolledCompletedLearnerbyCourseId(courseId);
+
+    public IEnumerable<EnrollmentReportViewModel> GetEnrolledInprogressLearnerbyCourseId(
+        Guid courseId
+    ) => this._enrollmentRepository.GetEnrolledInprogressLearnerbyCourseId(courseId);
+
+    public async Task<bool> DeleteEnrollment(Guid enrollmentId)
+    {
+        var enrollment = this._enrollmentRepository.FindEnrollmentId(enrollmentId);
+        if (enrollment != null)
         {
-            Enrollment enrollment = _enrollmentRepository.FindEnrollmentId(enrollmentId);
-            // Enrollment enrollment1=new Enrollment()
-            enrollment.CourseStarted = true;
-            await _enrollmentRepository.UpdateCourseStarted(enrollment);
+            this._enrollmentRepository.DeleteEnrollment(enrollment);
+            return true;
         }
+        return false;
+    }
+
+    public object GetCourseandTopicsByCourseId(Guid courseId, Guid learnerId) =>
+        this._enrollmentRepository.GetCourseandTopicsByCourseIdAndLearnerId(courseId, learnerId); //2106
+
+    public async Task UpdateCourseStarted(Guid enrollmentId)
+    {
+        var enrollment = this._enrollmentRepository.FindEnrollmentId(enrollmentId);
+        // Enrollment enrollment1=new Enrollment()
+        enrollment.CourseStarted = true;
+        await this._enrollmentRepository.UpdateCourseStarted(enrollment);
     }
 }

@@ -1,38 +1,30 @@
-﻿using LXP.Common.Utils;
+namespace LXP.Core.Services;
+
+using LXP.Common.Utils;
 using LXP.Common.ViewModels;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class UpdatePasswordService(IUpdatePasswordRepository repository) : IUpdatePasswordService
 {
-    public class UpdatePasswordService : IUpdatePasswordService
+    private readonly IUpdatePasswordRepository _repository = repository;
+
+    public async Task<bool> UpdatePassword(UpdatePassword updatePassword)
     {
-        private readonly IUpdatePasswordRepository _repository;
+        var learner = await this._repository.LearnerByEmailAndPasswordAsync(
+            updatePassword.Email,
+            Encryption.ComputePasswordToSha256Hash(updatePassword.OldPassword)
+        );
 
-        public UpdatePasswordService(IUpdatePasswordRepository repository)
+        if (learner == null)
         {
-            _repository = repository;
+            return false;
         }
 
-        public async Task<bool> UpdatePassword(UpdatePassword updatePassword)
-        {
-            var learner = await _repository.LearnerByEmailAndPasswordAsync(
-                updatePassword.Email,
-                Encryption.ComputePasswordToSha256Hash(updatePassword.OldPassword)
-            );
+        var encryptNewPassword = Encryption.ComputePasswordToSha256Hash(updatePassword.NewPassword);
+        learner.Password = encryptNewPassword;
 
-            if (learner == null)
-            {
-                return false;
-            }
-
-            string encryptNewPassword = Encryption.ComputePasswordToSha256Hash(
-                updatePassword.NewPassword
-            );
-            learner.Password = encryptNewPassword;
-
-            await _repository.UpdatePasswordAsync(learner);
-            return true;
-        }
+        await this._repository.UpdatePasswordAsync(learner);
+        return true;
     }
 }

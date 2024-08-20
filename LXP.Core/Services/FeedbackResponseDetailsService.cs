@@ -1,83 +1,58 @@
-﻿using LXP.Common.ViewModels.FeedbackResponseViewModel;
+namespace LXP.Services;
+
+using LXP.Common.ViewModels.FeedbackResponseViewModel;
 using LXP.Data.IRepository;
 using LXP.Services.IServices;
 
-namespace LXP.Services
+public class FeedbackResponseDetailsService(
+    IFeedbackResponseDetailsRepository feedbackResponseDetailsRepository
+) : IFeedbackResponseDetailsService
 {
-    public class FeedbackResponseDetailsService : IFeedbackResponseDetailsService
-    {
-        private readonly IFeedbackResponseDetailsRepository _feedbackResponseDetailsRepository;
+    private readonly IFeedbackResponseDetailsRepository _feedbackResponseDetailsRepository =
+        feedbackResponseDetailsRepository;
 
-        public FeedbackResponseDetailsService(
-            IFeedbackResponseDetailsRepository feedbackResponseDetailsRepository
-        )
-        {
-            _feedbackResponseDetailsRepository = feedbackResponseDetailsRepository;
-        }
+    public List<QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponses(Guid quizId) =>
+        this._feedbackResponseDetailsRepository.GetQuizFeedbackResponses(quizId);
 
-        public List<QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponses(Guid quizId)
-        {
-            return _feedbackResponseDetailsRepository.GetQuizFeedbackResponses(quizId);
-        }
+    public List<TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponses(Guid topicId) =>
+        this._feedbackResponseDetailsRepository.GetTopicFeedbackResponses(topicId);
 
-        public List<TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponses(Guid topicId)
-        {
-            return _feedbackResponseDetailsRepository.GetTopicFeedbackResponses(topicId);
-        }
+    public List<QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponsesByLearner(
+        Guid quizId,
+        Guid learnerId
+    ) =>
+        this._feedbackResponseDetailsRepository.GetQuizFeedbackResponsesByLearner(
+            quizId,
+            learnerId
+        );
 
-        public List<QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponsesByLearner(
-            Guid quizId,
-            Guid learnerId
-        )
-        {
-            return _feedbackResponseDetailsRepository.GetQuizFeedbackResponsesByLearner(
-                quizId,
-                learnerId
-            );
-        }
+    public List<TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponsesByLearner(
+        Guid topicId,
+        Guid learnerId
+    ) =>
+        this._feedbackResponseDetailsRepository.GetTopicFeedbackResponsesByLearner(
+            topicId,
+            learnerId
+        );
 
-        public List<TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponsesByLearner(
-            Guid topicId,
-            Guid learnerId
-        )
-        {
-            return _feedbackResponseDetailsRepository.GetTopicFeedbackResponsesByLearner(
-                topicId,
-                learnerId
-            );
-        }
+    public List<QuizFeedbackResponseDetailsViewModel> GetAllQuizFeedbackResponses() =>
+        this._feedbackResponseDetailsRepository.GetAllQuizFeedbackResponses();
 
-        public List<QuizFeedbackResponseDetailsViewModel> GetAllQuizFeedbackResponses()
-        {
-            return _feedbackResponseDetailsRepository.GetAllQuizFeedbackResponses();
-        }
+    public List<TopicFeedbackResponseDetailsViewModel> GetAllTopicFeedbackResponses() =>
+        this._feedbackResponseDetailsRepository.GetAllTopicFeedbackResponses();
 
-        public List<TopicFeedbackResponseDetailsViewModel> GetAllTopicFeedbackResponses()
-        {
-            return _feedbackResponseDetailsRepository.GetAllTopicFeedbackResponses();
-        }
+    public List<CourseFeedbackResponseDetailsViewModel> GetCourseFeedbackResponses(Guid courseId) =>
+        this._feedbackResponseDetailsRepository.GetCourseFeedbackResponses(courseId);
 
-        public List<CourseFeedbackResponseDetailsViewModel> GetCourseFeedbackResponses(
-            Guid courseId
-        )
-        {
-            return _feedbackResponseDetailsRepository.GetCourseFeedbackResponses(courseId);
-        }
+    public List<CourseFeedbackResponseDetailsViewModel> GetCourseFeedbackResponsesByLearner(
+        Guid courseId,
+        Guid learnerId
+    ) =>
+        this._feedbackResponseDetailsRepository.GetCourseFeedbackResponsesByLearner(
+            courseId,
+            learnerId
+        );
 
-        public List<CourseFeedbackResponseDetailsViewModel> GetCourseFeedbackResponsesByLearner(
-            Guid courseId,
-            Guid learnerId
-        )
-        {
-            return _feedbackResponseDetailsRepository.GetCourseFeedbackResponsesByLearner(
-                courseId,
-                learnerId
-            );
-        }
-
-        public List<CourseFeedbackResponseDetailsViewModel> GetAllCourseFeedbackResponses()
-        {
-            return _feedbackResponseDetailsRepository.GetAllCourseFeedbackResponses();
-        }
-    }
+    public List<CourseFeedbackResponseDetailsViewModel> GetAllCourseFeedbackResponses() =>
+        this._feedbackResponseDetailsRepository.GetAllCourseFeedbackResponses();
 }

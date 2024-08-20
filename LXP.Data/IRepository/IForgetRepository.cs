@@ -1,22 +1,21 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Data.IRepository;
 
-namespace LXP.Data.IRepository
+using LXP.Common.Entities;
+
+public interface IForgetRepository
 {
-    public interface IForgetRepository
-    {
-        //public Task CheckLearner(Learner loginmodel);
+    //public Task CheckLearner(Learner loginmodel);
 
-        public bool AnyUserByEmail(string loginmodel);
+    public bool AnyUserByEmail(string loginmodel);
 
-        //public Task<bool> AnyLearnerByEmailAndPassword(string Email, string Password);
+    //public Task<bool> AnyLearnerByEmailAndPassword(string Email, string Password);
 
-        public Learner GetLearnerByEmail(string Email);
+    public Learner GetLearnerByEmail(string Email);
 
-        public void UpdateLearnerPassword(string Email, string Password);
+    public void UpdateLearnerPassword(string Email, string Password);
 
-        //public Task UpdatePassword(Learner learner);
+    //public Task UpdatePassword(Learner learner);
 
 
-        //public Task<Learner> LearnerByEmailAndPassword(string Email, string Password);
-    }
+    //public Task<Learner> LearnerByEmailAndPassword(string Email, string Password);
 }

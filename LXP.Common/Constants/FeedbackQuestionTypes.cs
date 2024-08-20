@@ -1,8 +1,7 @@
-﻿namespace LXP.Common.Constants
+namespace LXP.Common.Constants;
+
+public static class FeedbackQuestionTypes
 {
-    public static class FeedbackQuestionTypes
-    {
-        public const string MultiChoiceQuestion = "MCQ";
-        public const string DescriptiveQuestion = "Descriptive";
-    }
+    public const string MultiChoiceQuestion = "MCQ";
+    public const string DescriptiveQuestion = "Descriptive";
 }

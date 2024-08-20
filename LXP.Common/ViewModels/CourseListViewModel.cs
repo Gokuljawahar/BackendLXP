@@ -1,64 +1,63 @@
-﻿namespace LXP.Common.ViewModels
+namespace LXP.Common.ViewModels;
+
+public class CourseListViewModel
 {
-    public class CourseListViewModel
-    {
-        ///<summary>
-        ///course id
-        ///</summary>
+    ///<summary>
+    ///course id
+    ///</summary>
 
-        public Guid CourseId { get; set; }
+    public Guid CourseId { get; set; }
 
-        ///<Summary>
-        ///CourseTitle
-        ///</Summary>
-        ///<example>Html</example>
-        public string Title { get; set; }
+    ///<Summary>
+    ///CourseTitle
+    ///</Summary>
+    ///<example>Html</example>
+    public string Title { get; set; }
 
-        ///<Summary>
-        ///Course Level
-        ///</Summary>
-        ///<example>Beginner</example>
+    ///<Summary>
+    ///Course Level
+    ///</Summary>
+    ///<example>Beginner</example>
 
-        public string Level { get; set; }
+    public string Level { get; set; }
 
-        ///<Summary>
-        ///Course Category
-        ///</Summary>
-        ///<example>Technical</example>
+    ///<Summary>
+    ///Course Category
+    ///</Summary>
+    ///<example>Technical</example>
 
-        public string? Category { get; set; }
+    public string? Category { get; set; }
 
-        ///<Summary>
-        ///Course Description
-        ///</Summary>
-        ///<example>This course contains the detailed explanation about the Html structure</example>
+    ///<Summary>
+    ///Course Description
+    ///</Summary>
+    ///<example>This course contains the detailed explanation about the Html structure</example>
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        ///<Summary>
-        ///Course Duration
-        ///</Summary>
-        ///<example>10.00</example>
+    ///<Summary>
+    ///Course Duration
+    ///</Summary>
+    ///<example>10.00</example>
 
-        public TimeOnly Duration { get; set; }
+    public TimeOnly Duration { get; set; }
 
-        ///<Summary>
-        ///Course Thumbnail
-        ///</Summary>
-        ///<example>Image with filesize less than 250kb and file extension jpeg or png</example>
-        public string Thumbnailimage { get; set; }
+    ///<Summary>
+    ///Course Thumbnail
+    ///</Summary>
+    ///<example>Image with filesize less than 250kb and file extension jpeg or png</example>
+    public string Thumbnailimage { get; set; }
 
-        public bool IsActive { get; set; }
+    public bool IsActive { get; set; }
 
-        public bool IsAvailable { get; set; }
+    public bool IsAvailable { get; set; }
 
-        public string CreatedBy { get; set; }
+    public string CreatedBy { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 
-        public string? ModifiedBy { get; set; } = null!;
+    public string? ModifiedBy { get; set; } = null!;
 
-        public DateTime? ModifiedAt { get; set; } = null!;
-        public string Thumbnail { get; set; }
-    }
+    public DateTime? ModifiedAt { get; set; } = null!;
+    public string Thumbnail { get; set; }
 }

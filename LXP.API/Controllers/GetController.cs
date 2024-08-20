@@ -1,37 +1,31 @@
-﻿using LXP.Core.IServices;
+namespace LXP.Api.Controllers;
+
+using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class GetController(IQuizService quizService, IQuizFeedbackService quizFeedbackService)
+    : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GetController : ControllerBase
+    private readonly IQuizService _quizService = quizService;
+    private readonly IQuizFeedbackService _quizFeedbackService = quizFeedbackService;
+
+    // This controller is used by frontend to get quizrelateddetails
+
+
+    [HttpGet("topic/{topicId}")]
+    public ActionResult<Guid?> GetQuizIdByTopicId(Guid topicId)
     {
-        private readonly IQuizService _quizService;
-        private readonly IQuizFeedbackService _quizFeedbackService;
+        var quizId = this._quizService.GetQuizIdByTopicId(topicId);
 
-        public GetController(IQuizService quizService, IQuizFeedbackService quizFeedbackService)
+        if (quizId == null)
         {
-            _quizService = quizService;
-            _quizFeedbackService = quizFeedbackService;
+            return this.Ok(null);
         }
-
-        // This controller is used by frontend to get quizrelateddetails
-
-
-        [HttpGet("topic/{topicId}")]
-        public ActionResult<Guid?> GetQuizIdByTopicId(Guid topicId)
+        else
         {
-            var quizId = _quizService.GetQuizIdByTopicId(topicId);
-
-            if (quizId == null)
-            {
-                return Ok(null);
-            }
-            else
-            {
-                return Ok(quizId);
-            }
+            return this.Ok(quizId);
         }
     }
 }

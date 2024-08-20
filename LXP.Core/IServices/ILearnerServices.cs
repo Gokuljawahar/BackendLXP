@@ -1,12 +1,11 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface ILearnerServices
 {
-    public interface ILearnerServices
-    {
-        public IEnumerable<AllLearnersViewModel> GetLearners();
-        object GetAllLearnerDetailsByLearnerId(Guid learnerid);
+    public IEnumerable<AllLearnersViewModel> GetLearners();
+    object GetAllLearnerDetailsByLearnerId(Guid learnerid);
 
-        object GetLearnerEnrolledcourseByLearnerId(Guid learnerid);
-    }
+    object GetLearnerEnrolledcourseByLearnerId(Guid learnerid);
 }

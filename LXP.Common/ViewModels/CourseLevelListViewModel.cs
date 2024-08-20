@@ -1,9 +1,8 @@
-namespace LXP.Common.ViewModels
-{
-    public class CourseLevelListViewModel
-    {
-        public Guid LevelId { get; set; }
+namespace LXP.Common.ViewModels;
 
-        public string Level { get; set; }
-    }
+public class CourseLevelListViewModel
+{
+    public Guid LevelId { get; set; }
+
+    public string Level { get; set; }
 }

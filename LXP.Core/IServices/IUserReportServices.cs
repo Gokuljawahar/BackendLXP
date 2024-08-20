@@ -1,9 +1,8 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface IUserReportServices
 {
-    public interface IUserReportServices
-    {
-        IEnumerable<UserReportViewModel> GetUserReport();
-    }
+    IEnumerable<UserReportViewModel> GetUserReport();
 }

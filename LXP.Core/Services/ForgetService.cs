@@ -1,34 +1,28 @@
-﻿using LXP.Common.Utils;
+namespace LXP.Core.Services;
+
+using LXP.Common.Utils;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class ForgetService(IForgetRepository repository) : IForgetService
 {
-    public class ForgetService : IForgetService
+    private readonly IForgetRepository _repository = repository;
+
+    public bool ForgetPassword(string Email)
     {
-        private readonly IForgetRepository _repository;
+        var getleareremail = this._repository.AnyUserByEmail(Email);
 
-        public ForgetService(IForgetRepository repository)
+        if (getleareremail != null)
         {
-            _repository = repository;
+            var password = RandomPassword.Randompasswordgenerator();
+            var encryptPassword = Encryption.ComputePasswordToSha256Hash(password);
+            this._repository.UpdateLearnerPassword(Email, encryptPassword);
+            EmailGenerator.Sendpassword(password, Email);
+            return true;
         }
-
-        public bool ForgetPassword(string Email)
+        else
         {
-            var getleareremail = _repository.AnyUserByEmail(Email);
-
-            if (getleareremail != null)
-            {
-                string password = RandomPassword.Randompasswordgenerator();
-                string encryptPassword = Encryption.ComputePasswordToSha256Hash(password);
-                _repository.UpdateLearnerPassword(Email, encryptPassword);
-                EmailGenerator.Sendpassword(password, Email);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

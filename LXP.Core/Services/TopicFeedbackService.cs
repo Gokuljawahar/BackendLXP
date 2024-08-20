@@ -1,227 +1,232 @@
-﻿using LXP.Common.Constants;
+namespace LXP.Core.Services;
+
+using LXP.Common.Constants;
 using LXP.Common.Entities;
 using LXP.Common.ViewModels.TopicFeedbackQuestionViewModel;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class TopicFeedbackService(ITopicFeedbackRepository topicFeedbackRepository)
+    : ITopicFeedbackService
 {
-    public class TopicFeedbackService : ITopicFeedbackService
+    private readonly ITopicFeedbackRepository _topicFeedbackRepository = topicFeedbackRepository;
+
+    public Guid AddFeedbackQuestion(
+        TopicFeedbackQuestionViewModel topicFeedbackQuestion,
+        List<TopicFeedbackQuestionsOptionViewModel> options
+    )
     {
-        private readonly ITopicFeedbackRepository _topicFeedbackRepository;
+        var normalizedQuestionType = topicFeedbackQuestion.QuestionType.ToUpper(
+            System.Globalization.CultureInfo.CurrentCulture
+        );
 
-        public TopicFeedbackService(ITopicFeedbackRepository topicFeedbackRepository)
-        {
-            _topicFeedbackRepository = topicFeedbackRepository;
-        }
-
-        public Guid AddFeedbackQuestion(
-            TopicFeedbackQuestionViewModel topicFeedbackQuestion,
-            List<TopicFeedbackQuestionsOptionViewModel> options
+        if (
+            normalizedQuestionType.Equals(
+                FeedbackQuestionTypes.DescriptiveQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
         )
         {
-            var normalizedQuestionType = topicFeedbackQuestion.QuestionType.ToUpper();
+            options = null;
+        }
 
-            if (normalizedQuestionType == FeedbackQuestionTypes.DescriptiveQuestion.ToUpper())
+        if (!ValidateOptionsByFeedbackQuestionType(topicFeedbackQuestion.QuestionType, options))
+        {
+            throw new ArgumentException(
+                "Invalid options for the given question type.",
+                nameof(options)
+            );
+        }
+
+        var questionEntity = new TopicFeedbackQuestion
+        {
+            TopicId = topicFeedbackQuestion.TopicId,
+            QuestionNo = this._topicFeedbackRepository.GetNextFeedbackQuestionNo(
+                topicFeedbackQuestion.TopicId
+            ),
+            Question = topicFeedbackQuestion.Question,
+            QuestionType = normalizedQuestionType,
+            CreatedBy = "Admin",
+            CreatedAt = DateTime.Now
+        };
+
+        this._topicFeedbackRepository.AddFeedbackQuestion(questionEntity);
+
+        if (
+            normalizedQuestionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+        {
+            if (options != null && options.Count > 0)
             {
-                options = null;
+                var optionEntities = options
+                    .Select(option => new FeedbackQuestionsOption
+                    {
+                        TopicFeedbackQuestionId = questionEntity.TopicFeedbackQuestionId,
+                        OptionText = option.OptionText,
+                        CreatedAt = DateTime.Now,
+                        CreatedBy = "Admin"
+                    })
+                    .ToList();
+
+                this._topicFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
+            }
+        }
+
+        return questionEntity.TopicFeedbackQuestionId;
+    }
+
+    public List<TopicFeedbackQuestionNoViewModel> GetAllFeedbackQuestions() =>
+        this._topicFeedbackRepository.GetAllFeedbackQuestions();
+
+    public TopicFeedbackQuestionNoViewModel GetFeedbackQuestionById(Guid topicFeedbackQuestionId) =>
+        this._topicFeedbackRepository.GetFeedbackQuestionById(topicFeedbackQuestionId);
+
+    public bool UpdateFeedbackQuestion(
+        Guid topicFeedbackQuestionId,
+        TopicFeedbackQuestionViewModel topicFeedbackQuestion,
+        List<TopicFeedbackQuestionsOptionViewModel> options
+    )
+    {
+        var existingQuestion = this._topicFeedbackRepository.GetTopicFeedbackQuestionEntityById(
+            topicFeedbackQuestionId
+        );
+        if (existingQuestion != null)
+        {
+            if (
+                !existingQuestion.QuestionType.Equals(
+                    topicFeedbackQuestion.QuestionType,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            {
+                throw new InvalidOperationException("Question type cannot be modified.");
             }
 
-            if (!ValidateOptionsByFeedbackQuestionType(topicFeedbackQuestion.QuestionType, options))
-                throw new ArgumentException(
-                    "Invalid options for the given question type.",
-                    nameof(options)
+            existingQuestion.Question = topicFeedbackQuestion.Question;
+            existingQuestion.ModifiedAt = DateTime.Now;
+            existingQuestion.ModifiedBy = "Admin";
+            this._topicFeedbackRepository.UpdateFeedbackQuestion(existingQuestion);
+
+            if (
+                existingQuestion.QuestionType.Equals(
+                    FeedbackQuestionTypes.MultiChoiceQuestion,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+            {
+                if (!ValidateOptionsByFeedbackQuestionType(existingQuestion.QuestionType, options))
+                {
+                    throw new ArgumentException("Invalid options for the given question type.");
+                }
+
+                var existingOptions = this._topicFeedbackRepository.GetFeedbackQuestionOptionsById(
+                    topicFeedbackQuestionId
                 );
+                this._topicFeedbackRepository.RemoveFeedbackQuestionOptions(existingOptions);
 
-            var questionEntity = new TopicFeedbackQuestion
-            {
-                TopicId = topicFeedbackQuestion.TopicId,
-                QuestionNo = _topicFeedbackRepository.GetNextFeedbackQuestionNo(
-                    topicFeedbackQuestion.TopicId
-                ),
-                Question = topicFeedbackQuestion.Question,
-                QuestionType = normalizedQuestionType,
-                CreatedBy = "Admin",
-                CreatedAt = DateTime.Now
-            };
-
-            _topicFeedbackRepository.AddFeedbackQuestion(questionEntity);
-
-            if (normalizedQuestionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
-            {
                 if (options != null && options.Count > 0)
                 {
                     var optionEntities = options
                         .Select(option => new FeedbackQuestionsOption
                         {
-                            TopicFeedbackQuestionId = questionEntity.TopicFeedbackQuestionId,
+                            TopicFeedbackQuestionId = topicFeedbackQuestionId,
                             OptionText = option.OptionText,
                             CreatedAt = DateTime.Now,
                             CreatedBy = "Admin"
                         })
                         .ToList();
 
-                    _topicFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
+                    this._topicFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
                 }
             }
 
-            return questionEntity.TopicFeedbackQuestionId;
+            return true;
         }
+        return false;
+    }
 
-        public List<TopicFeedbackQuestionNoViewModel> GetAllFeedbackQuestions()
+    public bool DeleteFeedbackQuestion(Guid topicFeedbackQuestionId)
+    {
+        try
         {
-            return _topicFeedbackRepository.GetAllFeedbackQuestions();
-        }
-
-        public TopicFeedbackQuestionNoViewModel GetFeedbackQuestionById(
-            Guid topicFeedbackQuestionId
-        )
-        {
-            return _topicFeedbackRepository.GetFeedbackQuestionById(topicFeedbackQuestionId);
-        }
-
-        public bool UpdateFeedbackQuestion(
-            Guid topicFeedbackQuestionId,
-            TopicFeedbackQuestionViewModel topicFeedbackQuestion,
-            List<TopicFeedbackQuestionsOptionViewModel> options
-        )
-        {
-            var existingQuestion = _topicFeedbackRepository.GetTopicFeedbackQuestionEntityById(
+            var existingQuestion = this._topicFeedbackRepository.GetTopicFeedbackQuestionEntityById(
                 topicFeedbackQuestionId
             );
             if (existingQuestion != null)
             {
-                if (
-                    !existingQuestion.QuestionType.Equals(
-                        topicFeedbackQuestion.QuestionType,
-                        StringComparison.OrdinalIgnoreCase
-                    )
-                )
-                {
-                    throw new InvalidOperationException("Question type cannot be modified.");
-                }
-
-                existingQuestion.Question = topicFeedbackQuestion.Question;
-                existingQuestion.ModifiedAt = DateTime.Now;
-                existingQuestion.ModifiedBy = "Admin";
-                _topicFeedbackRepository.UpdateFeedbackQuestion(existingQuestion);
-
-                if (
-                    existingQuestion.QuestionType
-                    == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper()
-                )
-                {
-                    if (
-                        !ValidateOptionsByFeedbackQuestionType(
-                            existingQuestion.QuestionType,
-                            options
-                        )
-                    )
-                    {
-                        throw new ArgumentException("Invalid options for the given question type.");
-                    }
-
-                    var existingOptions = _topicFeedbackRepository.GetFeedbackQuestionOptionsById(
-                        topicFeedbackQuestionId
-                    );
-                    _topicFeedbackRepository.RemoveFeedbackQuestionOptions(existingOptions);
-
-                    if (options != null && options.Count > 0)
-                    {
-                        var optionEntities = options
-                            .Select(option => new FeedbackQuestionsOption
-                            {
-                                TopicFeedbackQuestionId = topicFeedbackQuestionId,
-                                OptionText = option.OptionText,
-                                CreatedAt = DateTime.Now,
-                                CreatedBy = "Admin"
-                            })
-                            .ToList();
-
-                        _topicFeedbackRepository.AddFeedbackQuestionOptions(optionEntities);
-                    }
-                }
-
-                return true;
-            }
-            return false;
-        }
-
-        public bool DeleteFeedbackQuestion(Guid topicFeedbackQuestionId)
-        {
-            try
-            {
-                var existingQuestion = _topicFeedbackRepository.GetTopicFeedbackQuestionEntityById(
+                var relatedOptions = this._topicFeedbackRepository.GetFeedbackQuestionOptionsById(
                     topicFeedbackQuestionId
                 );
-                if (existingQuestion != null)
+
+                if (relatedOptions.Count != 0)
                 {
-                    var relatedOptions = _topicFeedbackRepository.GetFeedbackQuestionOptionsById(
-                        topicFeedbackQuestionId
-                    );
-
-                    if (relatedOptions.Any())
-                    {
-                        _topicFeedbackRepository.RemoveFeedbackQuestionOptions(relatedOptions);
-                    }
-
-                    // Remove the FeedbackQuestion and related FeedbackResponses
-                    _topicFeedbackRepository.RemoveFeedbackQuestion(existingQuestion);
-                    _topicFeedbackRepository.ReorderQuestionNos(
-                        existingQuestion.TopicId,
-                        existingQuestion.QuestionNo
-                    );
-
-                    return true;
+                    this._topicFeedbackRepository.RemoveFeedbackQuestionOptions(relatedOptions);
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException(
-                    "An error occurred while deleting the feedback question.",
-                    ex
+
+                // Remove the FeedbackQuestion and related FeedbackResponses
+                this._topicFeedbackRepository.RemoveFeedbackQuestion(existingQuestion);
+                this._topicFeedbackRepository.ReorderQuestionNos(
+                    existingQuestion.TopicId,
+                    existingQuestion.QuestionNo
                 );
-            }
-            return false;
-        }
 
-        public List<TopicFeedbackQuestionNoViewModel> GetFeedbackQuestionsByTopicId(Guid topicId)
-        {
-            return _topicFeedbackRepository.GetFeedbackQuestionsByTopicId(topicId);
-        }
-
-        public bool DeleteFeedbackQuestionsByTopicId(Guid topicId)
-        {
-            try
-            {
-                var questions = _topicFeedbackRepository.GetFeedbackQuestionsByTopicId(topicId);
-                if (questions == null || questions.Count == 0)
-                    return false;
-
-                foreach (var question in questions)
-                {
-                    DeleteFeedbackQuestion(question.TopicFeedbackQuestionId);
-                }
                 return true;
             }
-            catch (Exception)
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException(
+                "An error occurred while deleting the feedback question.",
+                ex
+            );
+        }
+        return false;
+    }
+
+    public List<TopicFeedbackQuestionNoViewModel> GetFeedbackQuestionsByTopicId(Guid topicId) =>
+        this._topicFeedbackRepository.GetFeedbackQuestionsByTopicId(topicId);
+
+    public bool DeleteFeedbackQuestionsByTopicId(Guid topicId)
+    {
+        try
+        {
+            var questions = this._topicFeedbackRepository.GetFeedbackQuestionsByTopicId(topicId);
+            if (questions == null || questions.Count == 0)
             {
                 return false;
             }
-        }
 
-        private bool ValidateOptionsByFeedbackQuestionType(
-            string questionType,
-            List<TopicFeedbackQuestionsOptionViewModel> options
+            foreach (var question in questions)
+            {
+                this.DeleteFeedbackQuestion(question.TopicFeedbackQuestionId);
+            }
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    private static bool ValidateOptionsByFeedbackQuestionType(
+        string questionType,
+        List<TopicFeedbackQuestionsOptionViewModel> options
+    )
+    {
+        questionType = questionType.ToUpper(System.Globalization.CultureInfo.CurrentCulture);
+
+        if (
+            questionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
         )
         {
-            questionType = questionType.ToUpper();
-
-            if (questionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
-            {
-                return options != null && options.Count >= 2 && options.Count <= 5;
-            }
-            return options == null || options.Count == 0;
+            return options != null && options.Count >= 2 && options.Count <= 5;
         }
+        return options == null || options.Count == 0;
     }
 }

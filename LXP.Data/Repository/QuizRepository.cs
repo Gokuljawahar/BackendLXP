@@ -1,78 +1,58 @@
-﻿using LXP.Common.Entities;
+namespace LXP.Data.Repository;
+
+using LXP.Common.Entities;
 using LXP.Data.IRepository;
 
-namespace LXP.Data.Repository
+public class QuizRepository(LXPDbContext dbContext) : IQuizRepository
 {
-    public class QuizRepository : IQuizRepository
+    private readonly LXPDbContext _LXPDbContext = dbContext;
+
+    public void AddQuiz(Quiz quiz)
     {
-        private readonly LXPDbContext _LXPDbContext;
+        this._LXPDbContext.Quizzes.Add(quiz);
+        this._LXPDbContext.SaveChanges();
+    }
 
-        public QuizRepository(LXPDbContext dbContext)
-        {
-            _LXPDbContext = dbContext;
-        }
+    public Quiz GetQuizById(Guid quizId) => this._LXPDbContext.Quizzes.Find(quizId);
 
-        public void AddQuiz(Quiz quiz)
-        {
-            _LXPDbContext.Quizzes.Add(quiz);
-            _LXPDbContext.SaveChanges();
-        }
+    public IEnumerable<Quiz> GetAllQuizzes() => this._LXPDbContext.Quizzes.ToList();
 
-        public Quiz GetQuizById(Guid quizId)
-        {
-            return _LXPDbContext.Quizzes.Find(quizId);
-        }
+    public void UpdateQuiz(Quiz quiz)
+    {
+        this._LXPDbContext.Quizzes.Update(quiz);
+        this._LXPDbContext.SaveChanges();
+    }
 
-        public IEnumerable<Quiz> GetAllQuizzes()
-        {
-            return _LXPDbContext.Quizzes.ToList();
-        }
+    public void DeleteQuiz(Quiz quiz)
+    {
+        this._LXPDbContext.Quizzes.Remove(quiz);
+        this._LXPDbContext.SaveChanges();
+    }
 
-        public void UpdateQuiz(Quiz quiz)
-        {
-            _LXPDbContext.Quizzes.Update(quiz);
-            _LXPDbContext.SaveChanges();
-        }
+    public Topic GetTopicById(Guid topicId) =>
+        this._LXPDbContext.Topics.FirstOrDefault(t => t.TopicId == topicId);
 
-        public void DeleteQuiz(Quiz quiz)
-        {
-            _LXPDbContext.Quizzes.Remove(quiz);
-            _LXPDbContext.SaveChanges();
-        }
+    public Quiz GetQuizByTopicId(Guid topicId) =>
+        this._LXPDbContext.Quizzes.FirstOrDefault(q => q.TopicId == topicId);
 
-        public Topic GetTopicById(Guid topicId)
-        {
-            return _LXPDbContext.Topics.FirstOrDefault(t => t.TopicId == topicId);
-        }
+    //
+    public IEnumerable<QuizFeedbackQuestion> GetQuizFeedbackQuestionsByQuizId(Guid quizId) =>
+        this._LXPDbContext.QuizFeedbackQuestions.Where(q => q.QuizId == quizId).ToList();
 
-        public Quiz GetQuizByTopicId(Guid topicId)
-        {
-            return _LXPDbContext.Quizzes.FirstOrDefault(q => q.TopicId == topicId);
-        }
-
-        //
-        public IEnumerable<QuizFeedbackQuestion> GetQuizFeedbackQuestionsByQuizId(Guid quizId)
-        {
-            return _LXPDbContext.QuizFeedbackQuestions.Where(q => q.QuizId == quizId).ToList();
-        }
-
-        //new
+    //new
 
 
-        public IEnumerable<LearnerAttempt> GetLearnerAttemptsByQuizId(Guid quizId)
-        {
-            return _LXPDbContext.LearnerAttempts.Where(a => a.QuizId == quizId).ToList();
-        }
+    public IEnumerable<LearnerAttempt> GetLearnerAttemptsByQuizId(Guid quizId) =>
+        this._LXPDbContext.LearnerAttempts.Where(a => a.QuizId == quizId).ToList();
 
-        public void DeleteLearnerAttempt(LearnerAttempt attempt)
-        {
-            var learnerAnswers = _LXPDbContext.LearnerAnswers.Where(a =>
-                a.LearnerAttemptId == attempt.LearnerAttemptId
-            );
-            _LXPDbContext.LearnerAnswers.RemoveRange(learnerAnswers);
+    public void DeleteLearnerAttempt(LearnerAttempt attempt)
+    {
+        var learnerAnswers = this._LXPDbContext.LearnerAnswers.Where(a =>
+            a.LearnerAttemptId == attempt.LearnerAttemptId
+        );
+        this._LXPDbContext.LearnerAnswers.RemoveRange(learnerAnswers);
 
-            _LXPDbContext.LearnerAttempts.Remove(attempt);
-            _LXPDbContext.SaveChanges();
-        }
+        this._LXPDbContext.LearnerAttempts.Remove(attempt);
+        this._LXPDbContext.SaveChanges();
     }
 }

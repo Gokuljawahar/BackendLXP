@@ -1,17 +1,16 @@
-﻿using FluentValidation;
+namespace LXP.Common.Validators;
+
+using FluentValidation;
 using LXP.Common.ViewModels.QuizQuestionViewModel;
 
-namespace LXP.Common.Validators
+public class QuestionOptionViewModelValidator : AbstractValidator<QuestionOptionViewModel>
 {
-    public class QuestionOptionViewModelValidator : AbstractValidator<QuestionOptionViewModel>
+    public QuestionOptionViewModelValidator()
     {
-        public QuestionOptionViewModelValidator()
-        {
-            RuleFor(option => option.Option).NotEmpty().WithMessage("Option text is required.");
+        this.RuleFor(option => option.Option).NotEmpty().WithMessage("Option text is required.");
 
-            RuleFor(option => option.IsCorrect)
-                .NotNull()
-                .WithMessage("IsCorrect must be provided.");
-        }
+        this.RuleFor(option => option.IsCorrect)
+            .NotNull()
+            .WithMessage("IsCorrect must be provided.");
     }
 }

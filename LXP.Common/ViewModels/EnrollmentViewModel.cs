@@ -1,38 +1,37 @@
-﻿namespace LXP.Common.ViewModels
+namespace LXP.Common.ViewModels;
+
+public class EnrollmentViewModel
 {
-    public class EnrollmentViewModel
-    {
-        ///<summary>
-        ///Course Name
-        ///</summary>
+    ///<summary>
+    ///Course Name
+    ///</summary>
 
-        public Guid CourseId { get; set; }
+    public Guid CourseId { get; set; }
 
-        ///<summary>
-        ///Learner Name
-        ///</summary>
+    ///<summary>
+    ///Learner Name
+    ///</summary>
 
-        public Guid LearnerId { get; set; }
+    public Guid LearnerId { get; set; }
 
-        ///<summary>
-        ///EnrollmentDate
-        ///</summary>
-        ///<example>02/02/2024</example>
+    ///<summary>
+    ///EnrollmentDate
+    ///</summary>
+    ///<example>02/02/2024</example>
 
-        public DateTime EnrollmentDate { get; set; }
+    public DateTime EnrollmentDate { get; set; }
 
-        ///<summary>
-        ///Enrollment Status
-        ///</summary>
+    ///<summary>
+    ///Enrollment Status
+    ///</summary>
 
-        public bool EnrollStatus { get; set; }
+    public bool EnrollStatus { get; set; }
 
-        ///<summary>
-        ///Enroll request Status
-        ///</summary>
+    ///<summary>
+    ///Enroll request Status
+    ///</summary>
 
-        public bool EnrollRequestStatus { get; set; }
+    public bool EnrollRequestStatus { get; set; }
 
-        public bool? CourseStarted { get; set; }
-    }
+    public bool? CourseStarted { get; set; }
 }

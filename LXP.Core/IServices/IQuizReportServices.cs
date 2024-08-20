@@ -1,11 +1,10 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface IQuizReportServices
 {
-    public interface IQuizReportServices
-    {
-        IEnumerable<QuizReportViewModel> GetQuizReports();
-        IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid);
-        IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid);
-    }
+    IEnumerable<QuizReportViewModel> GetQuizReports();
+    IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid);
+    IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid);
 }

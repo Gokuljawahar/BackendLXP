@@ -1,26 +1,25 @@
-﻿using LXP.Common.ViewModels.QuizFeedbackQuestionViewModel;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels.QuizFeedbackQuestionViewModel;
+
+public interface IQuizFeedbackService
 {
-    public interface IQuizFeedbackService
-    {
-        Guid AddFeedbackQuestion(
-            QuizfeedbackquestionViewModel quizfeedbackquestion,
-            List<QuizFeedbackQuestionsOptionViewModel> options
-        );
+    Guid AddFeedbackQuestion(
+        QuizfeedbackquestionViewModel quizfeedbackquestion,
+        List<QuizFeedbackQuestionsOptionViewModel> options
+    );
 
-        List<QuizfeedbackquestionNoViewModel> GetAllFeedbackQuestions();
+    List<QuizfeedbackquestionNoViewModel> GetAllFeedbackQuestions();
 
-        QuizfeedbackquestionNoViewModel GetFeedbackQuestionById(Guid QuizFeedbackQuestionId);
+    QuizfeedbackquestionNoViewModel GetFeedbackQuestionById(Guid QuizFeedbackQuestionId);
 
-        bool UpdateFeedbackQuestion(
-            Guid quizFeedbackQuestionId,
-            QuizfeedbackquestionViewModel quizfeedbackquestion,
-            List<QuizFeedbackQuestionsOptionViewModel> options
-        );
+    bool UpdateFeedbackQuestion(
+        Guid quizFeedbackQuestionId,
+        QuizfeedbackquestionViewModel quizfeedbackquestion,
+        List<QuizFeedbackQuestionsOptionViewModel> options
+    );
 
-        bool DeleteFeedbackQuestion(Guid quizFeedbackQuestionId);
-        List<QuizfeedbackquestionNoViewModel> GetFeedbackQuestionsByQuizId(Guid quizId);
-        bool DeleteFeedbackQuestionsByQuizId(Guid quizId);
-    }
+    bool DeleteFeedbackQuestion(Guid quizFeedbackQuestionId);
+    List<QuizfeedbackquestionNoViewModel> GetFeedbackQuestionsByQuizId(Guid quizId);
+    bool DeleteFeedbackQuestionsByQuizId(Guid quizId);
 }
