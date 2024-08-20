@@ -84,17 +84,17 @@ namespace LXP.Core.Services
             }
         }
 
-       public async Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId)
+        public async Task<CourseListDetailsViewModel> GetCourseDetailsByCourseId(string courseId)
         {
             Course course = _courseRepository.GetCourseDetailsByCourseId(Guid.Parse(courseId));
-            var courseRating =_courseRepository.GetCourseRating().ToDictionary(cr=> cr.Course_Id);
+            var courseRating = _courseRepository.GetCourseRating().ToDictionary(cr => cr.Course_Id);
 
             CourseListDetailsViewModel courseDetails = new CourseListDetailsViewModel()
             {
                 CourseId = course.CourseId,
                 Title = course.Title,
                 Description = course.Description,
-                
+
                 Category = course.Category.Category,
                 Level = course.Level.Level,
                 CategoryId = course.Category.CategoryId,
@@ -113,8 +113,9 @@ namespace LXP.Core.Services
                 ModifiedAt = course.ModifiedAt,
                 CreatedBy = course.CreatedBy,
                 ModifiedBy = course.ModifiedBy,
-                AverageRating = courseRating.ContainsKey(course.CourseId)?courseRating[course.CourseId].Rating : 0
-
+                AverageRating = courseRating.ContainsKey(course.CourseId)
+                    ? courseRating[course.CourseId].Rating
+                    : 0
             };
 
             return courseDetails;
@@ -241,16 +242,16 @@ namespace LXP.Core.Services
             return _courseRepository.GetAllCourseDetails();
         }
 
+        //    public IEnumerable<CourseRatingViewModel>GetCourseRating()
+        //    {
+        //           return _courseRepository.GetCourseRating();
+        //    }
 
-    //    public IEnumerable<CourseRatingViewModel>GetCourseRating()
-    //    {
-    //           return _courseRepository.GetCourseRating();
-    //    }
+        public IEnumerable<TopicRatingViewModel> GetTopicRating()
+        {
+            return _courseRepository.GetTopicRating();
+        }
 
-       public IEnumerable<TopicRatingViewModel> GetTopicRating()
-       {
-             return _courseRepository.GetTopicRating();
-       }
         public async Task<dynamic> GetAllCourseDetailsByLearnerId(string learnerId)
         {
             Guid LearnerId = Guid.Parse(learnerId);

@@ -78,8 +78,6 @@ builder.Services.AddScoped<LXPDbContext>();
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IQuizQuestionService, QuizQuestionService>();
 builder.Services.AddScoped<IQuizQuestionRepository, QuizQuestionRepository>();
-builder.Services.AddScoped<IBulkQuestionRepository, BulkQuestionRepository>();
-builder.Services.AddScoped<IBulkQuestionService, BulkQuestionService>();
 builder.Services.AddScoped<IQuizFeedbackService, QuizFeedbackService>();
 builder.Services.AddScoped<IQuizFeedbackRepository, QuizFeedbackRepository>();
 builder.Services.AddScoped<ITopicFeedbackRepository, TopicFeedbackRepository>();
@@ -146,7 +144,6 @@ builder
         v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     });
 
-builder.Services.AddTransient<BulkQuizQuestionViewModelValidator>();
 builder.Services.AddTransient<TopicFeedbackResponseViewModelValidator>();
 builder.Services.AddTransient<QuizFeedbackResponseViewModelValidator>();
 builder.Services.AddTransient<CourseFeedbackResponseViewModelValidator>();

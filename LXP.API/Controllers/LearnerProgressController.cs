@@ -13,7 +13,7 @@ namespace LXP.Api.Controllers
     {
         //private readonly ILearnerProgressService _learnerProgressService;
         private readonly ILearnerProgressService _Progress;
-      
+
         public LearnerProgressController(ILearnerProgressService Progress)
         {
             _Progress = Progress;
@@ -83,9 +83,9 @@ namespace LXP.Api.Controllers
 
         [HttpGet("course-completion-percentage/{learnerId}/{enrollmentId}")]
         public async Task<IActionResult> GetCourseCompletionPercentage(
-           Guid learnerId,
-             Guid enrollmentId
-)
+            Guid learnerId,
+            Guid enrollmentId
+        )
         {
             try
             {
@@ -95,7 +95,13 @@ namespace LXP.Api.Controllers
                 );
                 if (percentage.HasValue && courseId.HasValue)
                 {
-                    return Ok(new { CourseCompletionPercentage = percentage.Value, CourseId = courseId.Value });
+                    return Ok(
+                        new
+                        {
+                            CourseCompletionPercentage = percentage.Value,
+                            CourseId = courseId.Value
+                        }
+                    );
                 }
                 else
                 {
@@ -115,22 +121,12 @@ namespace LXP.Api.Controllers
             }
         }
 
-
-
-
         [HttpGet("{materialId}/progress/{learnerId}")]
         public async Task<ActionResult<double>> GetMaterialProgress(Guid materialId, Guid learnerId)
         {
             var progress = await _Progress.CalculateMaterialProgressAsync(materialId, learnerId);
             return Ok(progress);
         }
-
-
-
-
-
-
-
 
         //[HttpGet("combined-progress")]
         //public async Task<IActionResult> GetCombinedProgress(Guid learnerId, Guid enrollmentId, Guid materialId)
@@ -152,6 +148,5 @@ namespace LXP.Api.Controllers
         //        return BadRequest(ex.Message);
         //    }
         //}
-
     }
 }

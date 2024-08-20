@@ -158,7 +158,7 @@ namespace LXP.Data.Repository
                 var quizScore = lastAttempt != null ? lastAttempt.Score : 0;
 
                 // Maximum quiz score (assuming max score is 100)
-               
+
                 var Findpassmark = _context.Quizzes.Find(lastAttempt!.QuizId);
 
                 var maxQuizScore = Findpassmark!.PassMark;
@@ -189,15 +189,11 @@ namespace LXP.Data.Repository
                         }
                         _context.Enrollments.Update(enrollmentToUpdate);
                     }
-
                 }
 
-                // Calculate the course completion percentage 
-
-               
+                // Calculate the course completion percentage
             }
 
-            
             await _context.SaveChangesAsync();
         }
 
@@ -294,14 +290,14 @@ namespace LXP.Data.Repository
             );
         }
 
-
-        public async Task<LearnerProgress> GetLearnerMaterialProgressAsync(Guid materialId, Guid learnerId)
+        public async Task<LearnerProgress> GetLearnerMaterialProgressAsync(
+            Guid materialId,
+            Guid learnerId
+        )
         {
-            return await _context.LearnerProgresses
-                .FirstOrDefaultAsync(lp => lp.MaterialId == materialId && lp.LearnerId == learnerId);
-
-           
-
+            return await _context.LearnerProgresses.FirstOrDefaultAsync(lp =>
+                lp.MaterialId == materialId && lp.LearnerId == learnerId
+            );
         }
 
         public async Task Changewatchtime(LearnerProgress learnerprogress)
@@ -309,12 +305,5 @@ namespace LXP.Data.Repository
             _context.LearnerProgresses.Update(learnerprogress);
             await _context.SaveChangesAsync();
         }
-
-
-
-
-
-
-
     }
 }
