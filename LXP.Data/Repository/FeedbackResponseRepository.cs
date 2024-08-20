@@ -63,6 +63,21 @@ namespace LXP.Data.Repository
             _context.SaveChanges();
         }
 
+        // public Guid? GetOptionIdByText(Guid questionId, string optionText)
+        // {
+        //     var option =
+        //         _context.FeedbackQuestionsOptions.FirstOrDefault(o =>
+        //             o.QuizFeedbackQuestionId == questionId
+        //             && o.OptionText.ToLower() == optionText.ToLower()
+        //         )
+        //         ?? _context.FeedbackQuestionsOptions.FirstOrDefault(o =>
+        //             o.TopicFeedbackQuestionId == questionId
+        //             && o.OptionText.ToLower() == optionText.ToLower()
+        //         );
+
+        //     return option?.FeedbackQuestionOptionId;
+        // }
+
         public Guid? GetOptionIdByText(Guid questionId, string optionText)
         {
             var option =
@@ -73,10 +88,14 @@ namespace LXP.Data.Repository
                 ?? _context.FeedbackQuestionsOptions.FirstOrDefault(o =>
                     o.TopicFeedbackQuestionId == questionId
                     && o.OptionText.ToLower() == optionText.ToLower()
+                )
+                ?? _context.FeedbackQuestionsOptions.FirstOrDefault(o =>
+                    o.CourseFeedbackQuestionId == questionId
+                    && o.OptionText.ToLower() == optionText.ToLower()
                 );
 
             return option?.FeedbackQuestionOptionId;
-        }
+        } // new code
 
         //new bug fix
         public void DeleteFeedbackResponsesByQuizQuestionId(Guid quizFeedbackQuestionId)

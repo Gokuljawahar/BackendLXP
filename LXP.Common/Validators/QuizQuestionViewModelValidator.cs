@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using LXP.Common.ViewModels.QuizQuestionViewModel;
 using LXP.Common.Constants;
+using LXP.Common.ViewModels.QuizQuestionViewModel;
 
 namespace LXP.Common.Validators
 {
@@ -21,18 +21,32 @@ namespace LXP.Common.Validators
             RuleFor(question => question.Options)
                 .NotEmpty()
                 .WithMessage("Options are required.")
-                .Must((model, options) => ValidateOptionsByQuestionType(model.QuestionType, options))
+                .Must(
+                    (model, options) => ValidateOptionsByQuestionType(model.QuestionType, options)
+                )
                 .WithMessage("Invalid options for the given question type.");
         }
 
         private bool BeAValidQuestionType(string questionType)
         {
-            return QuizQuestionTypes.MultiSelectQuestion.Equals(questionType, StringComparison.OrdinalIgnoreCase)
-                || QuizQuestionTypes.MultiChoiceQuestion.Equals(questionType, StringComparison.OrdinalIgnoreCase)
-                || QuizQuestionTypes.TrueFalseQuestion.Equals(questionType, StringComparison.OrdinalIgnoreCase);
+            return QuizQuestionTypes.MultiSelectQuestion.Equals(
+                    questionType,
+                    StringComparison.OrdinalIgnoreCase
+                )
+                || QuizQuestionTypes.MultiChoiceQuestion.Equals(
+                    questionType,
+                    StringComparison.OrdinalIgnoreCase
+                )
+                || QuizQuestionTypes.TrueFalseQuestion.Equals(
+                    questionType,
+                    StringComparison.OrdinalIgnoreCase
+                );
         }
 
-        private bool ValidateOptionsByQuestionType(string questionType, List<QuestionOptionViewModel> options)
+        private bool ValidateOptionsByQuestionType(
+            string questionType,
+            List<QuestionOptionViewModel> options
+        )
         {
             switch (questionType.ToUpper())
             {

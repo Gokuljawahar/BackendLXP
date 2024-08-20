@@ -8,7 +8,7 @@ namespace LXP.Core.Services
     public class QuizService : IQuizService
     {
         private readonly IQuizRepository _quizRepository;
-        private readonly IFeedbackResponseRepository _feedbackResponseRepository; 
+        private readonly IFeedbackResponseRepository _feedbackResponseRepository;
         private readonly IQuizFeedbackService _quizFeedbackService;
 
         public QuizService(

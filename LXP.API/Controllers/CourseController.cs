@@ -42,7 +42,9 @@ namespace LXP.Api.Controllers
         [HttpGet("/lxp/course/{id}")]
         public async Task<IActionResult> GetCourseDetailsByCourseId(string id)
         {
-            CourseListDetailsViewModel course = await _courseServices.GetCourseDetailsByCourseId(id);
+            CourseListDetailsViewModel course = await _courseServices.GetCourseDetailsByCourseId(
+                id
+            );
             return Ok(CreateSuccessResponse(course));
         }
 

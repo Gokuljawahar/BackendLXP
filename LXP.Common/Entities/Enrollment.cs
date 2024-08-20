@@ -1,5 +1,4 @@
-﻿
-namespace LXP.Common.Entities;
+﻿namespace LXP.Common.Entities;
 
 public partial class Enrollment
 {
@@ -28,4 +27,5 @@ public partial class Enrollment
     public virtual Course Course { get; set; } = null!;
 
     public virtual Learner Learner { get; set; } = null!;
+    public bool? CourseStarted { get; set; }
 }

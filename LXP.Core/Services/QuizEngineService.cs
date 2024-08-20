@@ -161,8 +161,6 @@ namespace LXP.Core.Services
             return new LearnerPassStatusViewModel { IsPassed = attempt.Score >= quiz.PassMark };
         }
 
-        
-
         public async Task SubmitQuizAttemptAsync(Guid attemptId)
         {
             var attempt = await _quizEngineRepository.GetLearnerAttemptByIdAsync(attemptId);
@@ -254,8 +252,6 @@ namespace LXP.Core.Services
             return attempt.LearnerAttemptId;
         }
 
-        
-
         private async Task<float> CalculateQuestionScore(
             Guid quizQuestionId,
             bool isAnswerCorrect,
@@ -331,3 +327,55 @@ namespace LXP.Core.Services
         }
     }
 }
+
+
+
+// code to be tested
+
+// public async Task SubmitQuizAttemptAsync(Guid attemptId)
+// {
+//     var attempt = await _quizEngineRepository.GetLearnerAttemptByIdAsync(attemptId);
+//     if (attempt == null)
+//         throw new KeyNotFoundException($"Learner attempt with ID {attemptId} not found.");
+//     var quiz = await _quizEngineRepository.GetQuizByIdAsync(attempt.QuizId);
+//     if (quiz == null)
+//         throw new KeyNotFoundException($"Quiz with ID {attempt.QuizId} not found.");
+//     var totalQuestions = (await _quizEngineRepository.GetQuestionsForQuizAsync(quiz.QuizId)).Count();
+//     var existingAnswers = await _quizEngineRepository.GetLearnerAnswersForAttemptAsync(attemptId);
+//     if (existingAnswers == null || existingAnswers.Select(a => a.QuizQuestionId).Distinct().Count() != totalQuestions)
+//         throw new InvalidOperationException("You need to answer all the questions in the quiz before submitting the quiz attempt.");
+//     var individualQuestionMarks = 100.0f / totalQuestions;
+//     float finalScore = 0;
+//     foreach (var question in await _quizEngineRepository.GetQuestionsForQuizAsync(quiz.QuizId))
+//     {
+//         var answers = existingAnswers.Where(a => a.QuizQuestionId == question.QuizQuestionId).ToList();
+//         var isAnswerCorrect = answers.All(a => await _quizEngineRepository.IsQuestionOptionCorrectAsync(a.QuizQuestionId, a.QuestionOptionId));
+//         var questionScore = await CalculateQuestionScore(question.QuizQuestionId, isAnswerCorrect, individualQuestionMarks, new AnswerSubmissionModel
+//         {
+//             LearnerAttemptId = attemptId,
+//             QuizQuestionId = question.QuizQuestionId,
+//             SelectedOptions = answers.Select(a => _quizEngineRepository.GetOptionTextByIdAsync(a.QuestionOptionId).Result).ToList()
+//         });
+//         finalScore += questionScore;
+//     }
+//     attempt.Score = (float)Math.Round(finalScore, 2);
+//     attempt.EndTime = DateTime.Now;
+//     await _quizEngineRepository.UpdateLearnerAttemptAsync(attempt);
+// }
+
+// private async Task<float> CalculateQuestionScore(Guid quizQuestionId, bool isAnswerCorrect, float individualQuestionMarks, AnswerSubmissionModel answerSubmissionModel)
+// {
+//     var questionType = await _quizEngineRepository.GetQuestionTypeByIdAsync(quizQuestionId);
+//     switch (questionType)
+//     {
+//         case "MCQ":
+//         case "T/F":
+//             return isAnswerCorrect ? individualQuestionMarks : 0;
+//         case "MSQ":
+//             var correctOptions = await _quizEngineRepository.GetCorrectOptionsForQuestionAsync(quizQuestionId);
+//             var selectedOptions = answerSubmissionModel.SelectedOptions.Select(o => o.ToString()).ToList();
+//             return correctOptions.All(o => selectedOptions.Contains(o)) && selectedOptions.Count == correctOptions.Count ? individualQuestionMarks : 0;
+//         default:
+//             return 0;
+//     }
+// }

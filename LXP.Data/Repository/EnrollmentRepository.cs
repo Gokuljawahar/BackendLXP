@@ -4,6 +4,7 @@ using LXP.Data.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+
 namespace LXP.Data.Repository
 {
     public class EnrollmentRepository : IEnrollmentRepository
@@ -46,6 +47,8 @@ namespace LXP.Data.Repository
                     enrollmentid = enrollment.EnrollmentId,
                     enrolledCourseId = enrollment.CourseId,
                     enrolledCoursename = enrollment.Course.Title,
+                    completedStatus = enrollment.CompletedStatus,
+                    courseStarted = enrollment.CourseStarted,
                     enrolledcoursedescription = enrollment.Course.Description,
                     enrolledcoursecategory = enrollment.Course.Category.Category,
                     enrolledcourselevels = enrollment.Course.Level.Level,
@@ -202,123 +205,142 @@ namespace LXP.Data.Repository
             await _lXPDbContext.SaveChangesAsync();
         }
 
+        public async Task UpdateCourseStarted(Enrollment enrollment)
+        {
+            _lXPDbContext.Enrollments.Update(enrollment);
+            await _lXPDbContext.SaveChangesAsync();
+        }
+
         public object GetCourseandTopicsByCourseIdAndLearnerId(Guid courseId, Guid learnerId)
         {
             var result =
-     from enrollment in _lXPDbContext.Enrollments
-     where enrollment.LearnerId == learnerId && enrollment.CourseId == courseId
-     select new
-     {
-         enrollmentid = enrollment.EnrollmentId,
-         enrolledCourseId = enrollment.CourseId,
-         enrolledCoursename = enrollment.Course.Title,
-         enrolledcoursedescription = enrollment.Course.Description,
-         enrolledcoursecategory = enrollment.Course.Category.Category,
-         enrolledcourselevels = enrollment.Course.Level.Level,
-         Thumbnailimage = String.Format(
-             "{0}://{1}{2}/wwwroot/CourseThumbnailImages/{3}",
-             _contextAccessor.HttpContext.Request.Scheme,
-             _contextAccessor.HttpContext.Request.Host,
-             _contextAccessor.HttpContext.Request.PathBase,
-             enrollment.Course.Thumbnail
-         ),
+                from enrollment in _lXPDbContext.Enrollments
+                where enrollment.LearnerId == learnerId && enrollment.CourseId == courseId
+                select new
+                {
+                    enrollmentid = enrollment.EnrollmentId,
+                    enrolledCourseId = enrollment.CourseId,
+                    enrolledCoursename = enrollment.Course.Title,
+                    enrolledcoursedescription = enrollment.Course.Description,
+                    enrolledcoursecategory = enrollment.Course.Category.Category,
+                    enrolledcourselevels = enrollment.Course.Level.Level,
+                    Thumbnailimage = String.Format(
+                        "{0}://{1}{2}/wwwroot/CourseThumbnailImages/{3}",
+                        _contextAccessor.HttpContext.Request.Scheme,
+                        _contextAccessor.HttpContext.Request.Host,
+                        _contextAccessor.HttpContext.Request.PathBase,
+                        enrollment.Course.Thumbnail
+                    ),
 
-         Topics = (
-             from topic in _lXPDbContext.Topics
-             where topic.CourseId == enrollment.CourseId && topic.IsActive == true
-             select new
-             {
-                 TopicName = topic.Name,
-                 TopicDescription = topic.Description,
-                 TopicId = topic.TopicId,
-                 TopicIsActive = topic.IsActive,
-                 IsQuiz = _lXPDbContext.Quizzes.Any(quizzes =>
-                     quizzes.TopicId == topic.TopicId
-                 )
-                     ? (
-                         from q in _lXPDbContext.Quizzes
-                         join la in _lXPDbContext.LearnerAttempts
-                             on q.QuizId equals la.QuizId
-                         where la.LearnerId == learnerId && q.TopicId == topic.TopicId
-                         group la by new { la.QuizId, q.PassMark } into g
-                         where g.Max(x => x.Score) >= g.Key.PassMark
-                         select g.Key.PassMark
-                     ).Count() == 0
-                     : false,
-                 IsFeedBack = _lXPDbContext.TopicFeedbackQuestions.Any(
-                     topicfeedbackquesion =>
-                         topicfeedbackquesion.TopicId == topic.TopicId
-                 )
-                     ? (
-                         from tfq in _lXPDbContext.TopicFeedbackQuestions
-                         join fr in _lXPDbContext.FeedbackResponses
-                             on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId
-                         where fr.LearnerId == learnerId && tfq.TopicId == topic.TopicId
-                         select tfq
-                     ).Count() == 0
-                     : false,
-                 isAttemptOver = (
-                     from quiz in _lXPDbContext.Quizzes
-                     join attempt in _lXPDbContext.LearnerAttempts
-                         on quiz.QuizId equals attempt.QuizId
-                     where
-                         attempt.LearnerId == learnerId && quiz.TopicId == topic.TopicId
-                     group attempt by quiz.AttemptsAllowed into g
-                     where g.Max(x => x.AttemptCount) == g.Key
-                     select g.Key
-                 ).Count() == 1,
-                 isPassed = (
-                     from q in _lXPDbContext.Quizzes
-                     join la in _lXPDbContext.LearnerAttempts
-                         on q.QuizId equals la.QuizId
-                     where la.LearnerId == learnerId && q.TopicId == topic.TopicId
-                     group la by new { la.QuizId, q.PassMark } into g
-                     where g.Max(x => x.Score) >= g.Key.PassMark
-                     select g.Key.PassMark
-                 ).Count() > 0,
+                    Topics = (
+                        from topic in _lXPDbContext.Topics
+                        where topic.CourseId == enrollment.CourseId && topic.IsActive == true
+                        select new
+                        {
+                            TopicName = topic.Name,
+                            TopicDescription = topic.Description,
+                            TopicId = topic.TopicId,
+                            TopicIsActive = topic.IsActive,
+                            IsQuiz = _lXPDbContext.Quizzes.Any(quizzes =>
+                                quizzes.TopicId == topic.TopicId
+                            )
+                                ? (
+                                    from q in _lXPDbContext.Quizzes
+                                    join la in _lXPDbContext.LearnerAttempts
+                                        on q.QuizId equals la.QuizId
+                                    where la.LearnerId == learnerId && q.TopicId == topic.TopicId
+                                    group la by new { la.QuizId, q.PassMark } into g
+                                    where g.Max(x => x.Score) >= g.Key.PassMark
+                                    select g.Key.PassMark
+                                ).Count() == 0
+                                : false,
+                            IsFeedBack = _lXPDbContext.TopicFeedbackQuestions.Any(
+                                topicfeedbackquesion =>
+                                    topicfeedbackquesion.TopicId == topic.TopicId
+                            )
+                                ? (
+                                    from tfq in _lXPDbContext.TopicFeedbackQuestions
+                                    join fr in _lXPDbContext.FeedbackResponses
+                                        on tfq.TopicFeedbackQuestionId equals fr.TopicFeedbackQuestionId
+                                    where fr.LearnerId == learnerId && tfq.TopicId == topic.TopicId
+                                    select tfq
+                                ).Count() == 0
+                                : false,
+                            isAttemptOver = (
+                                from quiz in _lXPDbContext.Quizzes
+                                join attempt in _lXPDbContext.LearnerAttempts
+                                    on quiz.QuizId equals attempt.QuizId
+                                where
+                                    attempt.LearnerId == learnerId && quiz.TopicId == topic.TopicId
+                                group attempt by quiz.AttemptsAllowed into g
+                                where g.Max(x => x.AttemptCount) == g.Key
+                                select g.Key
+                            ).Count() == 1,
+                            isPassed = (
+                                from q in _lXPDbContext.Quizzes
+                                join la in _lXPDbContext.LearnerAttempts
+                                    on q.QuizId equals la.QuizId
+                                where la.LearnerId == learnerId && q.TopicId == topic.TopicId
+                                group la by new { la.QuizId, q.PassMark } into g
+                                where g.Max(x => x.Score) >= g.Key.PassMark
+                                select g.Key.PassMark
+                            ).Count() > 0,
 
-                 Materials = (
-                     from material in _lXPDbContext.Materials
-                     join materialType in _lXPDbContext.MaterialTypes
-                         on material.MaterialTypeId equals materialType.MaterialTypeId
+                            Materials = (
+                                from material in _lXPDbContext.Materials
+                                join materialType in _lXPDbContext.MaterialTypes
+                                    on material.MaterialTypeId equals materialType.MaterialTypeId
 
-                     where material.TopicId == topic.TopicId && material.IsActive == true
-                     select new
-                     {
-                         MaterialId = material.MaterialId,
-                         MaterialName = material.Name,
-                         MaterialType = materialType.Type,
-                         isCompleted = (
-                             from lp in _lXPDbContext.LearnerProgresses
-                             join m in _lXPDbContext.Materials on lp.Material.MaterialId equals m.MaterialId
-                             where lp.Material.MaterialId == material.MaterialId && lp.Learner.LearnerId == learnerId
-                             select new { lp, m }
-                         )
-                         .Select(x => x.lp.WatchTime.ToTimeSpan() / x.m.Duration.ToTimeSpan() * 100 > 80)
-                         .FirstOrDefault(),
-                         Material = String.Format(
-                             "{0}://{1}{2}/wwwroot/CourseMaterial/{3}",
-                             _contextAccessor.HttpContext.Request.Scheme,
-                             _contextAccessor.HttpContext.Request.Host,
-                             _contextAccessor.HttpContext.Request.PathBase,
-                             material.FilePath
-                         ),
-                         MaterialDuration = material.Duration
-                     }
-                 ).ToList(),
-             }
-         ).ToList()
-     };
+                                where material.TopicId == topic.TopicId && material.IsActive == true
+                                select new
+                                {
+                                    MaterialId = material.MaterialId,
+                                    MaterialName = material.Name,
+                                    MaterialType = materialType.Type,
+                                    isCompleted = (
+                                        from lp in _lXPDbContext.LearnerProgresses
+                                        join m in _lXPDbContext.Materials
+                                            on lp.Material.MaterialId equals m.MaterialId
+                                        where
+                                            lp.Material.MaterialId == material.MaterialId
+                                            && lp.Learner.LearnerId == learnerId
+                                        select new { lp, m }
+                                    )
+                                        .Select(x =>
+                                            x.lp.WatchTime.ToTimeSpan()
+                                                / x.m.Duration.ToTimeSpan()
+                                                * 100
+                                            > 80
+                                        )
+                                        .FirstOrDefault(),
+                                    Material = String.Format(
+                                        "{0}://{1}{2}/wwwroot/CourseMaterial/{3}",
+                                        _contextAccessor.HttpContext.Request.Scheme,
+                                        _contextAccessor.HttpContext.Request.Host,
+                                        _contextAccessor.HttpContext.Request.PathBase,
+                                        material.FilePath
+                                    ),
+                                    MaterialDuration = material.Duration
+                                }
+                            ).ToList(),
+                        }
+                    ).ToList()
+                };
 
             // Convert the result to a list so that it can be enumerated multiple times
             var resultList = result.ToList();
 
             // Update the IsWatched field for each material where isCompleted is true
-            foreach (var material in resultList.SelectMany(r => r.Topics).SelectMany(t => t.Materials))
+            foreach (
+                var material in resultList.SelectMany(r => r.Topics).SelectMany(t => t.Materials)
+            )
             {
                 if (material.isCompleted)
                 {
-                    var lp = _lXPDbContext.LearnerProgresses.First(lp => lp.Material.MaterialId == material.MaterialId && lp.Learner.LearnerId == learnerId);
+                    var lp = _lXPDbContext.LearnerProgresses.First(lp =>
+                        lp.Material.MaterialId == material.MaterialId
+                        && lp.Learner.LearnerId == learnerId
+                    );
                     lp.IsWatched = 1;
                 }
             }
@@ -326,9 +348,7 @@ namespace LXP.Data.Repository
             _lXPDbContext.SaveChanges();
 
             return resultList;
-
         }
-
     }
 }
 

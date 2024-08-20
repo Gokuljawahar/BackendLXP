@@ -1,5 +1,5 @@
-﻿
-namespace LXP.Common.Entities;
+﻿namespace LXP.Common.Entities;
+
 public partial class QuizFeedbackQuestion
 {
     public Guid QuizFeedbackQuestionId { get; set; }
@@ -20,9 +20,11 @@ public partial class QuizFeedbackQuestion
 
     public DateTime? ModifiedAt { get; set; }
 
-    public virtual ICollection<FeedbackQuestionsOption> FeedbackQuestionsOptions { get; set; } = new List<FeedbackQuestionsOption>();
+    public virtual ICollection<FeedbackQuestionsOption> FeedbackQuestionsOptions { get; set; } =
+        new List<FeedbackQuestionsOption>();
 
-    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } = new List<FeedbackResponse>();
+    public virtual ICollection<FeedbackResponse> FeedbackResponses { get; set; } =
+        new List<FeedbackResponse>();
 
     public virtual Quiz Quiz { get; set; } = null!;
 }
