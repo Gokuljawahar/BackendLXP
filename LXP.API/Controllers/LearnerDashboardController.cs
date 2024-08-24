@@ -1,25 +1,20 @@
-﻿using LXP.Core.IServices;
+namespace LXP.Api.Controllers;
+
+using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class LearnerDashboardController(ILearnerDashboardService learnerDashboardService)
+    : BaseController
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LearnerDashboardController : BaseController
+    private readonly ILearnerDashboardService _learnerDashboardService = learnerDashboardService;
+
+    [HttpGet("/lxp/learner/LearnerDashboard/{learnerId}")]
+    public IActionResult GetLearnerDashboard(Guid learnerId)
     {
-        private readonly ILearnerDashboardService _learnerDashboardService;
+        var dashboard = this._learnerDashboardService.GetLearnerDashboardDetails(learnerId);
 
-        public LearnerDashboardController(ILearnerDashboardService learnerDashboardService)
-        {
-            _learnerDashboardService = learnerDashboardService;
-        }
-
-        [HttpGet("/lxp/learner/LearnerDashboard/{learnerId}")]
-        public IActionResult GetLearnerDashboard(Guid learnerId)
-        {
-            var dashboard = _learnerDashboardService.GetLearnerDashboardDetails(learnerId);
-
-            return Ok(CreateSuccessResponse(dashboard));
-        }
+        return this.Ok(this.CreateSuccessResponse(dashboard));
     }
 }

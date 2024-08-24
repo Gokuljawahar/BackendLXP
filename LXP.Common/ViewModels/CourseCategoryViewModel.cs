@@ -1,8 +1,7 @@
-﻿namespace LXP.Common.ViewModels
+namespace LXP.Common.ViewModels;
+
+public class CourseCategoryViewModel
 {
-    public class CourseCategoryViewModel
-    {
-        public string? Category { get; set; }
-        public string? CreatedBy { get; set; }
-    }
+    public string? Category { get; set; }
+    public string? CreatedBy { get; set; }
 }

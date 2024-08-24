@@ -1,7 +1,6 @@
-﻿namespace LXP.Common.ViewModels.QuizEngineViewModel
+namespace LXP.Common.ViewModels.QuizEngineViewModel;
+
+public class QuizEngineOptionViewModel
 {
-    public class QuizEngineOptionViewModel
-    {
-        public string? Option { get; set; }
-    }
+    public string? Option { get; set; }
 }

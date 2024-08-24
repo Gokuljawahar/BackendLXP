@@ -1,11 +1,10 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Data.IRepository;
 
-namespace LXP.Data.IRepository
+using LXP.Common.ViewModels;
+
+public interface IQuizReportRepository
 {
-    public interface IQuizReportRepository
-    {
-        IEnumerable<QuizReportViewModel> GetQuizReports();
-        IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid);
-        IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid);
-    }
+    IEnumerable<QuizReportViewModel> GetQuizReports();
+    IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid);
+    IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid);
 }

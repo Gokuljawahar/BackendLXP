@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+namespace LXP.Services;
+
+using FluentValidation;
 using LXP.Common.Constants;
 using LXP.Common.Entities;
 using LXP.Common.Validators;
@@ -6,342 +8,347 @@ using LXP.Common.ViewModels.FeedbackResponseViewModel;
 using LXP.Data.IRepository;
 using LXP.Services.IServices;
 
-namespace LXP.Services
+public class FeedbackResponseService(IFeedbackResponseRepository feedbackResponseRepository)
+    : IFeedbackResponseService
 {
-    public class FeedbackResponseService : IFeedbackResponseService
+    private readonly IFeedbackResponseRepository _feedbackResponseRepository =
+        feedbackResponseRepository;
+    private readonly QuizFeedbackResponseViewModelValidator _quizFeedbackValidator = new();
+    private readonly TopicFeedbackResponseViewModelValidator _topicFeedbackValidator = new();
+    private readonly CourseFeedbackResponseViewModelValidator _courseFeedbackValidator = new();
+
+    public void SubmitFeedbackResponse(QuizFeedbackResponseViewModel feedbackResponse) =>
+        this.ValidateAndSubmitQuizFeedback(feedbackResponse);
+
+    public void SubmitFeedbackResponse(TopicFeedbackResponseViewModel feedbackResponse) =>
+        this.ValidateAndSubmitTopicFeedback(feedbackResponse);
+
+    public void SubmitFeedbackResponses(
+        IEnumerable<QuizFeedbackResponseViewModel> feedbackResponses
+    )
     {
-        private readonly IFeedbackResponseRepository _feedbackResponseRepository;
-        private readonly QuizFeedbackResponseViewModelValidator _quizFeedbackValidator;
-        private readonly TopicFeedbackResponseViewModelValidator _topicFeedbackValidator;
-        private readonly CourseFeedbackResponseViewModelValidator _courseFeedbackValidator;
-
-        public FeedbackResponseService(IFeedbackResponseRepository feedbackResponseRepository)
+        foreach (var feedbackResponse in feedbackResponses)
         {
-            _feedbackResponseRepository = feedbackResponseRepository;
-            _quizFeedbackValidator = new QuizFeedbackResponseViewModelValidator();
-            _topicFeedbackValidator = new TopicFeedbackResponseViewModelValidator();
-            _courseFeedbackValidator = new CourseFeedbackResponseViewModelValidator();
+            this.ValidateAndSubmitQuizFeedback(feedbackResponse);
+        }
+    }
+
+    public void SubmitFeedbackResponses(
+        IEnumerable<TopicFeedbackResponseViewModel> feedbackResponses
+    )
+    {
+        foreach (var feedbackResponse in feedbackResponses)
+        {
+            this.ValidateAndSubmitTopicFeedback(feedbackResponse);
+        }
+    }
+
+    private void ValidateAndSubmitQuizFeedback(QuizFeedbackResponseViewModel feedbackResponse)
+    {
+        var validationResult = this._quizFeedbackValidator.Validate(feedbackResponse);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
         }
 
-        public void SubmitFeedbackResponse(QuizFeedbackResponseViewModel feedbackResponse)
-        {
-            ValidateAndSubmitQuizFeedback(feedbackResponse);
-        }
+        ArgumentNullException.ThrowIfNull(feedbackResponse);
 
-        public void SubmitFeedbackResponse(TopicFeedbackResponseViewModel feedbackResponse)
-        {
-            ValidateAndSubmitTopicFeedback(feedbackResponse);
-        }
-
-        public void SubmitFeedbackResponses(
-            IEnumerable<QuizFeedbackResponseViewModel> feedbackResponses
-        )
-        {
-            foreach (var feedbackResponse in feedbackResponses)
-            {
-                ValidateAndSubmitQuizFeedback(feedbackResponse);
-            }
-        }
-
-        public void SubmitFeedbackResponses(
-            IEnumerable<TopicFeedbackResponseViewModel> feedbackResponses
-        )
-        {
-            foreach (var feedbackResponse in feedbackResponses)
-            {
-                ValidateAndSubmitTopicFeedback(feedbackResponse);
-            }
-        }
-
-        private void ValidateAndSubmitQuizFeedback(QuizFeedbackResponseViewModel feedbackResponse)
-        {
-            var validationResult = _quizFeedbackValidator.Validate(feedbackResponse);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
-
-            if (feedbackResponse == null)
-                throw new ArgumentNullException(nameof(feedbackResponse));
-
-            var question = _feedbackResponseRepository.GetQuizFeedbackQuestion(
+        var question =
+            this._feedbackResponseRepository.GetQuizFeedbackQuestion(
                 feedbackResponse.QuizFeedbackQuestionId
+            )
+            ?? throw new ArgumentException(
+                "Invalid feedback question ID.",
+                nameof(feedbackResponse.QuizFeedbackQuestionId)
             );
 
-            if (question == null)
-                throw new ArgumentException(
-                    "Invalid feedback question ID.",
-                    nameof(feedbackResponse.QuizFeedbackQuestionId)
-                );
+        var learner =
+            this._feedbackResponseRepository.GetLearner(feedbackResponse.LearnerId)
+            ?? throw new ArgumentException(
+                "Invalid learner ID.",
+                nameof(feedbackResponse.LearnerId)
+            );
 
-            var learner = _feedbackResponseRepository.GetLearner(feedbackResponse.LearnerId);
+        var existingResponse = this._feedbackResponseRepository.GetExistingQuizFeedbackResponse(
+            feedbackResponse.QuizFeedbackQuestionId,
+            feedbackResponse.LearnerId
+        );
 
-            if (learner == null)
-                throw new ArgumentException(
-                    "Invalid learner ID.",
-                    nameof(feedbackResponse.LearnerId)
-                );
+        if (existingResponse != null)
+        {
+            throw new InvalidOperationException(
+                "User has already submitted a response for this question."
+            );
+        }
 
-            var existingResponse = _feedbackResponseRepository.GetExistingQuizFeedbackResponse(
+        Guid? optionId = null;
+
+        if (
+            question.QuestionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+        {
+            if (string.IsNullOrEmpty(feedbackResponse.OptionText))
+            {
+                throw new ArgumentException("Option text must be provided for MCQ responses.");
+            }
+
+            optionId = this._feedbackResponseRepository.GetOptionIdByText(
                 feedbackResponse.QuizFeedbackQuestionId,
-                feedbackResponse.LearnerId
+                feedbackResponse.OptionText
             );
-
-            if (existingResponse != null)
-                throw new InvalidOperationException(
-                    "User has already submitted a response for this question."
-                );
-
-            Guid? optionId = null;
-
-            if (question.QuestionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
+            if (optionId == null)
             {
-                if (string.IsNullOrEmpty(feedbackResponse.OptionText))
-                    throw new ArgumentException("Option text must be provided for MCQ responses.");
-
-                optionId = _feedbackResponseRepository.GetOptionIdByText(
-                    feedbackResponse.QuizFeedbackQuestionId,
-                    feedbackResponse.OptionText
+                throw new ArgumentException(
+                    "Invalid option text provided.",
+                    nameof(feedbackResponse.OptionText)
                 );
-                if (optionId == null)
-                    throw new ArgumentException(
-                        "Invalid option text provided.",
-                        nameof(feedbackResponse.OptionText)
-                    );
-
-                feedbackResponse.Response = null;
             }
 
-            var response = new FeedbackResponse
-            {
-                QuizFeedbackQuestionId = feedbackResponse.QuizFeedbackQuestionId,
-                LearnerId = feedbackResponse.LearnerId,
-                Response = feedbackResponse.Response,
-                OptionId = optionId,
-                GeneratedAt = DateTime.Now,
-                GeneratedBy = "learner"
-            };
-
-            _feedbackResponseRepository.AddFeedbackResponse(response);
-            feedbackResponse.QuizId = question.QuizId;
+            feedbackResponse.Response = null;
         }
 
-        private void ValidateAndSubmitTopicFeedback(TopicFeedbackResponseViewModel feedbackResponse)
+        var response = new FeedbackResponse
         {
-            var validationResult = _topicFeedbackValidator.Validate(feedbackResponse);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
+            QuizFeedbackQuestionId = feedbackResponse.QuizFeedbackQuestionId,
+            LearnerId = feedbackResponse.LearnerId,
+            Response = feedbackResponse.Response,
+            OptionId = optionId,
+            GeneratedAt = DateTime.Now,
+            GeneratedBy = "learner"
+        };
 
-            if (feedbackResponse == null)
-                throw new ArgumentNullException(nameof(feedbackResponse));
+        this._feedbackResponseRepository.AddFeedbackResponse(response);
+        feedbackResponse.QuizId = question.QuizId;
+    }
 
-            var question = _feedbackResponseRepository.GetTopicFeedbackQuestion(
+    private void ValidateAndSubmitTopicFeedback(TopicFeedbackResponseViewModel feedbackResponse)
+    {
+        var validationResult = this._topicFeedbackValidator.Validate(feedbackResponse);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
+
+        ArgumentNullException.ThrowIfNull(feedbackResponse);
+
+        var question =
+            this._feedbackResponseRepository.GetTopicFeedbackQuestion(
                 feedbackResponse.TopicFeedbackQuestionId
+            )
+            ?? throw new ArgumentException(
+                "Invalid feedback question ID.",
+                nameof(feedbackResponse.TopicFeedbackQuestionId)
             );
 
-            if (question == null)
-                throw new ArgumentException(
-                    "Invalid feedback question ID.",
-                    nameof(feedbackResponse.TopicFeedbackQuestionId)
-                );
+        var learner =
+            this._feedbackResponseRepository.GetLearner(feedbackResponse.LearnerId)
+            ?? throw new ArgumentException(
+                "Invalid learner ID.",
+                nameof(feedbackResponse.LearnerId)
+            );
 
-            var learner = _feedbackResponseRepository.GetLearner(feedbackResponse.LearnerId);
+        var existingResponse = this._feedbackResponseRepository.GetExistingTopicFeedbackResponse(
+            feedbackResponse.TopicFeedbackQuestionId,
+            feedbackResponse.LearnerId
+        );
 
-            if (learner == null)
-                throw new ArgumentException(
-                    "Invalid learner ID.",
-                    nameof(feedbackResponse.LearnerId)
-                );
+        if (existingResponse != null)
+        {
+            throw new InvalidOperationException(
+                "User has already submitted a response for this question."
+            );
+        }
 
-            var existingResponse = _feedbackResponseRepository.GetExistingTopicFeedbackResponse(
+        Guid? optionId = null;
+
+        if (
+            question.QuestionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+        {
+            if (string.IsNullOrEmpty(feedbackResponse.OptionText))
+            {
+                throw new ArgumentException("Option text must be provided for MCQ responses.");
+            }
+
+            optionId = this._feedbackResponseRepository.GetOptionIdByText(
                 feedbackResponse.TopicFeedbackQuestionId,
-                feedbackResponse.LearnerId
+                feedbackResponse.OptionText
             );
-
-            if (existingResponse != null)
-                throw new InvalidOperationException(
-                    "User has already submitted a response for this question."
+            if (optionId == null)
+            {
+                throw new ArgumentException(
+                    "Invalid option text provided.",
+                    nameof(feedbackResponse.OptionText)
                 );
-
-            Guid? optionId = null;
-
-            if (question.QuestionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
-            {
-                if (string.IsNullOrEmpty(feedbackResponse.OptionText))
-                    throw new ArgumentException("Option text must be provided for MCQ responses.");
-
-                optionId = _feedbackResponseRepository.GetOptionIdByText(
-                    feedbackResponse.TopicFeedbackQuestionId,
-                    feedbackResponse.OptionText
-                );
-                if (optionId == null)
-                    throw new ArgumentException(
-                        "Invalid option text provided.",
-                        nameof(feedbackResponse.OptionText)
-                    );
-
-                feedbackResponse.Response = null;
             }
 
-            var response = new FeedbackResponse
-            {
-                TopicFeedbackQuestionId = feedbackResponse.TopicFeedbackQuestionId,
-                LearnerId = feedbackResponse.LearnerId,
-                Response = feedbackResponse.Response,
-                OptionId = optionId,
-                GeneratedAt = DateTime.Now,
-                GeneratedBy = "learner"
-            };
-
-            _feedbackResponseRepository.AddFeedbackResponse(response);
-            feedbackResponse.TopicId = question.TopicId;
+            feedbackResponse.Response = null;
         }
 
-        public LearnerFeedbackStatusViewModel GetQuizFeedbackStatus(Guid learnerId, Guid quizId)
+        var response = new FeedbackResponse
         {
-            var allQuestions = _feedbackResponseRepository.GetQuizFeedbackQuestions(quizId);
-            var submittedResponses = _feedbackResponseRepository.GetQuizFeedbackResponsesByLearner(
-                learnerId,
-                quizId
-            );
+            TopicFeedbackQuestionId = feedbackResponse.TopicFeedbackQuestionId,
+            LearnerId = feedbackResponse.LearnerId,
+            Response = feedbackResponse.Response,
+            OptionId = optionId,
+            GeneratedAt = DateTime.Now,
+            GeneratedBy = "learner"
+        };
 
-            var isQuizFeedbackSubmitted =
-                allQuestions.Any() && allQuestions.Count() == submittedResponses.Count();
+        this._feedbackResponseRepository.AddFeedbackResponse(response);
+        feedbackResponse.TopicId = question.TopicId;
+    }
 
-            return new LearnerFeedbackStatusViewModel
-            {
-                LearnerId = learnerId,
-                IsQuizFeedbackSubmitted = isQuizFeedbackSubmitted
-            };
+    public LearnerFeedbackStatusViewModel GetQuizFeedbackStatus(Guid learnerId, Guid quizId)
+    {
+        var allQuestions = this._feedbackResponseRepository.GetQuizFeedbackQuestions(quizId);
+        var submittedResponses = this._feedbackResponseRepository.GetQuizFeedbackResponsesByLearner(
+            learnerId,
+            quizId
+        );
+
+        var isQuizFeedbackSubmitted =
+            allQuestions.Any() && allQuestions.Count() == submittedResponses.Count();
+
+        return new LearnerFeedbackStatusViewModel
+        {
+            LearnerId = learnerId,
+            IsQuizFeedbackSubmitted = isQuizFeedbackSubmitted
+        };
+    }
+
+    public LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topicId)
+    {
+        var allQuestions = this._feedbackResponseRepository.GetTopicFeedbackQuestions(topicId);
+        var submittedResponses =
+            this._feedbackResponseRepository.GetTopicFeedbackResponsesByLearner(learnerId, topicId);
+
+        var isTopicFeedbackSubmitted =
+            allQuestions.Any() && allQuestions.Count() == submittedResponses.Count();
+
+        return new LearnerFeedbackStatusViewModel
+        {
+            LearnerId = learnerId,
+            IsTopicFeedbackSubmitted = isTopicFeedbackSubmitted
+        };
+    }
+
+    public void SubmitFeedbackResponse(CourseFeedbackResponseViewModel feedbackResponse) =>
+        this.ValidateAndSubmitCourseFeedback(feedbackResponse);
+
+    public void SubmitFeedbackResponses(
+        IEnumerable<CourseFeedbackResponseViewModel> feedbackResponses
+    )
+    {
+        foreach (var feedbackResponse in feedbackResponses)
+        {
+            this.ValidateAndSubmitCourseFeedback(feedbackResponse);
+        }
+    }
+
+    private void ValidateAndSubmitCourseFeedback(CourseFeedbackResponseViewModel feedbackResponse)
+    {
+        var validationResult = this._courseFeedbackValidator.Validate(feedbackResponse);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
         }
 
-        public LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topicId)
-        {
-            var allQuestions = _feedbackResponseRepository.GetTopicFeedbackQuestions(topicId);
-            var submittedResponses = _feedbackResponseRepository.GetTopicFeedbackResponsesByLearner(
-                learnerId,
-                topicId
-            );
+        ArgumentNullException.ThrowIfNull(feedbackResponse);
 
-            var isTopicFeedbackSubmitted =
-                allQuestions.Any() && allQuestions.Count() == submittedResponses.Count();
-
-            return new LearnerFeedbackStatusViewModel
-            {
-                LearnerId = learnerId,
-                IsTopicFeedbackSubmitted = isTopicFeedbackSubmitted
-            };
-        }
-
-        public void SubmitFeedbackResponse(CourseFeedbackResponseViewModel feedbackResponse)
-        {
-            ValidateAndSubmitCourseFeedback(feedbackResponse);
-        }
-
-        public void SubmitFeedbackResponses(
-            IEnumerable<CourseFeedbackResponseViewModel> feedbackResponses
-        )
-        {
-            foreach (var feedbackResponse in feedbackResponses)
-            {
-                ValidateAndSubmitCourseFeedback(feedbackResponse);
-            }
-        }
-
-        private void ValidateAndSubmitCourseFeedback(
-            CourseFeedbackResponseViewModel feedbackResponse
-        )
-        {
-            var validationResult = _courseFeedbackValidator.Validate(feedbackResponse);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
-
-            if (feedbackResponse == null)
-                throw new ArgumentNullException(nameof(feedbackResponse));
-
-            var question = _feedbackResponseRepository.GetCourseFeedbackQuestion(
+        var question =
+            this._feedbackResponseRepository.GetCourseFeedbackQuestion(
                 feedbackResponse.CourseFeedbackQuestionId
+            )
+            ?? throw new ArgumentException(
+                "Invalid feedback question ID.",
+                nameof(feedbackResponse.CourseFeedbackQuestionId)
             );
 
-            if (question == null)
-                throw new ArgumentException(
-                    "Invalid feedback question ID.",
-                    nameof(feedbackResponse.CourseFeedbackQuestionId)
-                );
-
-            var learner = _feedbackResponseRepository.GetLearner(feedbackResponse.LearnerId);
-
-            if (learner == null)
-                throw new ArgumentException(
-                    "Invalid learner ID.",
-                    nameof(feedbackResponse.LearnerId)
-                );
-
-            var existingResponse = _feedbackResponseRepository.GetExistingCourseFeedbackResponse(
-                feedbackResponse.CourseFeedbackQuestionId,
-                feedbackResponse.LearnerId
+        var learner =
+            this._feedbackResponseRepository.GetLearner(feedbackResponse.LearnerId)
+            ?? throw new ArgumentException(
+                "Invalid learner ID.",
+                nameof(feedbackResponse.LearnerId)
             );
 
-            if (existingResponse != null)
-                throw new InvalidOperationException(
-                    "User has already submitted a response for this question."
-                );
+        var existingResponse = this._feedbackResponseRepository.GetExistingCourseFeedbackResponse(
+            feedbackResponse.CourseFeedbackQuestionId,
+            feedbackResponse.LearnerId
+        );
 
-            Guid? optionId = null;
+        if (existingResponse != null)
+        {
+            throw new InvalidOperationException(
+                "User has already submitted a response for this question."
+            );
+        }
 
-            if (question.QuestionType == FeedbackQuestionTypes.MultiChoiceQuestion.ToUpper())
+        Guid? optionId = null;
+
+        if (
+            question.QuestionType.Equals(
+                FeedbackQuestionTypes.MultiChoiceQuestion,
+                StringComparison.OrdinalIgnoreCase
+            )
+        )
+        {
+            if (string.IsNullOrEmpty(feedbackResponse.OptionText))
             {
-                if (string.IsNullOrEmpty(feedbackResponse.OptionText))
-                    throw new ArgumentException("Option text must be provided for MCQ responses.");
-
-                optionId = _feedbackResponseRepository.GetOptionIdByText(
-                    feedbackResponse.CourseFeedbackQuestionId,
-                    feedbackResponse.OptionText
-                );
-                if (optionId == null)
-                    throw new ArgumentException(
-                        "Invalid option text provided.",
-                        nameof(feedbackResponse.OptionText)
-                    );
-
-                feedbackResponse.Response = null;
+                throw new ArgumentException("Option text must be provided for MCQ responses.");
             }
 
-            var response = new FeedbackResponse
+            optionId = this._feedbackResponseRepository.GetOptionIdByText(
+                feedbackResponse.CourseFeedbackQuestionId,
+                feedbackResponse.OptionText
+            );
+            if (optionId == null)
             {
-                CourseFeedbackQuestionId = feedbackResponse.CourseFeedbackQuestionId,
-                LearnerId = feedbackResponse.LearnerId,
-                Response = feedbackResponse.Response,
-                OptionId = optionId,
-                GeneratedAt = DateTime.Now,
-                GeneratedBy = "learner"
-            };
-
-            _feedbackResponseRepository.AddFeedbackResponse(response);
-            feedbackResponse.CourseId = question.CourseId;
-        }
-
-        public LearnerFeedbackStatusViewModel GetCourseFeedbackStatus(Guid learnerId, Guid courseId)
-        {
-            var allQuestions = _feedbackResponseRepository.GetCourseFeedbackQuestions(courseId);
-            var submittedResponses =
-                _feedbackResponseRepository.GetCourseFeedbackResponsesByLearner(
-                    learnerId,
-                    courseId
+                throw new ArgumentException(
+                    "Invalid option text provided.",
+                    nameof(feedbackResponse.OptionText)
                 );
+            }
 
-            var isCourseFeedbackSubmitted =
-                allQuestions.Any() && allQuestions.Count() == submittedResponses.Count();
-
-            return new LearnerFeedbackStatusViewModel
-            {
-                LearnerId = learnerId,
-                IsCourseFeedbackSubmitted = isCourseFeedbackSubmitted
-            };
+            feedbackResponse.Response = null;
         }
+
+        var response = new FeedbackResponse
+        {
+            CourseFeedbackQuestionId = feedbackResponse.CourseFeedbackQuestionId,
+            LearnerId = feedbackResponse.LearnerId,
+            Response = feedbackResponse.Response,
+            OptionId = optionId,
+            GeneratedAt = DateTime.Now,
+            GeneratedBy = "learner"
+        };
+
+        this._feedbackResponseRepository.AddFeedbackResponse(response);
+        feedbackResponse.CourseId = question.CourseId;
+    }
+
+    public LearnerFeedbackStatusViewModel GetCourseFeedbackStatus(Guid learnerId, Guid courseId)
+    {
+        var allQuestions = this._feedbackResponseRepository.GetCourseFeedbackQuestions(courseId);
+        var submittedResponses =
+            this._feedbackResponseRepository.GetCourseFeedbackResponsesByLearner(
+                learnerId,
+                courseId
+            );
+
+        var isCourseFeedbackSubmitted =
+            allQuestions.Any() && allQuestions.Count() == submittedResponses.Count();
+
+        return new LearnerFeedbackStatusViewModel
+        {
+            LearnerId = learnerId,
+            IsCourseFeedbackSubmitted = isCourseFeedbackSubmitted
+        };
     }
 }

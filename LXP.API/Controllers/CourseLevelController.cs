@@ -1,23 +1,15 @@
-﻿using LXP.Core.IServices;
+namespace LXP.Api.Controllers;
+
+using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class CourseLevelController(ICourseLevelServices courseLevelServices) : BaseController
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CourseLevelController : BaseController
-    {
-        private readonly ICourseLevelServices _courseLevelServices;
+    private readonly ICourseLevelServices _courseLevelServices = courseLevelServices;
 
-        public CourseLevelController(ICourseLevelServices courseLevelServices)
-        {
-            this._courseLevelServices = courseLevelServices;
-        }
-
-        [HttpGet("/lxp/course/courselevel/{id}")]
-        public async Task<IActionResult> GetAllCourseLevel(string id)
-        {
-            return Ok(CreateSuccessResponse(await _courseLevelServices.GetAllCourseLevel(id)));
-        }
-    }
+    [HttpGet("/lxp/course/courselevel/{id}")]
+    public async Task<IActionResult> GetAllCourseLevel(string id) =>
+        this.Ok(this.CreateSuccessResponse(await this._courseLevelServices.GetAllCourseLevel(id)));
 }

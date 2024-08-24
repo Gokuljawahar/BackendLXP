@@ -1,10 +1,12 @@
-﻿//using LXP.Core.IServices;
+//using LXP.Core.IServices;
 //using LXP.Data.IRepository;
 //using System;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
+
+namespace LXP.Core.Services;
 
 //namespace LXP.Core.Services
 //{
@@ -101,60 +103,45 @@ using System.Text;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class PasswordHistoryService(
+    IPasswordHistoryRepository passwordHistoryRepository,
+    ILearnerRepository learnerRepository
+) : IPasswordHistoryService
 {
-    public class PasswordHistoryService : IPasswordHistoryService
+    private readonly IPasswordHistoryRepository _passwordHistoryRepository =
+        passwordHistoryRepository;
+    private readonly ILearnerRepository _learnerRepository = learnerRepository; // Add this line
+
+    public async Task<bool> UpdatePassword(string learnerId, string oldPassword, string newPassword)
     {
-        private readonly IPasswordHistoryRepository _passwordHistoryRepository;
-        private readonly ILearnerRepository _learnerRepository; // Add this line
-
-        public PasswordHistoryService(
-            IPasswordHistoryRepository passwordHistoryRepository,
-            ILearnerRepository learnerRepository
-        ) // Modify this line
+        var passwordHistory = await this._passwordHistoryRepository.GetPasswordHistory(
+            Guid.Parse(learnerId)
+        );
+        var oldPasswordHash = HashPassword(oldPassword);
+        if (passwordHistory.NewPassword != oldPasswordHash)
         {
-            _passwordHistoryRepository = passwordHistoryRepository;
-            _learnerRepository = learnerRepository; // Add this line
+            return false;
         }
+        passwordHistory.OldPassword = passwordHistory.NewPassword;
+        var newPasswordHash = HashPassword(newPassword);
+        passwordHistory.NewPassword = newPasswordHash;
+        await this._passwordHistoryRepository.UpdatePasswordHistory(passwordHistory);
 
-        public async Task<bool> UpdatePassword(
-            string learnerId,
-            string oldPassword,
-            string newPassword
-        )
-        {
-            var passwordHistory = await _passwordHistoryRepository.GetPasswordHistory(
-                Guid.Parse(learnerId)
-            );
-            var oldPasswordHash = HashPassword(oldPassword);
-            if (passwordHistory.NewPassword != oldPasswordHash)
-            {
-                return false;
-            }
-            passwordHistory.OldPassword = passwordHistory.NewPassword;
-            var newPasswordHash = HashPassword(newPassword);
-            passwordHistory.NewPassword = newPasswordHash;
-            await _passwordHistoryRepository.UpdatePasswordHistory(passwordHistory);
+        var learner = this._learnerRepository.GetLearnerDetailsByLearnerId(Guid.Parse(learnerId));
+        learner.Password = newPasswordHash;
+        this._learnerRepository.UpdateLearner(learner);
 
-            var learner = _learnerRepository.GetLearnerDetailsByLearnerId(Guid.Parse(learnerId));
-            learner.Password = newPasswordHash;
-            _learnerRepository.UpdateLearner(learner);
+        return true;
+    }
 
-            return true;
-        }
-
-        private string HashPassword(string password)
-        {
-            using (var sha256 = System.Security.Cryptography.SHA256.Create())
-            {
-                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
-            }
-        }
-
-        private string SomeHashFunction(string password)
-        {
-            throw new NotImplementedException();
-        }
+    private static string HashPassword(string password)
+    {
+        var hashedBytes = System.Security.Cryptography.SHA256.HashData(
+            Encoding.UTF8.GetBytes(password)
+        );
+        return BitConverter
+            .ToString(hashedBytes)
+            .Replace("-", "")
+            .ToLower(System.Globalization.CultureInfo.CurrentCulture);
     }
 }

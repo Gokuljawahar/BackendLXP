@@ -1,196 +1,207 @@
-﻿using LXP.Common.ViewModels.QuizFeedbackQuestionViewModel;
+namespace LXP.Api.Controllers;
+
+using LXP.Common.ViewModels.QuizFeedbackQuestionViewModel;
 using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LXP.Api.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class QuizFeedbackController(IQuizFeedbackService quizFeedbackService) : BaseController
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class QuizFeedbackController : BaseController
+    private readonly IQuizFeedbackService _quizFeedbackService = quizFeedbackService;
+
+    ///<summary>
+    ///Add a new feedback question
+    ///</summary>
+    ///<param name="quizfeedbackquestion">Feedback question details</param>
+    ///<response code="200">Feedback question added successfully</response>
+    ///<response code="500">Internal server error</response>
+    [HttpPost("AddFeedbackQuestion")]
+    public IActionResult AddFeedbackQuestion(
+        [FromBody] QuizfeedbackquestionViewModel quizfeedbackquestion
+    )
     {
-        private readonly IQuizFeedbackService _quizFeedbackService;
+        var result = this._quizFeedbackService.AddFeedbackQuestion(
+            quizfeedbackquestion,
+            quizfeedbackquestion.Options
+        );
+        return this.Ok(this.CreateSuccessResponse(result));
+    }
 
-        public QuizFeedbackController(IQuizFeedbackService quizFeedbackService)
-        {
-            _quizFeedbackService = quizFeedbackService;
-        }
+    ///<summary>
+    ///Retrieve all feedback questions
+    ///</summary>
+    ///<response code="200">List of feedback questions</response>
+    ///<response code="500">Internal server error</response>
+    [HttpGet("GetAllFeedbackQuestions")]
+    public IActionResult GetAllFeedbackQuestions()
+    {
+        var questions = this._quizFeedbackService.GetAllFeedbackQuestions();
+        return this.Ok(this.CreateSuccessResponse(questions));
+    }
 
-        ///<summary>
-        ///Add a new feedback question
-        ///</summary>
-        ///<param name="quizfeedbackquestion">Feedback question details</param>
-        ///<response code="200">Feedback question added successfully</response>
-        ///<response code="500">Internal server error</response>
-        [HttpPost("AddFeedbackQuestion")]
-        public IActionResult AddFeedbackQuestion(
-            [FromBody] QuizfeedbackquestionViewModel quizfeedbackquestion
-        )
+    ///<summary>
+    ///Get a feedback question by its ID
+    ///</summary>
+    ///<param name="quizFeedbackQuestionId">Feedback question ID</param>
+    ///<response code="200">Feedback question details</response>
+    ///<response code="404">Feedback question not found</response>
+    ///<response code="500">Internal server error</response>
+    [HttpGet("GetFeedbackQuestionById/{quizFeedbackQuestionId}")]
+    public IActionResult GetFeedbackQuestionById(Guid quizFeedbackQuestionId)
+    {
+        var question = this._quizFeedbackService.GetFeedbackQuestionById(quizFeedbackQuestionId);
+        if (question == null)
         {
-            var result = _quizFeedbackService.AddFeedbackQuestion(
-                quizfeedbackquestion,
-                quizfeedbackquestion.Options
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"Feedback question with ID {quizFeedbackQuestionId} not found.",
+                    404
+                )
             );
-            return Ok(CreateSuccessResponse(result));
         }
 
-        ///<summary>
-        ///Retrieve all feedback questions
-        ///</summary>
-        ///<response code="200">List of feedback questions</response>
-        ///<response code="500">Internal server error</response>
-        [HttpGet("GetAllFeedbackQuestions")]
-        public IActionResult GetAllFeedbackQuestions()
-        {
-            var questions = _quizFeedbackService.GetAllFeedbackQuestions();
-            return Ok(CreateSuccessResponse(questions));
-        }
+        return this.Ok(this.CreateSuccessResponse(question));
+    }
 
-        ///<summary>
-        ///Get a feedback question by its ID
-        ///</summary>
-        ///<param name="quizFeedbackQuestionId">Feedback question ID</param>
-        ///<response code="200">Feedback question details</response>
-        ///<response code="404">Feedback question not found</response>
-        ///<response code="500">Internal server error</response>
-        [HttpGet("GetFeedbackQuestionById/{quizFeedbackQuestionId}")]
-        public IActionResult GetFeedbackQuestionById(Guid quizFeedbackQuestionId)
+    ///<summary>
+    ///Update a feedback question
+    ///</summary>
+    ///<param name="quizFeedbackQuestionId">Feedback question ID</param>
+    ///<param name="quizfeedbackquestion">Updated feedback question details</param>
+    ///<response code="204">Feedback question updated successfully</response>
+    ///<response code="404">Feedback question not found</response>
+    ///<response code="500">Internal server error</response>
+    [HttpPut("UpdateFeedbackQuestion/{quizFeedbackQuestionId}")]
+    public IActionResult UpdateFeedbackQuestion(
+        Guid quizFeedbackQuestionId,
+        [FromBody] QuizfeedbackquestionViewModel quizfeedbackquestion
+    )
+    {
+        var existingQuestion = this._quizFeedbackService.GetFeedbackQuestionById(
+            quizFeedbackQuestionId
+        );
+        if (existingQuestion == null)
         {
-            var question = _quizFeedbackService.GetFeedbackQuestionById(quizFeedbackQuestionId);
-            if (question == null)
-                return NotFound(
-                    CreateFailureResponse(
-                        $"Feedback question with ID {quizFeedbackQuestionId} not found.",
-                        404
-                    )
-                );
-            return Ok(CreateSuccessResponse(question));
-        }
-
-        ///<summary>
-        ///Update a feedback question
-        ///</summary>
-        ///<param name="quizFeedbackQuestionId">Feedback question ID</param>
-        ///<param name="quizfeedbackquestion">Updated feedback question details</param>
-        ///<response code="204">Feedback question updated successfully</response>
-        ///<response code="404">Feedback question not found</response>
-        ///<response code="500">Internal server error</response>
-        [HttpPut("UpdateFeedbackQuestion/{quizFeedbackQuestionId}")]
-        public IActionResult UpdateFeedbackQuestion(
-            Guid quizFeedbackQuestionId,
-            [FromBody] QuizfeedbackquestionViewModel quizfeedbackquestion
-        )
-        {
-            var existingQuestion = _quizFeedbackService.GetFeedbackQuestionById(
-                quizFeedbackQuestionId
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"Feedback question with ID {quizFeedbackQuestionId} not found.",
+                    404
+                )
             );
-            if (existingQuestion == null)
-                return NotFound(
-                    CreateFailureResponse(
-                        $"Feedback question with ID {quizFeedbackQuestionId} not found.",
-                        404
-                    )
-                );
+        }
 
-            var result = _quizFeedbackService.UpdateFeedbackQuestion(
-                quizFeedbackQuestionId,
-                quizfeedbackquestion,
-                quizfeedbackquestion.Options
+        var result = this._quizFeedbackService.UpdateFeedbackQuestion(
+            quizFeedbackQuestionId,
+            quizfeedbackquestion,
+            quizfeedbackquestion.Options
+        );
+        if (!result)
+        {
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"Failed to update feedback question with ID {quizFeedbackQuestionId}.",
+                    500
+                )
             );
-            if (!result)
-                return NotFound(
-                    CreateFailureResponse(
-                        $"Failed to update feedback question with ID {quizFeedbackQuestionId}.",
-                        500
-                    )
-                );
-
-            return NoContent();
         }
 
-        ///<summary>
-        ///Delete a feedback question
-        ///</summary>
-        ///<param name="quizFeedbackQuestionId">Feedback question ID</param>
-        ///<response code="204">Feedback question deleted successfully</response>
-        ///<response code="404">Feedback question not found</response>
-        ///<response code="500">Internal server error</response>
-        [HttpDelete("DeleteFeedbackQuestion/{quizFeedbackQuestionId}")]
-        public IActionResult DeleteFeedbackQuestion(Guid quizFeedbackQuestionId)
+        return this.NoContent();
+    }
+
+    ///<summary>
+    ///Delete a feedback question
+    ///</summary>
+    ///<param name="quizFeedbackQuestionId">Feedback question ID</param>
+    ///<response code="204">Feedback question deleted successfully</response>
+    ///<response code="404">Feedback question not found</response>
+    ///<response code="500">Internal server error</response>
+    [HttpDelete("DeleteFeedbackQuestion/{quizFeedbackQuestionId}")]
+    public IActionResult DeleteFeedbackQuestion(Guid quizFeedbackQuestionId)
+    {
+        var existingQuestion = this._quizFeedbackService.GetFeedbackQuestionById(
+            quizFeedbackQuestionId
+        );
+        if (existingQuestion == null)
         {
-            var existingQuestion = _quizFeedbackService.GetFeedbackQuestionById(
-                quizFeedbackQuestionId
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"Feedback question with ID {quizFeedbackQuestionId} not found.",
+                    404
+                )
             );
-            if (existingQuestion == null)
-                return NotFound(
-                    CreateFailureResponse(
-                        $"Feedback question with ID {quizFeedbackQuestionId} not found.",
-                        404
-                    )
-                );
-
-            var result = _quizFeedbackService.DeleteFeedbackQuestion(quizFeedbackQuestionId);
-            if (!result)
-                return NotFound(
-                    CreateFailureResponse(
-                        $"Failed to delete feedback question with ID {quizFeedbackQuestionId}.",
-                        500
-                    )
-                );
-
-            return NoContent();
         }
 
-        ///<summary>
-        ///Get feedback questions by quiz ID
-        ///</summary>
-        ///<param name="quizId">Quiz ID</param>
-        ///<response code="200">List of feedback questions</response>
-        ///<response code="404">Feedback questions not found</response>
-        ///<response code="500">Internal server error</response>
-        [HttpGet("GetFeedbackQuestionsByQuizId/{quizId}")]
-        public IActionResult GetFeedbackQuestionsByQuizId(Guid quizId)
+        var result = this._quizFeedbackService.DeleteFeedbackQuestion(quizFeedbackQuestionId);
+        if (!result)
         {
-            var questions = _quizFeedbackService.GetFeedbackQuestionsByQuizId(quizId);
-            if (questions == null || questions.Count == 0)
-            {
-                return NotFound(
-                    CreateFailureResponse($"No feedback questions found for quiz ID {quizId}.", 404)
-                );
-            }
-            return Ok(CreateSuccessResponse(questions));
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"Failed to delete feedback question with ID {quizFeedbackQuestionId}.",
+                    500
+                )
+            );
         }
 
-        ///<summary>
-        ///Delete feedback questions by quiz ID
-        ///</summary>
-        ///<param name="quizId">Quiz ID</param>
-        ///<response code="204">Feedback questions deleted successfully</response>
-        ///<response code="404">Feedback questions not found</response>
-        ///<response code="500">Internal server error</response>
-        [HttpDelete("DeleteFeedbackQuestionsByQuizId/{quizId}")]
-        public IActionResult DeleteFeedbackQuestionsByQuizId(Guid quizId)
+        return this.NoContent();
+    }
+
+    ///<summary>
+    ///Get feedback questions by quiz ID
+    ///</summary>
+    ///<param name="quizId">Quiz ID</param>
+    ///<response code="200">List of feedback questions</response>
+    ///<response code="404">Feedback questions not found</response>
+    ///<response code="500">Internal server error</response>
+    [HttpGet("GetFeedbackQuestionsByQuizId/{quizId}")]
+    public IActionResult GetFeedbackQuestionsByQuizId(Guid quizId)
+    {
+        var questions = this._quizFeedbackService.GetFeedbackQuestionsByQuizId(quizId);
+        if (questions == null || questions.Count == 0)
         {
-            var questions = _quizFeedbackService.GetFeedbackQuestionsByQuizId(quizId);
-            if (questions == null || questions.Count == 0)
-            {
-                return NotFound(
-                    CreateFailureResponse($"No feedback questions found for quiz ID {quizId}.", 404)
-                );
-            }
-
-            var result = _quizFeedbackService.DeleteFeedbackQuestionsByQuizId(quizId);
-            if (!result)
-            {
-                return StatusCode(
-                    500,
-                    CreateFailureResponse(
-                        $"Failed to delete feedback questions for quiz ID {quizId}.",
-                        500
-                    )
-                );
-            }
-
-            return NoContent();
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"No feedback questions found for quiz ID {quizId}.",
+                    404
+                )
+            );
         }
+        return this.Ok(this.CreateSuccessResponse(questions));
+    }
+
+    ///<summary>
+    ///Delete feedback questions by quiz ID
+    ///</summary>
+    ///<param name="quizId">Quiz ID</param>
+    ///<response code="204">Feedback questions deleted successfully</response>
+    ///<response code="404">Feedback questions not found</response>
+    ///<response code="500">Internal server error</response>
+    [HttpDelete("DeleteFeedbackQuestionsByQuizId/{quizId}")]
+    public IActionResult DeleteFeedbackQuestionsByQuizId(Guid quizId)
+    {
+        var questions = this._quizFeedbackService.GetFeedbackQuestionsByQuizId(quizId);
+        if (questions == null || questions.Count == 0)
+        {
+            return this.NotFound(
+                this.CreateFailureResponse(
+                    $"No feedback questions found for quiz ID {quizId}.",
+                    404
+                )
+            );
+        }
+
+        var result = this._quizFeedbackService.DeleteFeedbackQuestionsByQuizId(quizId);
+        if (!result)
+        {
+            return this.StatusCode(
+                500,
+                this.CreateFailureResponse(
+                    $"Failed to delete feedback questions for quiz ID {quizId}.",
+                    500
+                )
+            );
+        }
+
+        return this.NoContent();
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace LXP.Core.IServices
+namespace LXP.Core.IServices;
+
+public interface IForgetService
 {
-    public interface IForgetService
-    {
-        bool ForgetPassword(string Email);
-    }
+    bool ForgetPassword(string Email);
 }

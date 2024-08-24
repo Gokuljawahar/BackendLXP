@@ -1,9 +1,8 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Data.IRepository;
 
-namespace LXP.Data.IRepository
+using LXP.Common.ViewModels;
+
+public interface IUserReportRepository
 {
-    public interface IUserReportRepository
-    {
-        IEnumerable<UserReportViewModel> GetUserReport();
-    }
+    IEnumerable<UserReportViewModel> GetUserReport();
 }

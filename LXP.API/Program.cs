@@ -19,15 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region CORS setting for API
 builder.Services.AddCors(options =>
-{
     options.AddPolicy(
         name: "_myAllowSpecificOrigins",
-        policy =>
-        {
-            policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyMethod();
-        }
-    );
-});
+        policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyMethod()
+    )
+);
 
 #endregion
 
@@ -118,31 +114,24 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddSwaggerGen(options =>
-{
     options.IncludeXmlComments(
         Path.Combine(
             AppContext.BaseDirectory,
             $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"
         )
-    );
-});
+    )
+);
 
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger();
 
 builder.Host.UseSerilog();
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-builder.Services.AddMvc(options =>
-{
-    options.Filters.Add<ApiExceptionInterceptor>();
-});
+builder.Services.AddMvc(options => options.Filters.Add<ApiExceptionInterceptor>());
 
 builder
     .Services.AddControllers()
-    .AddFluentValidation(v =>
-    {
-        v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-    });
+    .AddFluentValidation(v => v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
 builder.Services.AddTransient<TopicFeedbackResponseViewModelValidator>();
 builder.Services.AddTransient<QuizFeedbackResponseViewModelValidator>();

@@ -1,4 +1,4 @@
-﻿//using AutoMapper;
+//using AutoMapper;
 //using LXP.Common.Entities;
 //using LXP.Common.ViewModels;
 //using LXP.Core.IServices;
@@ -9,6 +9,8 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
+
+namespace LXP.Core.Services;
 
 //namespace LXP.Core.Services
 //{
@@ -58,103 +60,96 @@ using LXP.Data.IRepository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-namespace LXP.Core.Services
+public class ProfileService : IProfileService
 {
-    public class ProfileService : IProfileService
+    private readonly IProfileRepository _profileRepository;
+    private readonly Mapper _learnerProfileMapper;
+    private readonly IWebHostEnvironment _environment;
+    private readonly IHttpContextAccessor _contextAccessor;
+
+    public ProfileService(
+        IProfileRepository profileRepository,
+        IWebHostEnvironment environment,
+        IHttpContextAccessor httpContextAccessor
+    )
     {
-        private readonly IProfileRepository _profileRepository;
-        private Mapper _learnerProfileMapper;
-        private readonly IWebHostEnvironment _environment;
-        private readonly IHttpContextAccessor _contextAccessor;
+        this._profileRepository = profileRepository;
+        var _configCategory = new MapperConfiguration(cfg =>
+            cfg.CreateMap<LearnerProfile, GetProfileViewModel>().ReverseMap()
+        );
+        this._learnerProfileMapper = new Mapper(_configCategory);
+        this._environment = environment;
+        this._contextAccessor = httpContextAccessor;
+    }
 
-        public ProfileService(
-            IProfileRepository profileRepository,
-            IWebHostEnvironment environment,
-            IHttpContextAccessor httpContextAccessor
-        )
+    public async Task<List<GetProfileViewModel>> GetAllLearnerProfile()
+    {
+        var learnerProfile = this._learnerProfileMapper.Map<
+            List<LearnerProfile>,
+            List<GetProfileViewModel>
+        >(await this._profileRepository.GetAllLearnerProfile());
+        return learnerProfile;
+    }
+
+    public LearnerProfile GetLearnerProfileById(string id)
+    {
+        //return _profileRepository.GetLearnerprofileDetailsByLearnerprofileId(Guid.Parse(id));
+
+        var profile = this._profileRepository.GetLearnerprofileDetailsByLearnerprofileId(
+            Guid.Parse(id)
+        );
+        var profileIndividual = new LearnerProfile
         {
-            this._profileRepository = profileRepository;
-            var _configCategory = new MapperConfiguration(cfg =>
-                cfg.CreateMap<LearnerProfile, GetProfileViewModel>().ReverseMap()
-            );
-            _learnerProfileMapper = new Mapper(_configCategory);
-            _environment = environment;
-            _contextAccessor = httpContextAccessor;
-        }
+            ProfileId = profile.ProfileId,
+            //ProfilePhoto = profile.ProfilePhoto,
+            FirstName = profile.FirstName,
+            LastName = profile.LastName,
+            Dob = profile.Dob,
+            Gender = profile.Gender,
+            Stream = profile.Stream,
+            ContactNumber = profile.ContactNumber,
+            ProfilePhoto = string.Format(
+                "{0}://{1}{2}/wwwroot/LearnerProfileImages/{3}",
+                this._contextAccessor.HttpContext.Request.Scheme,
+                this._contextAccessor.HttpContext.Request.Host,
+                this._contextAccessor.HttpContext.Request.PathBase,
+                profile.ProfilePhoto
+            )
+        };
+        return profileIndividual;
+    }
 
-        public async Task<List<GetProfileViewModel>> GetAllLearnerProfile()
+    public async Task UpdateProfile(UpdateProfileViewModel model)
+    {
+        var learnerProfile = this._profileRepository.GetLearnerprofileDetailsByLearnerprofileId(
+            Guid.Parse(model.ProfileId)
+        );
+
+        if (model.ProfilePhoto != null)
         {
-            List<GetProfileViewModel> learnerProfile = _learnerProfileMapper.Map<
-                List<LearnerProfile>,
-                List<GetProfileViewModel>
-            >(await _profileRepository.GetAllLearnerProfile());
-            return learnerProfile;
-        }
+            var uniqueFileName = $"{Guid.NewGuid()}_{model.ProfilePhoto.FileName}";
+            var uploadsFolder = Path.Combine(this._environment.WebRootPath, "LearnerProfileImages"); // Use WebRootPath
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-        public LearnerProfile GetLearnerProfileById(string id)
-        {
-            //return _profileRepository.GetLearnerprofileDetailsByLearnerprofileId(Guid.Parse(id));
-
-            var profile = _profileRepository.GetLearnerprofileDetailsByLearnerprofileId(
-                Guid.Parse(id)
-            );
-            var profileIndividual = new LearnerProfile
+            using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                ProfileId = profile.ProfileId,
-                //ProfilePhoto = profile.ProfilePhoto,
-                FirstName = profile.FirstName,
-                LastName = profile.LastName,
-                Dob = profile.Dob,
-                Gender = profile.Gender,
-                Stream = profile.Stream,
-                ContactNumber = profile.ContactNumber,
-                ProfilePhoto = String.Format(
-                    "{0}://{1}{2}/wwwroot/LearnerProfileImages/{3}",
-                    _contextAccessor.HttpContext.Request.Scheme,
-                    _contextAccessor.HttpContext.Request.Host,
-                    _contextAccessor.HttpContext.Request.PathBase,
-                    profile.ProfilePhoto
-                )
-            };
-            return profileIndividual;
-        }
-
-        public async Task UpdateProfile(UpdateProfileViewModel model)
-        {
-            LearnerProfile learnerProfile =
-                _profileRepository.GetLearnerprofileDetailsByLearnerprofileId(
-                    Guid.Parse(model.ProfileId)
-                );
-
-            if (model.ProfilePhoto != null)
-            {
-                var uniqueFileName = $"{Guid.NewGuid()}_{model.ProfilePhoto.FileName}";
-                var uploadsFolder = Path.Combine(_environment.WebRootPath, "LearnerProfileImages"); // Use WebRootPath
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.ProfilePhoto.CopyToAsync(stream);
-                }
-
-                learnerProfile.ProfilePhoto = uniqueFileName;
+                await model.ProfilePhoto.CopyToAsync(stream);
             }
 
-            learnerProfile.FirstName = model.FirstName;
-            learnerProfile.LastName = model.LastName;
-            learnerProfile.ModifiedBy = $"{model.FirstName} {model.LastName}";
-            learnerProfile.ModifiedAt = DateTime.Now;
-            learnerProfile.ContactNumber = model.ContactNumber;
-            learnerProfile.Dob = DateOnly.ParseExact(model.Dob, "yyyy-MM-dd", null);
-            learnerProfile.Gender = model.Gender;
-            learnerProfile.Stream = model.Stream;
-
-            await _profileRepository.UpdateProfile(learnerProfile);
+            learnerProfile.ProfilePhoto = uniqueFileName;
         }
 
-        public Guid GetprofileId(Guid learnerId)
-        {
-            return _profileRepository.GetProfileId(learnerId);
-        }
+        learnerProfile.FirstName = model.FirstName;
+        learnerProfile.LastName = model.LastName;
+        learnerProfile.ModifiedBy = $"{model.FirstName} {model.LastName}";
+        learnerProfile.ModifiedAt = DateTime.Now;
+        learnerProfile.ContactNumber = model.ContactNumber;
+        learnerProfile.Dob = DateOnly.ParseExact(model.Dob, "yyyy-MM-dd", null);
+        learnerProfile.Gender = model.Gender;
+        learnerProfile.Stream = model.Stream;
+
+        await this._profileRepository.UpdateProfile(learnerProfile);
     }
+
+    public Guid GetprofileId(Guid learnerId) => this._profileRepository.GetProfileId(learnerId);
 }

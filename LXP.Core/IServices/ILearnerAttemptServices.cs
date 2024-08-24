@@ -1,9 +1,8 @@
-﻿namespace LXP.Core.IServices
-{
-    public interface ILearnerAttemptServices
-    {
-        object GetScoreByTopicIdAndLernerId(string LearnerId);
+namespace LXP.Core.IServices;
 
-        object GetScoreByLearnerId(string LearnerId);
-    }
+public interface ILearnerAttemptServices
+{
+    object GetScoreByTopicIdAndLernerId(string LearnerId);
+
+    object GetScoreByLearnerId(string LearnerId);
 }

@@ -1,33 +1,21 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.Services;
+
+using LXP.Common.ViewModels;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class QuizReportServices(IQuizReportRepository quizReportRepository) : IQuizReportServices
 {
-    public class QuizReportServices : IQuizReportServices
-    {
-        private readonly IQuizReportRepository _quizReportRepository;
+    private readonly IQuizReportRepository _quizReportRepository = quizReportRepository;
 
-        public QuizReportServices(IQuizReportRepository quizReportRepository)
-        {
-            _quizReportRepository = quizReportRepository;
-        }
+    public IEnumerable<QuizReportViewModel> GetQuizReports() =>
+        this._quizReportRepository.GetQuizReports();
 
-        public IEnumerable<QuizReportViewModel> GetQuizReports()
-        {
-            return _quizReportRepository.GetQuizReports();
-        }
+    public IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid) =>
+        //double Passmark = _quizReportRepository.FindPassmark(Quizid);
 
-        public IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid)
-        {
-            //double Passmark = _quizReportRepository.FindPassmark(Quizid);
+        this._quizReportRepository.GetPassdLearnersList(Quizid);
 
-            return _quizReportRepository.GetPassdLearnersList(Quizid);
-        }
-
-        public IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid)
-        {
-            return _quizReportRepository.GetFailedLearnersList(Quizid);
-        }
-    }
+    public IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid) =>
+        this._quizReportRepository.GetFailedLearnersList(Quizid);
 }

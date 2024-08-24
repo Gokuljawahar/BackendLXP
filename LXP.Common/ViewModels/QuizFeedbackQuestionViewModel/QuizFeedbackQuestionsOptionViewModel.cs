@@ -1,7 +1,6 @@
-﻿namespace LXP.Common.ViewModels.QuizFeedbackQuestionViewModel
+namespace LXP.Common.ViewModels.QuizFeedbackQuestionViewModel;
+
+public class QuizFeedbackQuestionsOptionViewModel
 {
-    public class QuizFeedbackQuestionsOptionViewModel
-    {
-        public string OptionText { get; set; } = null!;
-    }
+    public string OptionText { get; set; } = null!;
 }

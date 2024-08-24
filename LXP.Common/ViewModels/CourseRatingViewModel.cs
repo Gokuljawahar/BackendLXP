@@ -1,14 +1,10 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Http;
+namespace LXP.Common.ViewModels;
 
-namespace LXP.Common.ViewModels
+public class CourseRatingViewModel
 {
-    public class CourseRatingViewModel
-    {
-        public Guid Course_Id { get; set; }
+    public Guid CourseId { get; set; }
 
-        public string Title { get; set; }
+    public string Title { get; set; }
 
-        public decimal Rating { get; set; }
-    }
+    public decimal Rating { get; set; }
 }

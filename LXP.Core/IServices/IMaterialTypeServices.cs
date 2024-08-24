@@ -1,9 +1,8 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface IMaterialTypeServices
 {
-    public interface IMaterialTypeServices
-    {
-        List<MaterialTypeViewModel> GetAllMaterialType();
-    }
+    List<MaterialTypeViewModel> GetAllMaterialType();
 }

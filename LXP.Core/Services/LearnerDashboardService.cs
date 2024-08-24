@@ -1,34 +1,30 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.Services;
+
+using LXP.Common.ViewModels;
 using LXP.Core.IServices;
 using LXP.Data.IRepository;
 
-namespace LXP.Core.Services
+public class LearnerDashboardService(ILearnerDashboardRepository learnerDashboardRepository)
+    : ILearnerDashboardService
 {
-    public class LearnerDashboardService : ILearnerDashboardService
+    private readonly ILearnerDashboardRepository _learnerDashboardRepository =
+        learnerDashboardRepository;
+
+    public LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid learnerId)
     {
-        private readonly ILearnerDashboardRepository _learnerDashboardRepository;
-
-        public LearnerDashboardService(ILearnerDashboardRepository learnerDashboardRepository)
+        var dashboarddetails = new LearnerDashboardCourseCountViewModel
         {
-            _learnerDashboardRepository = learnerDashboardRepository;
-        }
+            CompletedCount = this
+                ._learnerDashboardRepository.GetLearnerCompletedCount(learnerId)
+                .Count,
+            EnrolledCourseCount = this
+                ._learnerDashboardRepository.GetLearnerenrolledCourseCount(learnerId)
+                .Count,
+            InProgressCount = this
+                ._learnerDashboardRepository.GetLearnerDashboardInProgressCount(learnerId)
+                .Count,
+        };
 
-        public LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid learnerId)
-        {
-            var dashboarddetails = new LearnerDashboardCourseCountViewModel
-            {
-                CompletedCount = _learnerDashboardRepository
-                    .GetLearnerCompletedCount(learnerId)
-                    .Count(),
-                EnrolledCourseCount = _learnerDashboardRepository
-                    .GetLearnerenrolledCourseCount(learnerId)
-                    .Count(),
-                InProgressCount = _learnerDashboardRepository
-                    .GetLearnerDashboardInProgressCount(learnerId)
-                    .Count(),
-            };
-
-            return dashboarddetails;
-        }
+        return dashboarddetails;
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace LXP.Common.ViewModels
+namespace LXP.Common.ViewModels;
+
+public class RandomPasswordEmail
 {
-    public class RandomPasswordEmail
-    {
-        public string? Email { get; set; }
-    }
+    public string? Email { get; set; }
 }

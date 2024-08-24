@@ -1,9 +1,11 @@
-﻿//using System;
+//using System;
 //using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
 //using LXP.Common.Entities;
+
+namespace LXP.Data.IRepository;
 
 //namespace LXP.Data.IRepository
 //{
@@ -22,17 +24,14 @@
 
 using LXP.Common.Entities;
 
-namespace LXP.Data.IRepository
+public interface IProfileRepository
 {
-    public interface IProfileRepository
-    {
-        public void AddProfile(LearnerProfile learnerprofile);
+    public void AddProfile(LearnerProfile learnerprofile);
 
-        Task<List<LearnerProfile>> GetAllLearnerProfile();
-        LearnerProfile GetLearnerprofileDetailsByLearnerprofileId(Guid ProfileId);
-        Task UpdateProfile(LearnerProfile learnerProfile);
-        Guid GetProfileId(Guid learnerId);
+    Task<List<LearnerProfile>> GetAllLearnerProfile();
+    LearnerProfile GetLearnerprofileDetailsByLearnerprofileId(Guid ProfileId);
+    Task UpdateProfile(LearnerProfile learnerProfile);
+    Guid GetProfileId(Guid learnerId);
 
-        Task<LearnerProfile> GetProfileByLearnerId(Guid learnerId);
-    }
+    Task<LearnerProfile> GetProfileByLearnerId(Guid learnerId);
 }

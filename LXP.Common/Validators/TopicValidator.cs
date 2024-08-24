@@ -5,17 +5,17 @@ public class CourseTopicViewModelValidator : AbstractValidator<CourseTopicViewMo
 {
     public CourseTopicViewModelValidator()
     {
-        RuleFor(courseTopic => courseTopic.CourseId)
+        this.RuleFor(courseTopic => courseTopic.CourseId)
             .NotEmpty()
             .WithMessage("Course ID is required");
 
-        RuleFor(courseTopic => courseTopic.Name).NotEmpty().WithMessage("Name is required");
+        this.RuleFor(courseTopic => courseTopic.Name).NotEmpty().WithMessage("Name is required");
 
-        RuleFor(courseTopic => courseTopic.Description)
+        this.RuleFor(courseTopic => courseTopic.Description)
             .NotEmpty()
             .WithMessage("Description is required");
 
-        RuleFor(courseTopic => courseTopic.CreatedBy)
+        this.RuleFor(courseTopic => courseTopic.CreatedBy)
             .NotEmpty()
             .WithMessage("Created By is required");
     }

@@ -1,9 +1,8 @@
-﻿using LXP.Common.ViewModels;
+namespace LXP.Core.IServices;
 
-namespace LXP.Core.IServices
+using LXP.Common.ViewModels;
+
+public interface ILearnerDashboardService
 {
-    public interface ILearnerDashboardService
-    {
-        public LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid learnerId);
-    }
+    public LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid learnerId);
 }
