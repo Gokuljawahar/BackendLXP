@@ -18,6 +18,11 @@ Before you begin, ensure you have met the following requirements:
 git clone https://github.com/Gokuljawahar/BackendLXP.git
 ```
 
+#### Navigate to the project Directory
+```bash
+cd BackendLXP
+```
+
 #### Build the Project
 Navigate to the project directory and build the project:
 ```bash
