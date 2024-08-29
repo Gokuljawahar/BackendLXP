@@ -31,7 +31,7 @@ dotnet build
 
 #### Navigate to the API Directory
 ```bash
-cd LXP.Api
+cd LXP.API
 ```
 
 #### Run the Application
