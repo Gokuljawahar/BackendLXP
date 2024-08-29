@@ -9,7 +9,7 @@ Relevantz.LXP is a Learning Experience Platform (LXP) designed to enhance the le
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
 - **.NET SDK**: Make sure you have the .NET SDK installed. You can download it from [here](https://dotnet.microsoft.com/download).
-- **Git**: Ensure Git is installed on your machine. You can download it from [here](https://git-scm.com/downloads).
+
 
 ### Installation
 
