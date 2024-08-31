@@ -36,7 +36,7 @@ cd LXP.API
 
 #### Run the Application
 ```bash
-dotnet run
+dotnet watch
 ```
 
 ### Usage
