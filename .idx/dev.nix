@@ -22,7 +22,6 @@
     extensions = [
       "ms-dotnettools.vscode-dotnet-runtime"
       "muhammad-sammy.csharp"
-      "eamodio.gitlens"
       "k--kato.docomment"
     ];
 

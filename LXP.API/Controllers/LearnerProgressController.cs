@@ -35,43 +35,7 @@ public class LearnerProgressController(ILearnerProgressService Progress) : BaseC
             )
         );
 
-    //[HttpPost("/lxp/learner/learnerprogressStatus")]
-    //public async Task MaterialCompleted(Guid learnerId, Guid courseId)
-    //{
-    //    await _Progress.CalculateMaterialCompletionPercentageAsync(learnerId, courseId);
-    //}
-    //[HttpPost("/lxp/learner/learnerprogressWatchTime")]
-    //public async Task<IActionResult> MaterialWatchTime(Guid learnerId, Guid materialId, TimeOnly watchtime)
-    //{
-    //    var percentage = await _Progress.materialWatchTime(learnerId, materialId, watchtime);
-    //    return Ok(percentage);
-    //}
-
-    //[HttpPost("calculate-course-completion/{learnerId}")]
-    //public async Task<IActionResult> CalculateCourseCompletion(Guid learnerId)
-    //{
-    //    try
-    //    {
-    //        await _Progress.CalculateAndUpdateCourseCompletionAsync(learnerId);
-    //        return Ok(
-    //            new
-    //            {
-    //                Message = "Course completion percentage calculated and updated successfully."
-    //            }
-    //        );
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return StatusCode(
-    //            500,
-    //            new
-    //            {
-    //                Message = "An error occurred while calculating the course completion.",
-    //                Details = ex.Message
-    //            }
-    //        );
-    //    }
-    //}
+    
 
 
     [HttpGet("course-completion-percentage/{learnerId}/{enrollmentId}")]
@@ -117,6 +81,49 @@ public class LearnerProgressController(ILearnerProgressService Progress) : BaseC
         return this.Ok(progress);
     }
 
+    
+}
+
+
+//[HttpPost("/lxp/learner/learnerprogressStatus")]
+    //public async Task MaterialCompleted(Guid learnerId, Guid courseId)
+    //{
+    //    await _Progress.CalculateMaterialCompletionPercentageAsync(learnerId, courseId);
+    //}
+    //[HttpPost("/lxp/learner/learnerprogressWatchTime")]
+    //public async Task<IActionResult> MaterialWatchTime(Guid learnerId, Guid materialId, TimeOnly watchtime)
+    //{
+    //    var percentage = await _Progress.materialWatchTime(learnerId, materialId, watchtime);
+    //    return Ok(percentage);
+    //}
+
+    //[HttpPost("calculate-course-completion/{learnerId}")]
+    //public async Task<IActionResult> CalculateCourseCompletion(Guid learnerId)
+    //{
+    //    try
+    //    {
+    //        await _Progress.CalculateAndUpdateCourseCompletionAsync(learnerId);
+    //        return Ok(
+    //            new
+    //            {
+    //                Message = "Course completion percentage calculated and updated successfully."
+    //            }
+    //        );
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return StatusCode(
+    //            500,
+    //            new
+    //            {
+    //                Message = "An error occurred while calculating the course completion.",
+    //                Details = ex.Message
+    //            }
+    //        );
+    //    }
+    //}
+
+
     //[HttpGet("combined-progress")]
     //public async Task<IActionResult> GetCombinedProgress(Guid learnerId, Guid enrollmentId, Guid materialId)
     //{
@@ -137,4 +144,3 @@ public class LearnerProgressController(ILearnerProgressService Progress) : BaseC
     //        return BadRequest(ex.Message);
     //    }
     //}
-}

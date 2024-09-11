@@ -23,7 +23,10 @@ public class LoginController(ILoginService services) : ControllerBase
         return this.Ok(data);
     }
 
-    //[HttpPost]
+}
+
+
+//[HttpPost]
     //public async Task<ActionResult> GetLearnerId([FromBody] EmailViewModel emailViewModel)
     //{
 
@@ -31,4 +34,3 @@ public class LoginController(ILoginService services) : ControllerBase
     //    return Ok(new { userId = Learnerid });
 
     //}
-}

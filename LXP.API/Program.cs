@@ -29,7 +29,6 @@ public class Program
                 policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyMethod()
             )
         );
-
         #endregion
 
         builder.Services.AddScoped<ILoginService, LoginService>();
@@ -206,7 +205,5 @@ public class Program
         app.UseAuthorization();
         app.MapControllers();
         app.Run();
-
     }
-
 }
