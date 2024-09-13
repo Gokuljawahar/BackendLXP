@@ -9,7 +9,8 @@
     pkgs.dotnet-runtime_8
     pkgs.dotnet-aspnetcore_8
     pkgs.csharpier 
-    pkgs.nginx # Add nginx for reverse proxy
+    pkgs.nginx 
+    pkgs.nuget
   ];
 
   # Sets environment variables in the workspace
@@ -23,6 +24,7 @@
       "ms-dotnettools.vscode-dotnet-runtime"
       "muhammad-sammy.csharp"
       "k--kato.docomment"
+      "editorconfig.editorconfig"
     ];
 
     # Enable previews
