@@ -1,0 +1,18 @@
+---
+sidebar_label: Profilephoto
+---
+
+# RecentFeedbackViewModel\.Profilephoto Property
+
+**Containing Type**: [RecentFeedbackViewModel](../index.md)
+
+**Assembly**: LXP\.Common\.dll
+
+```csharp
+public string? Profilephoto { get; set; }
+```
+
+### Property Value
+
+[String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
+
