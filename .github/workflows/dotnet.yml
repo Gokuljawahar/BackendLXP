@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run : cd LXP.API && dotnet restore
     - name: Build
-      run: cd LXP.API && dotnet build --no-restore
+      run: cd src/LXP.API && dotnet build --no-restore
     - name: Test
-      run: cd LXP.API && dotnet test --no-build --verbosity normal
+      run: cd src/LXP.API && dotnet test --no-build --verbosity normal
