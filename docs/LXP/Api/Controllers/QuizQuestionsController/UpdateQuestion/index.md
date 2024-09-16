@@ -13,7 +13,7 @@ Update an existing quiz question\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("UpdateQuestion")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UpdateQuestion(Guid quizQuestionId, QuizQuestionViewModel quizQuestion)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UpdateQuestion(Guid quizQuestionId, LXP.Common.ViewModels.QuizQuestionViewModel.QuizQuestionViewModel quizQuestion)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Updat
 
 The ID of the quiz question to update\.
 
-**quizQuestion** &ensp; QuizQuestionViewModel
+**quizQuestion** &ensp; [QuizQuestionViewModel](../../../../Common/ViewModels/QuizQuestionViewModel/QuizQuestionViewModel/index.md)
 
 The updated details of the quiz question\.
 

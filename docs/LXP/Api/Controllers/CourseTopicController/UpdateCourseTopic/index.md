@@ -10,12 +10,12 @@ sidebar_label: UpdateCourseTopic
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("/lxp/course/topic")]
-public Microsoft.AspNetCore.Mvc.IActionResult UpdateCourseTopic(CourseTopicUpdateModel courseTopic)
+public Microsoft.AspNetCore.Mvc.IActionResult UpdateCourseTopic(LXP.Common.ViewModels.CourseTopicUpdateModel courseTopic)
 ```
 
 ### Parameters
 
-**courseTopic** &ensp; CourseTopicUpdateModel
+**courseTopic** &ensp; [CourseTopicUpdateModel](../../../../Common/ViewModels/CourseTopicUpdateModel/index.md)
 
 ### Returns
 

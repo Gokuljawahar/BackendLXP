@@ -9,12 +9,12 @@ sidebar_label: GetHighestEnrolledCourse
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.IEnumerable<HighestEnrolledCourseViewModel> GetHighestEnrolledCourse()
+public System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.HighestEnrolledCourseViewModel> GetHighestEnrolledCourse()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;HighestEnrolledCourseViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[HighestEnrolledCourseViewModel](../../../../Common/ViewModels/HighestEnrolledCourseViewModel/index.md)&gt;
 
 ### Implements
 

@@ -9,7 +9,7 @@ sidebar_label: LearnerGetLearnerById
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<LearnerAndProfileViewModel> LearnerGetLearnerById(string id)
+public System.Threading.Tasks.Task<LXP.Common.ViewModels.LearnerAndProfileViewModel> LearnerGetLearnerById(string id)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Threading.Tasks.Task<LearnerAndProfileViewModel> LearnerGetLearner
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;LearnerAndProfileViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[LearnerAndProfileViewModel](../../../../Common/ViewModels/LearnerAndProfileViewModel/index.md)&gt;
 
 ### Implements
 

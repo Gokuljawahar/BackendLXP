@@ -9,10 +9,10 @@ sidebar_label: GetAllFeedbackQuestions
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.List<CourseFeedbackQuestionNoViewModel> GetAllFeedbackQuestions()
+System.Collections.Generic.List<LXP.Common.ViewModels.CourseFeedbackQuestionViewModel.CourseFeedbackQuestionNoViewModel> GetAllFeedbackQuestions()
 ```
 
 ### Returns
 
-[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;CourseFeedbackQuestionNoViewModel&gt;
+[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[CourseFeedbackQuestionNoViewModel](../../../../Common/ViewModels/CourseFeedbackQuestionViewModel/CourseFeedbackQuestionNoViewModel/index.md)&gt;
 

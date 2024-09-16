@@ -9,14 +9,14 @@ sidebar_label: AddFeedbackQuestion
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public Guid AddFeedbackQuestion(CourseFeedbackQuestionViewModel courseFeedbackQuestion, System.Collections.Generic.List<CourseFeedbackQuestionsOptionViewModel> options)
+public Guid AddFeedbackQuestion(LXP.Common.ViewModels.CourseFeedbackQuestionViewModel.CourseFeedbackQuestionViewModel courseFeedbackQuestion, System.Collections.Generic.List<LXP.Common.ViewModels.CourseFeedbackQuestionViewModel.CourseFeedbackQuestionsOptionViewModel> options)
 ```
 
 ### Parameters
 
-**courseFeedbackQuestion** &ensp; CourseFeedbackQuestionViewModel
+**courseFeedbackQuestion** &ensp; [CourseFeedbackQuestionViewModel](../../../../Common/ViewModels/CourseFeedbackQuestionViewModel/CourseFeedbackQuestionViewModel/index.md)
 
-**options** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;CourseFeedbackQuestionsOptionViewModel&gt;
+**options** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[CourseFeedbackQuestionsOptionViewModel](../../../../Common/ViewModels/CourseFeedbackQuestionViewModel/CourseFeedbackQuestionsOptionViewModel/index.md)&gt;
 
 ### Returns
 

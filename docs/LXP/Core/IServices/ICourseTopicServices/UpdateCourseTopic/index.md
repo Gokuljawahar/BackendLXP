@@ -9,12 +9,12 @@ sidebar_label: UpdateCourseTopic
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-bool UpdateCourseTopic(CourseTopicUpdateModel courseTopic)
+bool UpdateCourseTopic(LXP.Common.ViewModels.CourseTopicUpdateModel courseTopic)
 ```
 
 ### Parameters
 
-**courseTopic** &ensp; CourseTopicUpdateModel
+**courseTopic** &ensp; [CourseTopicUpdateModel](../../../../Common/ViewModels/CourseTopicUpdateModel/index.md)
 
 ### Returns
 

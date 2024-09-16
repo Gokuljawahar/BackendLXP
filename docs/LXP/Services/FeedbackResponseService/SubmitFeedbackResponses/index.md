@@ -12,52 +12,52 @@ sidebar_label: SubmitFeedbackResponses
 
 | Method | Summary |
 | ------ | ------- |
-| [SubmitFeedbackResponses(IEnumerable&lt;CourseFeedbackResponseViewModel&gt;)](#550089235) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#1071631695)\) |
-| [SubmitFeedbackResponses(IEnumerable&lt;QuizFeedbackResponseViewModel&gt;)](#1130218861) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#458036045)\) |
-| [SubmitFeedbackResponses(IEnumerable&lt;TopicFeedbackResponseViewModel&gt;)](#657249359) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#2497199244)\) |
+| [SubmitFeedbackResponses(IEnumerable&lt;CourseFeedbackResponseViewModel&gt;)](#342017887) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#2120841731)\) |
+| [SubmitFeedbackResponses(IEnumerable&lt;QuizFeedbackResponseViewModel&gt;)](#3332419950) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#3814657046)\) |
+| [SubmitFeedbackResponses(IEnumerable&lt;TopicFeedbackResponseViewModel&gt;)](#1469382835) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#816830447)\) |
 
-<a id="550089235"></a>
+<a id="342017887"></a>
 
 ## SubmitFeedbackResponses\(IEnumerable&lt;CourseFeedbackResponseViewModel&gt;\) 
 
 ```csharp
-public void SubmitFeedbackResponses(System.Collections.Generic.IEnumerable<CourseFeedbackResponseViewModel> feedbackResponses)
+public void SubmitFeedbackResponses(System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.FeedbackResponseViewModel.CourseFeedbackResponseViewModel> feedbackResponses)
 ```
 
 ### Parameters
 
-**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;CourseFeedbackResponseViewModel&gt;
+**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[CourseFeedbackResponseViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/CourseFeedbackResponseViewModel/index.md)&gt;
 
 ### Implements
 
-* [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#1071631695)
-<a id="1130218861"></a>
+* [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#2120841731)
+<a id="3332419950"></a>
 
 ## SubmitFeedbackResponses\(IEnumerable&lt;QuizFeedbackResponseViewModel&gt;\) 
 
 ```csharp
-public void SubmitFeedbackResponses(System.Collections.Generic.IEnumerable<QuizFeedbackResponseViewModel> feedbackResponses)
+public void SubmitFeedbackResponses(System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.FeedbackResponseViewModel.QuizFeedbackResponseViewModel> feedbackResponses)
 ```
 
 ### Parameters
 
-**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizFeedbackResponseViewModel&gt;
+**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizFeedbackResponseViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/QuizFeedbackResponseViewModel/index.md)&gt;
 
 ### Implements
 
-* [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#458036045)
-<a id="657249359"></a>
+* [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#3814657046)
+<a id="1469382835"></a>
 
 ## SubmitFeedbackResponses\(IEnumerable&lt;TopicFeedbackResponseViewModel&gt;\) 
 
 ```csharp
-public void SubmitFeedbackResponses(System.Collections.Generic.IEnumerable<TopicFeedbackResponseViewModel> feedbackResponses)
+public void SubmitFeedbackResponses(System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.FeedbackResponseViewModel.TopicFeedbackResponseViewModel> feedbackResponses)
 ```
 
 ### Parameters
 
-**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;TopicFeedbackResponseViewModel&gt;
+**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[TopicFeedbackResponseViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/TopicFeedbackResponseViewModel/index.md)&gt;
 
 ### Implements
 
-* [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#2497199244)
+* [IFeedbackResponseService.SubmitFeedbackResponses](../../IServices/IFeedbackResponseService/SubmitFeedbackResponses/index.md#816830447)

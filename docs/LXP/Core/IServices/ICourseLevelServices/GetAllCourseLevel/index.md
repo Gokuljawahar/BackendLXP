@@ -9,7 +9,7 @@ sidebar_label: GetAllCourseLevel
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<System.Collections.Generic.List<CourseLevelListViewModel>> GetAllCourseLevel(string CreatedBy)
+System.Threading.Tasks.Task<System.Collections.Generic.List<LXP.Common.ViewModels.CourseLevelListViewModel>> GetAllCourseLevel(string CreatedBy)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Threading.Tasks.Task<System.Collections.Generic.List<CourseLevelListViewM
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;CourseLevelListViewModel&gt;&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[CourseLevelListViewModel](../../../../Common/ViewModels/CourseLevelListViewModel/index.md)&gt;&gt;
 

@@ -9,10 +9,10 @@ sidebar_label: GetAdminDashboardDetails
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-AdminDashboardViewModel GetAdminDashboardDetails()
+LXP.Common.ViewModels.AdminDashboardViewModel GetAdminDashboardDetails()
 ```
 
 ### Returns
 
-AdminDashboardViewModel
+[AdminDashboardViewModel](../../../../Common/ViewModels/AdminDashboardViewModel/index.md)
 

@@ -9,10 +9,10 @@ sidebar_label: Courses
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.Course> Courses { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.Course> Courses { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[Course](../../Course/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[Course](../../Course/index.md)&gt;
 

@@ -13,12 +13,12 @@ Adds new topic feedback responses\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("AddTopicFeedbackResponses")]
-public Microsoft.AspNetCore.Mvc.IActionResult AddTopicFeedbackResponses(System.Collections.Generic.IEnumerable<TopicFeedbackResponseViewModel> feedbackResponses)
+public Microsoft.AspNetCore.Mvc.IActionResult AddTopicFeedbackResponses(System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.FeedbackResponseViewModel.TopicFeedbackResponseViewModel> feedbackResponses)
 ```
 
 ### Parameters
 
-**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;TopicFeedbackResponseViewModel&gt;
+**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[TopicFeedbackResponseViewModel](../../../../Common/ViewModels/FeedbackResponseViewModel/TopicFeedbackResponseViewModel/index.md)&gt;
 
 The list of topic feedback response models\.
 

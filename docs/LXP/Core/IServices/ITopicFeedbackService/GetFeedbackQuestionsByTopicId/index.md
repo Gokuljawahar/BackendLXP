@@ -9,7 +9,7 @@ sidebar_label: GetFeedbackQuestionsByTopicId
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.List<TopicFeedbackQuestionNoViewModel> GetFeedbackQuestionsByTopicId(Guid topicId)
+System.Collections.Generic.List<LXP.Common.ViewModels.TopicFeedbackQuestionViewModel.TopicFeedbackQuestionNoViewModel> GetFeedbackQuestionsByTopicId(Guid topicId)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Collections.Generic.List<TopicFeedbackQuestionNoViewModel> GetFeedbackQue
 
 ### Returns
 
-[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;TopicFeedbackQuestionNoViewModel&gt;
+[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[TopicFeedbackQuestionNoViewModel](../../../../Common/ViewModels/TopicFeedbackQuestionViewModel/TopicFeedbackQuestionNoViewModel/index.md)&gt;
 

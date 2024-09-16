@@ -9,7 +9,7 @@ sidebar_label: GetTopicDetailsByTopicNameAndCourseId
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<CourseTopicListViewModel> GetTopicDetailsByTopicNameAndCourseId(string topicName, string courseId)
+public System.Threading.Tasks.Task<LXP.Common.ViewModels.CourseTopicListViewModel> GetTopicDetailsByTopicNameAndCourseId(string topicName, string courseId)
 ```
 
 ### Parameters
@@ -20,7 +20,7 @@ public System.Threading.Tasks.Task<CourseTopicListViewModel> GetTopicDetailsByTo
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;CourseTopicListViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[CourseTopicListViewModel](../../../../Common/ViewModels/CourseTopicListViewModel/index.md)&gt;
 
 ### Implements
 

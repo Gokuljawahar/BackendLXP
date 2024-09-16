@@ -13,12 +13,12 @@ Add a new quiz question\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("AddQuestion")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddQuestion(QuizQuestionViewModel quizQuestion)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddQuestion(LXP.Common.ViewModels.QuizQuestionViewModel.QuizQuestionViewModel quizQuestion)
 ```
 
 ### Parameters
 
-**quizQuestion** &ensp; QuizQuestionViewModel
+**quizQuestion** &ensp; [QuizQuestionViewModel](../../../../Common/ViewModels/QuizQuestionViewModel/QuizQuestionViewModel/index.md)
 
 The details of the quiz question to add\.
 

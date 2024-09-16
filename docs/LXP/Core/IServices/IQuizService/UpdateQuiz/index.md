@@ -9,9 +9,9 @@ sidebar_label: UpdateQuiz
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-void UpdateQuiz(QuizViewModel quiz)
+void UpdateQuiz(LXP.Common.ViewModels.QuizViewModel.QuizViewModel quiz)
 ```
 
 ### Parameters
 
-**quiz** &ensp; QuizViewModel
+**quiz** &ensp; [QuizViewModel](../../../../Common/ViewModels/QuizViewModel/QuizViewModel/index.md)

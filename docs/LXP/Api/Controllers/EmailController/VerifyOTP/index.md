@@ -13,12 +13,12 @@ Validating the OTP
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("VerifyOTP")]
-public Microsoft.AspNetCore.Mvc.IActionResult VerifyOTP(OTPVerificationViewModel otpverify)
+public Microsoft.AspNetCore.Mvc.IActionResult VerifyOTP(LXP.Common.ViewModels.OTPVerificationViewModel otpverify)
 ```
 
 ### Parameters
 
-**otpverify** &ensp; OTPVerificationViewModel
+**otpverify** &ensp; [OTPVerificationViewModel](../../../../Common/ViewModels/OTPVerificationViewModel/index.md)
 
 ### Returns
 

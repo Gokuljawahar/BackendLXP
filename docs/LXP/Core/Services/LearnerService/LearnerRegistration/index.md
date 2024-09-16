@@ -9,12 +9,12 @@ sidebar_label: LearnerRegistration
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<bool> LearnerRegistration(RegisterUserViewModel registerUserViewModel)
+public System.Threading.Tasks.Task<bool> LearnerRegistration(LXP.Common.ViewModels.RegisterUserViewModel registerUserViewModel)
 ```
 
 ### Parameters
 
-**registerUserViewModel** &ensp; RegisterUserViewModel
+**registerUserViewModel** &ensp; [RegisterUserViewModel](../../../../Common/ViewModels/RegisterUserViewModel/index.md)
 
 ### Returns
 

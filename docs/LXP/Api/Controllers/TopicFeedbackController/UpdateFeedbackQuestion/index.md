@@ -13,7 +13,7 @@ sidebar_label: UpdateFeedbackQuestion
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("{topicFeedbackQuestionId}")]
-public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid topicFeedbackQuestionId, TopicFeedbackQuestionViewModel question)
+public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid topicFeedbackQuestionId, LXP.Common.ViewModels.TopicFeedbackQuestionViewModel.TopicFeedbackQuestionViewModel question)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid topicF
 
 The ID of the feedback question to update\.
 
-**question** &ensp; TopicFeedbackQuestionViewModel
+**question** &ensp; [TopicFeedbackQuestionViewModel](../../../../Common/ViewModels/TopicFeedbackQuestionViewModel/TopicFeedbackQuestionViewModel/index.md)
 
 The updated feedback question\.
 

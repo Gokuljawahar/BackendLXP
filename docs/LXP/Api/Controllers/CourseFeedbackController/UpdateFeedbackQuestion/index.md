@@ -10,14 +10,14 @@ sidebar_label: UpdateFeedbackQuestion
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("{courseFeedbackQuestionId}")]
-public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid courseFeedbackQuestionId, CourseFeedbackQuestionViewModel question)
+public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid courseFeedbackQuestionId, LXP.Common.ViewModels.CourseFeedbackQuestionViewModel.CourseFeedbackQuestionViewModel question)
 ```
 
 ### Parameters
 
 **courseFeedbackQuestionId** &ensp; [Guid](https://docs.microsoft.com/en-us/dotnet/api/system.guid)
 
-**question** &ensp; CourseFeedbackQuestionViewModel
+**question** &ensp; [CourseFeedbackQuestionViewModel](../../../../Common/ViewModels/CourseFeedbackQuestionViewModel/CourseFeedbackQuestionViewModel/index.md)
 
 ### Returns
 

@@ -9,7 +9,7 @@ sidebar_label: GetEnrolledCompletedLearnerbyCourseId
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<EnrollmentReportViewModel> GetEnrolledCompletedLearnerbyCourseId(Guid courseId)
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.EnrollmentReportViewModel> GetEnrolledCompletedLearnerbyCourseId(Guid courseId)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Collections.Generic.IEnumerable<EnrollmentReportViewModel> GetEnrolledCom
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;EnrollmentReportViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[EnrollmentReportViewModel](../../../../Common/ViewModels/EnrollmentReportViewModel/index.md)&gt;
 

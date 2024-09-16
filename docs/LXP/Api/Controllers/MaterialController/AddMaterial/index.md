@@ -10,12 +10,12 @@ sidebar_label: AddMaterial
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/course/material")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddMaterial(MaterialViewModel material)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddMaterial(LXP.Common.ViewModels.MaterialViewModel material)
 ```
 
 ### Parameters
 
-**material** &ensp; MaterialViewModel
+**material** &ensp; [MaterialViewModel](../../../../Common/ViewModels/MaterialViewModel/index.md)
 
 ### Returns
 

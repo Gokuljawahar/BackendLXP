@@ -9,7 +9,7 @@ sidebar_label: GetLearnerQuizAttemptResultAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<LearnerQuizAttemptResultViewModel> GetLearnerQuizAttemptResultAsync(Guid attemptId)
+public System.Threading.Tasks.Task<LXP.Common.ViewModels.QuizEngineViewModel.LearnerQuizAttemptResultViewModel> GetLearnerQuizAttemptResultAsync(Guid attemptId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Threading.Tasks.Task<LearnerQuizAttemptResultViewModel> GetLearner
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;LearnerQuizAttemptResultViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[LearnerQuizAttemptResultViewModel](../../../../Common/ViewModels/QuizEngineViewModel/LearnerQuizAttemptResultViewModel/index.md)&gt;
 
 ### Implements
 

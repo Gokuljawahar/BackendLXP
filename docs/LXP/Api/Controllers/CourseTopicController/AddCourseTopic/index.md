@@ -10,12 +10,12 @@ sidebar_label: AddCourseTopic
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/course/topic")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddCourseTopic(CourseTopicViewModel courseTopic)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> AddCourseTopic(LXP.Common.ViewModels.CourseTopicViewModel courseTopic)
 ```
 
 ### Parameters
 
-**courseTopic** &ensp; CourseTopicViewModel
+**courseTopic** &ensp; [CourseTopicViewModel](../../../../Common/ViewModels/CourseTopicViewModel/index.md)
 
 ### Returns
 

@@ -9,7 +9,7 @@ sidebar_label: CheckLearnerPassStatusAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<LearnerPassStatusViewModel> CheckLearnerPassStatusAsync(Guid learnerAttemptId)
+public System.Threading.Tasks.Task<LXP.Common.ViewModels.QuizEngineViewModel.LearnerPassStatusViewModel> CheckLearnerPassStatusAsync(Guid learnerAttemptId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Threading.Tasks.Task<LearnerPassStatusViewModel> CheckLearnerPassS
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;LearnerPassStatusViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[LearnerPassStatusViewModel](../../../../Common/ViewModels/QuizEngineViewModel/LearnerPassStatusViewModel/index.md)&gt;
 
 ### Implements
 

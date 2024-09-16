@@ -9,12 +9,12 @@ sidebar_label: BeginTransaction
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public IDbContextTransaction BeginTransaction()
+public Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction BeginTransaction()
 ```
 
 ### Returns
 
-IDbContextTransaction
+[IDbContextTransaction](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.storage.idbcontexttransaction)
 
 ### Implements
 

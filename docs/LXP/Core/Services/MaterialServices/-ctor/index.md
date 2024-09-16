@@ -9,7 +9,7 @@ sidebar_label: MaterialServices
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public MaterialServices(LXP.Data.IRepository.IMaterialTypeRepository materialTypeRepository, LXP.Data.IRepository.IMaterialRepository materialRepository, LXP.Data.IRepository.ICourseTopicRepository courseTopicRepository, IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
+public MaterialServices(LXP.Data.IRepository.IMaterialTypeRepository materialTypeRepository, LXP.Data.IRepository.IMaterialRepository materialRepository, LXP.Data.IRepository.ICourseTopicRepository courseTopicRepository, Microsoft.AspNetCore.Hosting.IWebHostEnvironment environment, Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor)
 ```
 
 ### Parameters
@@ -20,6 +20,6 @@ public MaterialServices(LXP.Data.IRepository.IMaterialTypeRepository materialTyp
 
 **courseTopicRepository** &ensp; [ICourseTopicRepository](../../../../Data/IRepository/ICourseTopicRepository/index.md)
 
-**environment** &ensp; IWebHostEnvironment
+**environment** &ensp; [IWebHostEnvironment](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment)
 
-**httpContextAccessor** &ensp; IHttpContextAccessor
+**httpContextAccessor** &ensp; [IHttpContextAccessor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor)

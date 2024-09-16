@@ -10,12 +10,12 @@ sidebar_label: ForgetPassword
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> ForgetPassword(RandomPasswordEmail randompassword)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> ForgetPassword(LXP.Common.ViewModels.RandomPasswordEmail randompassword)
 ```
 
 ### Parameters
 
-**randompassword** &ensp; RandomPasswordEmail
+**randompassword** &ensp; [RandomPasswordEmail](../../../../Common/ViewModels/RandomPasswordEmail/index.md)
 
 ### Returns
 

@@ -9,9 +9,9 @@ sidebar_label: EmailService
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public EmailService(IOptions<EmailSettings> emailSettings)
+public EmailService(Microsoft.Extensions.Options.IOptions<LXP.Common.ViewModels.EmailSettings> emailSettings)
 ```
 
 ### Parameters
 
-**emailSettings** &ensp; IOptions&lt;EmailSettings&gt;
+**emailSettings** &ensp; [IOptions](https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.options.ioptions-1)&lt;[EmailSettings](../../../../Common/ViewModels/EmailSettings/index.md)&gt;

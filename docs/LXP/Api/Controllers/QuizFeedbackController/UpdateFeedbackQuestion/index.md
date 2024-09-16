@@ -13,7 +13,7 @@ Update a feedback question
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("UpdateFeedbackQuestion/{quizFeedbackQuestionId}")]
-public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid quizFeedbackQuestionId, QuizfeedbackquestionViewModel quizfeedbackquestion)
+public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid quizFeedbackQuestionId, LXP.Common.ViewModels.QuizFeedbackQuestionViewModel.QuizfeedbackquestionViewModel quizfeedbackquestion)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public Microsoft.AspNetCore.Mvc.IActionResult UpdateFeedbackQuestion(Guid quizFe
 
 Feedback question ID
 
-**quizfeedbackquestion** &ensp; QuizfeedbackquestionViewModel
+**quizfeedbackquestion** &ensp; [QuizfeedbackquestionViewModel](../../../../Common/ViewModels/QuizFeedbackQuestionViewModel/QuizfeedbackquestionViewModel/index.md)
 
 Updated feedback question details
 

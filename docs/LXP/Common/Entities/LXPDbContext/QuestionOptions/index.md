@@ -9,10 +9,10 @@ sidebar_label: QuestionOptions
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.QuestionOption> QuestionOptions { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.QuestionOption> QuestionOptions { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[QuestionOption](../../QuestionOption/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[QuestionOption](../../QuestionOption/index.md)&gt;
 

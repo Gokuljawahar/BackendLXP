@@ -9,7 +9,7 @@ sidebar_label: GetLearnerProgressByLearnerIdAndMaterialId
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<LearnerProgress> GetLearnerProgressByLearnerIdAndMaterialId(string LearnerId, string MaterialId)
+System.Threading.Tasks.Task<LXP.Common.Entities.LearnerProgress> GetLearnerProgressByLearnerIdAndMaterialId(string LearnerId, string MaterialId)
 ```
 
 ### Parameters
@@ -20,5 +20,5 @@ System.Threading.Tasks.Task<LearnerProgress> GetLearnerProgressByLearnerIdAndMat
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;LearnerProgress&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[LearnerProgress](../../../../Common/Entities/LearnerProgress/index.md)&gt;
 

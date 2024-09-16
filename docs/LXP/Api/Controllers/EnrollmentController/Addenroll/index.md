@@ -10,12 +10,12 @@ sidebar_label: Addenroll
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/enroll")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Addenroll(EnrollmentViewModel enroll)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Addenroll(LXP.Common.ViewModels.EnrollmentViewModel enroll)
 ```
 
 ### Parameters
 
-**enroll** &ensp; EnrollmentViewModel
+**enroll** &ensp; [EnrollmentViewModel](../../../../Common/ViewModels/EnrollmentViewModel/index.md)
 
 ### Returns
 

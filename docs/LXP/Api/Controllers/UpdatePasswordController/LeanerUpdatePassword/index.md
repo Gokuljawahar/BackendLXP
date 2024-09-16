@@ -13,12 +13,12 @@ Update Password once user use the Forgot Password operation
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> LeanerUpdatePassword(UpdatePassword updatepassword)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> LeanerUpdatePassword(LXP.Common.ViewModels.UpdatePassword updatepassword)
 ```
 
 ### Parameters
 
-**updatepassword** &ensp; UpdatePassword
+**updatepassword** &ensp; [UpdatePassword](../../../../Common/ViewModels/UpdatePassword/index.md)
 
 ### Returns
 

@@ -13,12 +13,12 @@ sidebar_label: UpdateMaterial
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("/lxp/course/material")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UpdateMaterial(MaterialUpdateViewModel material)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UpdateMaterial(LXP.Common.ViewModels.MaterialUpdateViewModel material)
 ```
 
 ### Parameters
 
-**material** &ensp; MaterialUpdateViewModel
+**material** &ensp; [MaterialUpdateViewModel](../../../../Common/ViewModels/MaterialUpdateViewModel/index.md)
 
 ### Returns
 

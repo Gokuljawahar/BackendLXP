@@ -9,10 +9,10 @@ sidebar_label: TopicFeedbackQuestions
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.TopicFeedbackQuestion> TopicFeedbackQuestions { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.TopicFeedbackQuestion> TopicFeedbackQuestions { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[TopicFeedbackQuestion](../../TopicFeedbackQuestion/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[TopicFeedbackQuestion](../../TopicFeedbackQuestion/index.md)&gt;
 

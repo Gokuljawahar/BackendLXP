@@ -9,10 +9,10 @@ sidebar_label: PasswordHistories
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.PasswordHistory> PasswordHistories { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.PasswordHistory> PasswordHistories { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[PasswordHistory](../../PasswordHistory/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[PasswordHistory](../../PasswordHistory/index.md)&gt;
 

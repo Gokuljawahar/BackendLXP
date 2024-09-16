@@ -9,11 +9,11 @@ sidebar_label: CreateQuiz
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-void CreateQuiz(QuizViewModel quiz, Guid topicId)
+void CreateQuiz(LXP.Common.ViewModels.QuizViewModel.QuizViewModel quiz, Guid topicId)
 ```
 
 ### Parameters
 
-**quiz** &ensp; QuizViewModel
+**quiz** &ensp; [QuizViewModel](../../../../Common/ViewModels/QuizViewModel/QuizViewModel/index.md)
 
 **topicId** &ensp; [Guid](https://docs.microsoft.com/en-us/dotnet/api/system.guid)

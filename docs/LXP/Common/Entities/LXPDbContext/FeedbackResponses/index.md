@@ -9,10 +9,10 @@ sidebar_label: FeedbackResponses
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.FeedbackResponse> FeedbackResponses { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.FeedbackResponse> FeedbackResponses { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[FeedbackResponse](../../FeedbackResponse/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[FeedbackResponse](../../FeedbackResponse/index.md)&gt;
 

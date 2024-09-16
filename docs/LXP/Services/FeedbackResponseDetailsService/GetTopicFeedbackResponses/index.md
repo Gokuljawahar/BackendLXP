@@ -9,7 +9,7 @@ sidebar_label: GetTopicFeedbackResponses
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.List<TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponses(Guid topicId)
+public System.Collections.Generic.List<LXP.Common.ViewModels.FeedbackResponseViewModel.TopicFeedbackResponseDetailsViewModel> GetTopicFeedbackResponses(Guid topicId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Collections.Generic.List<TopicFeedbackResponseDetailsViewModel> Ge
 
 ### Returns
 
-[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;TopicFeedbackResponseDetailsViewModel&gt;
+[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[TopicFeedbackResponseDetailsViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/TopicFeedbackResponseDetailsViewModel/index.md)&gt;
 
 ### Implements
 

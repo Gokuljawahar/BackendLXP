@@ -9,7 +9,7 @@ sidebar_label: GetPassdLearnersList
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.IEnumerable<QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid)
+public System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.QuizScorelearnerViewModel> GetPassdLearnersList(Guid Quizid)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Collections.Generic.IEnumerable<QuizScorelearnerViewModel> GetPass
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizScorelearnerViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizScorelearnerViewModel](../../../../Common/ViewModels/QuizScorelearnerViewModel/index.md)&gt;
 
 ### Implements
 

@@ -9,10 +9,10 @@ sidebar_label: LearnerAnswers
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.LearnerAnswer> LearnerAnswers { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.LearnerAnswer> LearnerAnswers { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[LearnerAnswer](../../LearnerAnswer/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[LearnerAnswer](../../LearnerAnswer/index.md)&gt;
 

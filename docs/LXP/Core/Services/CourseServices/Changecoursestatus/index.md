@@ -9,12 +9,12 @@ sidebar_label: Changecoursestatus
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<bool> Changecoursestatus(Coursestatus status)
+public System.Threading.Tasks.Task<bool> Changecoursestatus(LXP.Common.ViewModels.Coursestatus status)
 ```
 
 ### Parameters
 
-**status** &ensp; Coursestatus
+**status** &ensp; [Coursestatus](../../../../Common/ViewModels/Coursestatus/index.md)
 
 ### Returns
 

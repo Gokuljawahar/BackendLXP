@@ -9,7 +9,7 @@ sidebar_label: GetCourseByCourseId
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public Course GetCourseByCourseId(Guid courseId)
+public LXP.Common.Entities.Course GetCourseByCourseId(Guid courseId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public Course GetCourseByCourseId(Guid courseId)
 
 ### Returns
 
-Course
+[Course](../../../../Common/Entities/Course/index.md)
 
 ### Implements
 

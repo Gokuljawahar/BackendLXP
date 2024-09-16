@@ -9,12 +9,12 @@ sidebar_label: LearnerProgress
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<bool> LearnerProgress(ProgressViewModel learnerProgress)
+public System.Threading.Tasks.Task<bool> LearnerProgress(LXP.Common.ViewModels.ProgressViewModel learnerProgress)
 ```
 
 ### Parameters
 
-**learnerProgress** &ensp; ProgressViewModel
+**learnerProgress** &ensp; [ProgressViewModel](../../../../Common/ViewModels/ProgressViewModel/index.md)
 
 ### Returns
 

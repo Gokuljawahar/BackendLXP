@@ -9,7 +9,7 @@ sidebar_label: Conversion
 **Assembly**: LXP\.Common\.dll
 
 ```csharp
-public static string Conversion(string materialType, string FilePath, IWebHostEnvironment environment, IHttpContextAccessor contextAccessor)
+public static string Conversion(string materialType, string FilePath, Microsoft.AspNetCore.Hosting.IWebHostEnvironment environment, Microsoft.AspNetCore.Http.IHttpContextAccessor contextAccessor)
 ```
 
 ### Parameters
@@ -18,9 +18,9 @@ public static string Conversion(string materialType, string FilePath, IWebHostEn
 
 **FilePath** &ensp; [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
 
-**environment** &ensp; IWebHostEnvironment
+**environment** &ensp; [IWebHostEnvironment](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment)
 
-**contextAccessor** &ensp; IHttpContextAccessor
+**contextAccessor** &ensp; [IHttpContextAccessor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor)
 
 ### Returns
 

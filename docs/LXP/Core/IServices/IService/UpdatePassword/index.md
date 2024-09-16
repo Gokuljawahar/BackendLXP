@@ -9,12 +9,12 @@ sidebar_label: UpdatePassword
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<bool> UpdatePassword(UpdatePassword updatePassword)
+System.Threading.Tasks.Task<bool> UpdatePassword(LXP.Common.ViewModels.UpdatePassword updatePassword)
 ```
 
 ### Parameters
 
-**updatePassword** &ensp; UpdatePassword
+**updatePassword** &ensp; [UpdatePassword](../../../../Common/ViewModels/UpdatePassword/index.md)
 
 ### Returns
 

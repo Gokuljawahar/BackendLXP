@@ -9,12 +9,12 @@ sidebar_label: Addenroll
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<bool> Addenroll(EnrollmentViewModel enrollment)
+System.Threading.Tasks.Task<bool> Addenroll(LXP.Common.ViewModels.EnrollmentViewModel enrollment)
 ```
 
 ### Parameters
 
-**enrollment** &ensp; EnrollmentViewModel
+**enrollment** &ensp; [EnrollmentViewModel](../../../../Common/ViewModels/EnrollmentViewModel/index.md)
 
 ### Returns
 

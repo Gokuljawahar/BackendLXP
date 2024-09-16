@@ -13,7 +13,7 @@ Updates an existing quiz\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("{quizId}")]
-public Microsoft.AspNetCore.Mvc.IActionResult UpdateQuiz(Guid quizId, UpdateQuizViewModel request)
+public Microsoft.AspNetCore.Mvc.IActionResult UpdateQuiz(Guid quizId, LXP.Common.ViewModels.QuizViewModel.UpdateQuizViewModel request)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public Microsoft.AspNetCore.Mvc.IActionResult UpdateQuiz(Guid quizId, UpdateQuiz
 
 The unique identifier of the quiz to update\.
 
-**request** &ensp; UpdateQuizViewModel
+**request** &ensp; [UpdateQuizViewModel](../../../../Common/ViewModels/QuizViewModel/UpdateQuizViewModel/index.md)
 
 Data representing the updated quiz properties, provided in the request body\.
 

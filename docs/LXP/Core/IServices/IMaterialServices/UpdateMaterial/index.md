@@ -9,12 +9,12 @@ sidebar_label: UpdateMaterial
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<bool> UpdateMaterial(MaterialUpdateViewModel material)
+System.Threading.Tasks.Task<bool> UpdateMaterial(LXP.Common.ViewModels.MaterialUpdateViewModel material)
 ```
 
 ### Parameters
 
-**material** &ensp; MaterialUpdateViewModel
+**material** &ensp; [MaterialUpdateViewModel](../../../../Common/ViewModels/MaterialUpdateViewModel/index.md)
 
 ### Returns
 

@@ -13,12 +13,12 @@ Adds new quiz feedback responses\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("AddQuizFeedbackResponses")]
-public Microsoft.AspNetCore.Mvc.IActionResult AddQuizFeedbackResponses(System.Collections.Generic.IEnumerable<QuizFeedbackResponseViewModel> feedbackResponses)
+public Microsoft.AspNetCore.Mvc.IActionResult AddQuizFeedbackResponses(System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.FeedbackResponseViewModel.QuizFeedbackResponseViewModel> feedbackResponses)
 ```
 
 ### Parameters
 
-**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizFeedbackResponseViewModel&gt;
+**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizFeedbackResponseViewModel](../../../../Common/ViewModels/FeedbackResponseViewModel/QuizFeedbackResponseViewModel/index.md)&gt;
 
 The list of quiz feedback response models\.
 

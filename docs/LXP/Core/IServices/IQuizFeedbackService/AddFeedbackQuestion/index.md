@@ -9,14 +9,14 @@ sidebar_label: AddFeedbackQuestion
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-Guid AddFeedbackQuestion(QuizfeedbackquestionViewModel quizfeedbackquestion, System.Collections.Generic.List<QuizFeedbackQuestionsOptionViewModel> options)
+Guid AddFeedbackQuestion(LXP.Common.ViewModels.QuizFeedbackQuestionViewModel.QuizfeedbackquestionViewModel quizfeedbackquestion, System.Collections.Generic.List<LXP.Common.ViewModels.QuizFeedbackQuestionViewModel.QuizFeedbackQuestionsOptionViewModel> options)
 ```
 
 ### Parameters
 
-**quizfeedbackquestion** &ensp; QuizfeedbackquestionViewModel
+**quizfeedbackquestion** &ensp; [QuizfeedbackquestionViewModel](../../../../Common/ViewModels/QuizFeedbackQuestionViewModel/QuizfeedbackquestionViewModel/index.md)
 
-**options** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;QuizFeedbackQuestionsOptionViewModel&gt;
+**options** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[QuizFeedbackQuestionsOptionViewModel](../../../../Common/ViewModels/QuizFeedbackQuestionViewModel/QuizFeedbackQuestionsOptionViewModel/index.md)&gt;
 
 ### Returns
 

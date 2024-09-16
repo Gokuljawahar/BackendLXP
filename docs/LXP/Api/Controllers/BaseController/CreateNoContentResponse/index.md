@@ -13,7 +13,7 @@ Creates a response for successful request with no content and optional data\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.NonAction]
-public APIResponse CreateNoContentResponse(dynamic result)
+public LXP.Common.ViewModels.APIResponse CreateNoContentResponse(dynamic result)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public APIResponse CreateNoContentResponse(dynamic result)
 
 ### Returns
 
-APIResponse
+[APIResponse](../../../../Common/ViewModels/APIResponse/index.md)
 
 ### Attributes
 

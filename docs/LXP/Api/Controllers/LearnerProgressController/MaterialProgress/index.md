@@ -10,12 +10,12 @@ sidebar_label: MaterialProgress
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/course/learner/learnerprogress")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> MaterialProgress(ProgressViewModel learnerProgress)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> MaterialProgress(LXP.Common.ViewModels.ProgressViewModel learnerProgress)
 ```
 
 ### Parameters
 
-**learnerProgress** &ensp; ProgressViewModel
+**learnerProgress** &ensp; [ProgressViewModel](../../../../Common/ViewModels/ProgressViewModel/index.md)
 
 ### Returns
 

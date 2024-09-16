@@ -9,7 +9,7 @@ sidebar_label: GetCategoryByCategoryName
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<CourseCategoryListViewModel> GetCategoryByCategoryName(string categoryName)
+System.Threading.Tasks.Task<LXP.Common.ViewModels.CourseCategoryListViewModel> GetCategoryByCategoryName(string categoryName)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Threading.Tasks.Task<CourseCategoryListViewModel> GetCategoryByCategoryNa
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;CourseCategoryListViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[CourseCategoryListViewModel](../../../../Common/ViewModels/CourseCategoryListViewModel/index.md)&gt;
 

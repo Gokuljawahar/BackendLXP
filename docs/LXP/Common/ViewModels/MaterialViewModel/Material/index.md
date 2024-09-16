@@ -9,10 +9,10 @@ sidebar_label: Material
 **Assembly**: LXP\.Common\.dll
 
 ```csharp
-public IFormFile Material { get; set; }
+public Microsoft.AspNetCore.Http.IFormFile Material { get; set; }
 ```
 
 ### Property Value
 
-IFormFile
+[IFormFile](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformfile)
 

@@ -13,7 +13,7 @@ sidebar_label: LXPDbContext
 | Constructor | Summary |
 | ----------- | ------- |
 | [LXPDbContext()](#24848255) | |
-| [LXPDbContext(DbContextOptions&lt;LXPDbContext&gt;)](#714549532) | |
+| [LXPDbContext(DbContextOptions&lt;LXPDbContext&gt;)](#2768635545) | |
 
 <a id="24848255"></a>
 
@@ -23,14 +23,14 @@ sidebar_label: LXPDbContext
 public LXPDbContext()
 ```
 
-<a id="714549532"></a>
+<a id="2768635545"></a>
 
 ## LXPDbContext\(DbContextOptions&lt;LXPDbContext&gt;\) 
 
 ```csharp
-public LXPDbContext(DbContextOptions<LXP.Common.Entities.LXPDbContext> options)
+public LXPDbContext(Microsoft.EntityFrameworkCore.DbContextOptions<LXP.Common.Entities.LXPDbContext> options)
 ```
 
 ### Parameters
 
-**options** &ensp; DbContextOptions&lt;[LXPDbContext](../index.md)&gt;
+**options** &ensp; [DbContextOptions](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbcontextoptions-1)&lt;[LXPDbContext](../index.md)&gt;

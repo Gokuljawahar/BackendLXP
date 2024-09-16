@@ -9,7 +9,7 @@ sidebar_label: GetLearnerQuizStatusAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<LearnerQuizStatusViewModel> GetLearnerQuizStatusAsync(Guid learnerId, Guid quizId)
+System.Threading.Tasks.Task<LXP.Common.ViewModels.QuizEngineViewModel.LearnerQuizStatusViewModel> GetLearnerQuizStatusAsync(Guid learnerId, Guid quizId)
 ```
 
 ### Parameters
@@ -20,5 +20,5 @@ System.Threading.Tasks.Task<LearnerQuizStatusViewModel> GetLearnerQuizStatusAsyn
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;LearnerQuizStatusViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[LearnerQuizStatusViewModel](../../../../Common/ViewModels/QuizEngineViewModel/LearnerQuizStatusViewModel/index.md)&gt;
 

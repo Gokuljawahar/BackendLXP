@@ -13,12 +13,12 @@ adding new category
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/course/category")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> PostCategory(CourseCategoryViewModel category)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> PostCategory(LXP.Common.ViewModels.CourseCategoryViewModel category)
 ```
 
 ### Parameters
 
-**category** &ensp; CourseCategoryViewModel
+**category** &ensp; [CourseCategoryViewModel](../../../../Common/ViewModels/CourseCategoryViewModel/index.md)
 
 ### Returns
 

@@ -9,7 +9,7 @@ sidebar_label: GetEnrolledUsers
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<EnrolledUserViewModel> GetEnrolledUsers(Guid courseId)
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.EnrolledUserViewModel> GetEnrolledUsers(Guid courseId)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Collections.Generic.IEnumerable<EnrolledUserViewModel> GetEnrolledUsers(G
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;EnrolledUserViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[EnrolledUserViewModel](../../../../Common/ViewModels/EnrolledUserViewModel/index.md)&gt;
 

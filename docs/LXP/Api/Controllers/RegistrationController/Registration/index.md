@@ -13,12 +13,12 @@ Post the learner and profile details
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/learner/registration")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Registration(RegisterUserViewModel learner)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Registration(LXP.Common.ViewModels.RegisterUserViewModel learner)
 ```
 
 ### Parameters
 
-**learner** &ensp; RegisterUserViewModel
+**learner** &ensp; [RegisterUserViewModel](../../../../Common/ViewModels/RegisterUserViewModel/index.md)
 
 ### Returns
 

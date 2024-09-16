@@ -9,16 +9,16 @@ sidebar_label: AddCourse
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public CourseListViewModel AddCourse(CourseViewModel course)
+public LXP.Common.ViewModels.CourseListViewModel AddCourse(LXP.Common.ViewModels.CourseViewModel course)
 ```
 
 ### Parameters
 
-**course** &ensp; CourseViewModel
+**course** &ensp; [CourseViewModel](../../../../Common/ViewModels/CourseViewModel/index.md)
 
 ### Returns
 
-CourseListViewModel
+[CourseListViewModel](../../../../Common/ViewModels/CourseListViewModel/index.md)
 
 ### Implements
 

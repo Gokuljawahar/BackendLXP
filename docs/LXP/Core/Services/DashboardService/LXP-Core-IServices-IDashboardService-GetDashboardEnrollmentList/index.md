@@ -9,12 +9,12 @@ sidebar_label: IDashboardService.LXP.Core.IServices.IDashboardService.GetDashboa
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<DashboardEnrollmentViewModel> LXP.Core.IServices.IDashboardService.GetDashboardEnrollmentList()
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.DashboardEnrollmentViewModel> LXP.Core.IServices.IDashboardService.GetDashboardEnrollmentList()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;DashboardEnrollmentViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[DashboardEnrollmentViewModel](../../../../Common/ViewModels/DashboardEnrollmentViewModel/index.md)&gt;
 
 ### Implements
 

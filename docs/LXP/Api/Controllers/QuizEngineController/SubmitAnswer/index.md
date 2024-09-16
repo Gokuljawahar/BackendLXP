@@ -13,12 +13,12 @@ Submits an answer for a quiz question\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("answer")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> SubmitAnswer(AnswerSubmissionModel answerSubmissionModel)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> SubmitAnswer(LXP.Common.ViewModels.QuizEngineViewModel.AnswerSubmissionModel answerSubmissionModel)
 ```
 
 ### Parameters
 
-**answerSubmissionModel** &ensp; AnswerSubmissionModel
+**answerSubmissionModel** &ensp; [AnswerSubmissionModel](../../../../Common/ViewModels/QuizEngineViewModel/AnswerSubmissionModel/index.md)
 
 The model containing the answer submission details\.
 

@@ -9,10 +9,10 @@ sidebar_label: ProfilePhoto
 **Assembly**: LXP\.Common\.dll
 
 ```csharp
-public IFormFile? ProfilePhoto { get; set; }
+public Microsoft.AspNetCore.Http.IFormFile? ProfilePhoto { get; set; }
 ```
 
 ### Property Value
 
-IFormFile?
+[IFormFile](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformfile)
 

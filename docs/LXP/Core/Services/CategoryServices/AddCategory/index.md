@@ -9,12 +9,12 @@ sidebar_label: AddCategory
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<bool> AddCategory(CourseCategoryViewModel category)
+public System.Threading.Tasks.Task<bool> AddCategory(LXP.Common.ViewModels.CourseCategoryViewModel category)
 ```
 
 ### Parameters
 
-**category** &ensp; CourseCategoryViewModel
+**category** &ensp; [CourseCategoryViewModel](../../../../Common/ViewModels/CourseCategoryViewModel/index.md)
 
 ### Returns
 

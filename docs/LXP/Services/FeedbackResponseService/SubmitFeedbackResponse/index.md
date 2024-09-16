@@ -12,52 +12,52 @@ sidebar_label: SubmitFeedbackResponse
 
 | Method | Summary |
 | ------ | ------- |
-| [SubmitFeedbackResponse(CourseFeedbackResponseViewModel)](#904500108) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#1672295532)\) |
-| [SubmitFeedbackResponse(QuizFeedbackResponseViewModel)](#3053676923) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#3522787039)\) |
-| [SubmitFeedbackResponse(TopicFeedbackResponseViewModel)](#2562113213) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#2984193365)\) |
+| [SubmitFeedbackResponse(CourseFeedbackResponseViewModel)](#260195782) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#4076552377)\) |
+| [SubmitFeedbackResponse(QuizFeedbackResponseViewModel)](#3475110757) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#3774916425)\) |
+| [SubmitFeedbackResponse(TopicFeedbackResponseViewModel)](#2083504000) |  \(Implements [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#2769567303)\) |
 
-<a id="904500108"></a>
+<a id="260195782"></a>
 
 ## SubmitFeedbackResponse\(CourseFeedbackResponseViewModel\) 
 
 ```csharp
-public void SubmitFeedbackResponse(CourseFeedbackResponseViewModel feedbackResponse)
+public void SubmitFeedbackResponse(LXP.Common.ViewModels.FeedbackResponseViewModel.CourseFeedbackResponseViewModel feedbackResponse)
 ```
 
 ### Parameters
 
-**feedbackResponse** &ensp; CourseFeedbackResponseViewModel
+**feedbackResponse** &ensp; [CourseFeedbackResponseViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/CourseFeedbackResponseViewModel/index.md)
 
 ### Implements
 
-* [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#1672295532)
-<a id="3053676923"></a>
+* [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#4076552377)
+<a id="3475110757"></a>
 
 ## SubmitFeedbackResponse\(QuizFeedbackResponseViewModel\) 
 
 ```csharp
-public void SubmitFeedbackResponse(QuizFeedbackResponseViewModel feedbackResponse)
+public void SubmitFeedbackResponse(LXP.Common.ViewModels.FeedbackResponseViewModel.QuizFeedbackResponseViewModel feedbackResponse)
 ```
 
 ### Parameters
 
-**feedbackResponse** &ensp; QuizFeedbackResponseViewModel
+**feedbackResponse** &ensp; [QuizFeedbackResponseViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/QuizFeedbackResponseViewModel/index.md)
 
 ### Implements
 
-* [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#3522787039)
-<a id="2562113213"></a>
+* [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#3774916425)
+<a id="2083504000"></a>
 
 ## SubmitFeedbackResponse\(TopicFeedbackResponseViewModel\) 
 
 ```csharp
-public void SubmitFeedbackResponse(TopicFeedbackResponseViewModel feedbackResponse)
+public void SubmitFeedbackResponse(LXP.Common.ViewModels.FeedbackResponseViewModel.TopicFeedbackResponseViewModel feedbackResponse)
 ```
 
 ### Parameters
 
-**feedbackResponse** &ensp; TopicFeedbackResponseViewModel
+**feedbackResponse** &ensp; [TopicFeedbackResponseViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/TopicFeedbackResponseViewModel/index.md)
 
 ### Implements
 
-* [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#2984193365)
+* [IFeedbackResponseService.SubmitFeedbackResponse](../../IServices/IFeedbackResponseService/SubmitFeedbackResponse/index.md#2769567303)

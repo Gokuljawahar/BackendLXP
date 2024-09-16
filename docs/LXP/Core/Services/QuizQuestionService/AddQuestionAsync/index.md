@@ -9,14 +9,14 @@ sidebar_label: AddQuestionAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<Guid> AddQuestionAsync(QuizQuestionViewModel quizQuestion, System.Collections.Generic.List<QuestionOptionViewModel> options)
+public System.Threading.Tasks.Task<Guid> AddQuestionAsync(LXP.Common.ViewModels.QuizQuestionViewModel.QuizQuestionViewModel quizQuestion, System.Collections.Generic.List<LXP.Common.ViewModels.QuizQuestionViewModel.QuestionOptionViewModel> options)
 ```
 
 ### Parameters
 
-**quizQuestion** &ensp; QuizQuestionViewModel
+**quizQuestion** &ensp; [QuizQuestionViewModel](../../../../Common/ViewModels/QuizQuestionViewModel/QuizQuestionViewModel/index.md)
 
-**options** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;QuestionOptionViewModel&gt;
+**options** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[QuestionOptionViewModel](../../../../Common/ViewModels/QuizQuestionViewModel/QuestionOptionViewModel/index.md)&gt;
 
 ### Returns
 

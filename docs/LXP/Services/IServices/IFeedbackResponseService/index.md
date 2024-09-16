@@ -23,10 +23,10 @@ public interface IFeedbackResponseService
 | [GetCourseFeedbackStatus(Guid, Guid)](GetCourseFeedbackStatus/index.md) | |
 | [GetQuizFeedbackStatus(Guid, Guid)](GetQuizFeedbackStatus/index.md) | |
 | [GetTopicFeedbackStatus(Guid, Guid)](GetTopicFeedbackStatus/index.md) | |
-| [SubmitFeedbackResponse(CourseFeedbackResponseViewModel)](SubmitFeedbackResponse/index.md#1672295532) | |
-| [SubmitFeedbackResponse(QuizFeedbackResponseViewModel)](SubmitFeedbackResponse/index.md#3522787039) | |
-| [SubmitFeedbackResponse(TopicFeedbackResponseViewModel)](SubmitFeedbackResponse/index.md#2984193365) | |
-| [SubmitFeedbackResponses(IEnumerable&lt;CourseFeedbackResponseViewModel&gt;)](SubmitFeedbackResponses/index.md#1071631695) | |
-| [SubmitFeedbackResponses(IEnumerable&lt;QuizFeedbackResponseViewModel&gt;)](SubmitFeedbackResponses/index.md#458036045) | |
-| [SubmitFeedbackResponses(IEnumerable&lt;TopicFeedbackResponseViewModel&gt;)](SubmitFeedbackResponses/index.md#2497199244) | |
+| [SubmitFeedbackResponse(CourseFeedbackResponseViewModel)](SubmitFeedbackResponse/index.md#4076552377) | |
+| [SubmitFeedbackResponse(QuizFeedbackResponseViewModel)](SubmitFeedbackResponse/index.md#3774916425) | |
+| [SubmitFeedbackResponse(TopicFeedbackResponseViewModel)](SubmitFeedbackResponse/index.md#2769567303) | |
+| [SubmitFeedbackResponses(IEnumerable&lt;CourseFeedbackResponseViewModel&gt;)](SubmitFeedbackResponses/index.md#2120841731) | |
+| [SubmitFeedbackResponses(IEnumerable&lt;QuizFeedbackResponseViewModel&gt;)](SubmitFeedbackResponses/index.md#3814657046) | |
+| [SubmitFeedbackResponses(IEnumerable&lt;TopicFeedbackResponseViewModel&gt;)](SubmitFeedbackResponses/index.md#816830447) | |
 

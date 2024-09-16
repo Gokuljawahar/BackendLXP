@@ -13,12 +13,12 @@ Update the course
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("lxp/courseupdate")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Updatecourse(CourseUpdateModel course)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> Updatecourse(LXP.Common.ViewModels.CourseUpdateModel course)
 ```
 
 ### Parameters
 
-**course** &ensp; CourseUpdateModel
+**course** &ensp; [CourseUpdateModel](../../../../Common/ViewModels/CourseUpdateModel/index.md)
 
 ### Returns
 

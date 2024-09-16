@@ -9,7 +9,7 @@ sidebar_label: GetLearnerProfileById
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public LearnerProfile GetLearnerProfileById(string id)
+public LXP.Common.Entities.LearnerProfile GetLearnerProfileById(string id)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public LearnerProfile GetLearnerProfileById(string id)
 
 ### Returns
 
-LearnerProfile
+[LearnerProfile](../../../../Common/Entities/LearnerProfile/index.md)
 
 ### Implements
 

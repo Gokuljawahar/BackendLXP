@@ -9,7 +9,7 @@ sidebar_label: GetCourseDetailsByCourseName
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public CourseListViewModel GetCourseDetailsByCourseName(string courseName)
+public LXP.Common.ViewModels.CourseListViewModel GetCourseDetailsByCourseName(string courseName)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public CourseListViewModel GetCourseDetailsByCourseName(string courseName)
 
 ### Returns
 
-CourseListViewModel
+[CourseListViewModel](../../../../Common/ViewModels/CourseListViewModel/index.md)
 
 ### Implements
 

@@ -9,12 +9,12 @@ sidebar_label: SaveQuizDataAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task SaveQuizDataAsync(System.Collections.Generic.List<QuizQuestionJsonViewModel> quizData, Guid quizId)
+System.Threading.Tasks.Task SaveQuizDataAsync(System.Collections.Generic.List<LXP.Common.ViewModels.QuizQuestionViewModel.QuizQuestionJsonViewModel> quizData, Guid quizId)
 ```
 
 ### Parameters
 
-**quizData** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;QuizQuestionJsonViewModel&gt;
+**quizData** &ensp; [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[QuizQuestionJsonViewModel](../../../../Common/ViewModels/QuizQuestionViewModel/QuizQuestionJsonViewModel/index.md)&gt;
 
 **quizId** &ensp; [Guid](https://docs.microsoft.com/en-us/dotnet/api/system.guid)
 

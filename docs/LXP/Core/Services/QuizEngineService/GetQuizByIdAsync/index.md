@@ -9,7 +9,7 @@ sidebar_label: GetQuizByIdAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<ViewQuizDetailsViewModel> GetQuizByIdAsync(Guid quizId)
+public System.Threading.Tasks.Task<LXP.Common.ViewModels.QuizEngineViewModel.ViewQuizDetailsViewModel> GetQuizByIdAsync(Guid quizId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Threading.Tasks.Task<ViewQuizDetailsViewModel> GetQuizByIdAsync(Gu
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;ViewQuizDetailsViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[ViewQuizDetailsViewModel](../../../../Common/ViewModels/QuizEngineViewModel/ViewQuizDetailsViewModel/index.md)&gt;
 
 ### Implements
 

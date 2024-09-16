@@ -9,12 +9,12 @@ sidebar_label: GetEnrollmentsReport
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.IEnumerable<EnrollmentReportViewModel> GetEnrollmentsReport()
+public System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.EnrollmentReportViewModel> GetEnrollmentsReport()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;EnrollmentReportViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[EnrollmentReportViewModel](../../../../Common/ViewModels/EnrollmentReportViewModel/index.md)&gt;
 
 ### Implements
 

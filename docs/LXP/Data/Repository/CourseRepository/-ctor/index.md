@@ -9,13 +9,13 @@ sidebar_label: CourseRepository
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public CourseRepository(LXP.Common.Entities.LXPDbContext lXPDbContext, IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
+public CourseRepository(LXP.Common.Entities.LXPDbContext lXPDbContext, Microsoft.AspNetCore.Hosting.IWebHostEnvironment environment, Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor)
 ```
 
 ### Parameters
 
 **lXPDbContext** &ensp; [LXPDbContext](../../../../Common/Entities/LXPDbContext/index.md)
 
-**environment** &ensp; IWebHostEnvironment
+**environment** &ensp; [IWebHostEnvironment](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment)
 
-**httpContextAccessor** &ensp; IHttpContextAccessor
+**httpContextAccessor** &ensp; [IHttpContextAccessor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor)

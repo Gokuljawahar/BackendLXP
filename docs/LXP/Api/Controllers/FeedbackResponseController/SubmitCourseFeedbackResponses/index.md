@@ -10,12 +10,12 @@ sidebar_label: SubmitCourseFeedbackResponses
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("SubmitCourseFeedbackResponses")]
-public Microsoft.AspNetCore.Mvc.IActionResult SubmitCourseFeedbackResponses(System.Collections.Generic.IEnumerable<CourseFeedbackResponseViewModel> feedbackResponses)
+public Microsoft.AspNetCore.Mvc.IActionResult SubmitCourseFeedbackResponses(System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.FeedbackResponseViewModel.CourseFeedbackResponseViewModel> feedbackResponses)
 ```
 
 ### Parameters
 
-**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;CourseFeedbackResponseViewModel&gt;
+**feedbackResponses** &ensp; [IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[CourseFeedbackResponseViewModel](../../../../Common/ViewModels/FeedbackResponseViewModel/CourseFeedbackResponseViewModel/index.md)&gt;
 
 ### Returns
 

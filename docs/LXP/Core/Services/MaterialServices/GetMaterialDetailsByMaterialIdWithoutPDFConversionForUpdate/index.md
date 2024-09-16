@@ -9,7 +9,7 @@ sidebar_label: GetMaterialDetailsByMaterialIdWithoutPDFConversionForUpdate
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<MaterialListViewModel> GetMaterialDetailsByMaterialIdWithoutPDFConversionForUpdate(string materialId)
+public System.Threading.Tasks.Task<LXP.Common.ViewModels.MaterialListViewModel> GetMaterialDetailsByMaterialIdWithoutPDFConversionForUpdate(string materialId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Threading.Tasks.Task<MaterialListViewModel> GetMaterialDetailsByMa
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;MaterialListViewModel&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[MaterialListViewModel](../../../../Common/ViewModels/MaterialListViewModel/index.md)&gt;
 
 ### Implements
 

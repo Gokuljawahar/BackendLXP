@@ -9,13 +9,13 @@ sidebar_label: ProfileService
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public ProfileService(LXP.Data.IRepository.IProfileRepository profileRepository, IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
+public ProfileService(LXP.Data.IRepository.IProfileRepository profileRepository, Microsoft.AspNetCore.Hosting.IWebHostEnvironment environment, Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor)
 ```
 
 ### Parameters
 
 **profileRepository** &ensp; [IProfileRepository](../../../../Data/IRepository/IProfileRepository/index.md)
 
-**environment** &ensp; IWebHostEnvironment
+**environment** &ensp; [IWebHostEnvironment](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment)
 
-**httpContextAccessor** &ensp; IHttpContextAccessor
+**httpContextAccessor** &ensp; [IHttpContextAccessor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor)

@@ -9,12 +9,12 @@ sidebar_label: GetAllQuizzes
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.IEnumerable<QuizViewModel> GetAllQuizzes()
+public System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.QuizViewModel.QuizViewModel> GetAllQuizzes()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizViewModel](../../../../Common/ViewModels/QuizViewModel/QuizViewModel/index.md)&gt;
 
 ### Implements
 

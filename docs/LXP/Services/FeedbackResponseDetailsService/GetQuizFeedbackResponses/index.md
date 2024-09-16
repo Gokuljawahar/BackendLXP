@@ -9,7 +9,7 @@ sidebar_label: GetQuizFeedbackResponses
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.List<QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponses(Guid quizId)
+public System.Collections.Generic.List<LXP.Common.ViewModels.FeedbackResponseViewModel.QuizFeedbackResponseDetailsViewModel> GetQuizFeedbackResponses(Guid quizId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Collections.Generic.List<QuizFeedbackResponseDetailsViewModel> Get
 
 ### Returns
 
-[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;QuizFeedbackResponseDetailsViewModel&gt;
+[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[QuizFeedbackResponseDetailsViewModel](../../../Common/ViewModels/FeedbackResponseViewModel/QuizFeedbackResponseDetailsViewModel/index.md)&gt;
 
 ### Implements
 

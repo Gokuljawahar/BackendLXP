@@ -9,12 +9,12 @@ sidebar_label: GetUserReport
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.IEnumerable<UserReportViewModel> GetUserReport()
+public System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.UserReportViewModel> GetUserReport()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;UserReportViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[UserReportViewModel](../../../../Common/ViewModels/UserReportViewModel/index.md)&gt;
 
 ### Implements
 

@@ -9,7 +9,7 @@ sidebar_label: CourseServices
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public CourseServices(LXP.Data.IRepository.ICourseRepository courseRepository, LXP.Data.IRepository.ICategoryRepository categoryRepository, LXP.Data.IRepository.ICourseLevelRepository courseLevelRepository, IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
+public CourseServices(LXP.Data.IRepository.ICourseRepository courseRepository, LXP.Data.IRepository.ICategoryRepository categoryRepository, LXP.Data.IRepository.ICourseLevelRepository courseLevelRepository, Microsoft.AspNetCore.Hosting.IWebHostEnvironment environment, Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor)
 ```
 
 ### Parameters
@@ -20,6 +20,6 @@ public CourseServices(LXP.Data.IRepository.ICourseRepository courseRepository, L
 
 **courseLevelRepository** &ensp; [ICourseLevelRepository](../../../../Data/IRepository/ICourseLevelRepository/index.md)
 
-**environment** &ensp; IWebHostEnvironment
+**environment** &ensp; [IWebHostEnvironment](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment)
 
-**httpContextAccessor** &ensp; IHttpContextAccessor
+**httpContextAccessor** &ensp; [IHttpContextAccessor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor)

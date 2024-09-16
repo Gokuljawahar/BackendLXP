@@ -9,7 +9,7 @@ sidebar_label: GetTopicFeedbackStatus
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topicId)
+LXP.Common.ViewModels.FeedbackResponseViewModel.LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topicId)
 ```
 
 ### Parameters
@@ -20,5 +20,5 @@ LearnerFeedbackStatusViewModel GetTopicFeedbackStatus(Guid learnerId, Guid topic
 
 ### Returns
 
-LearnerFeedbackStatusViewModel
+[LearnerFeedbackStatusViewModel](../../../../Common/ViewModels/FeedbackResponseViewModel/LearnerFeedbackStatusViewModel/index.md)
 

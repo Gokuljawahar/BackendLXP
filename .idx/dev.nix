@@ -8,14 +8,14 @@
     pkgs.dotnet-sdk_8
     pkgs.dotnet-runtime_8
     pkgs.dotnet-aspnetcore_8
-    pkgs.csharpier 
-    pkgs.nginx 
+    pkgs.csharpier
+    pkgs.nginx
     pkgs.nuget
   ];
 
   # Sets environment variables in the workspace
   env = {
-    ASPNETCORE_ENVIRONMENT = "Development"; 
+    ASPNETCORE_ENVIRONMENT = "Development";
   };
 
   idx = {
@@ -32,10 +32,10 @@
       enable = true;
       previews = {
         web = {
-          command = ["dotnet" "watch" "run" "--project" "/home/user/BackendLXP/LXP.API/LXP.Api.csproj" "--launch-profile" "http"];
+          command = ["dotnet" "watch" "run" "--project" "/home/user/BackendLXP/src/LXP.API/LXP.Api.csproj" "--launch-profile" "http"];
           manager = "web";
           env = {
-            PORT = "$PORT"; 
+            PORT = "$PORT";
           };
         };
       };
@@ -45,10 +45,10 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        dotnet-restore = "dotnet restore /home/user/BackendLXP/LXP.API/LXP.Api.csproj"; 
+        dotnet-restore = "dotnet restore /home/user/BackendLXP/src/LXP.API/LXP.Api.csproj";
       };
       # Runs when the workspace is (re)started
-      onStart = { 
+      onStart = {
         # This is handled by the web preview now
       };
     };

@@ -9,12 +9,12 @@ sidebar_label: UpdateProfile
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task UpdateProfile(UpdateProfileViewModel model)
+public System.Threading.Tasks.Task UpdateProfile(LXP.Common.ViewModels.UpdateProfileViewModel model)
 ```
 
 ### Parameters
 
-**model** &ensp; UpdateProfileViewModel
+**model** &ensp; [UpdateProfileViewModel](../../../../Common/ViewModels/UpdateProfileViewModel/index.md)
 
 ### Returns
 

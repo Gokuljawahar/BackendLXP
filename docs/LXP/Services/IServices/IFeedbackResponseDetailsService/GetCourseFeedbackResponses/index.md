@@ -9,7 +9,7 @@ sidebar_label: GetCourseFeedbackResponses
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.List<CourseFeedbackResponseDetailsViewModel> GetCourseFeedbackResponses(Guid courseId)
+System.Collections.Generic.List<LXP.Common.ViewModels.FeedbackResponseViewModel.CourseFeedbackResponseDetailsViewModel> GetCourseFeedbackResponses(Guid courseId)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Collections.Generic.List<CourseFeedbackResponseDetailsViewModel> GetCours
 
 ### Returns
 
-[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;CourseFeedbackResponseDetailsViewModel&gt;
+[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[CourseFeedbackResponseDetailsViewModel](../../../../Common/ViewModels/FeedbackResponseViewModel/CourseFeedbackResponseDetailsViewModel/index.md)&gt;
 

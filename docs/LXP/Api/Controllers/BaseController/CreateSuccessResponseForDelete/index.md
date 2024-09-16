@@ -13,7 +13,7 @@ Creates a success response with optional data\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.NonAction]
-public APIResponse CreateSuccessResponseForDelete(dynamic result = null)
+public LXP.Common.ViewModels.APIResponse CreateSuccessResponseForDelete(dynamic result = null)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public APIResponse CreateSuccessResponseForDelete(dynamic result = null)
 
 ### Returns
 
-APIResponse
+[APIResponse](../../../../Common/ViewModels/APIResponse/index.md)
 
 ### Attributes
 

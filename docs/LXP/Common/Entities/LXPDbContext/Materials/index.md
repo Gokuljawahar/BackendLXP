@@ -9,10 +9,10 @@ sidebar_label: Materials
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.Material> Materials { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.Material> Materials { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[Material](../../Material/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[Material](../../Material/index.md)&gt;
 

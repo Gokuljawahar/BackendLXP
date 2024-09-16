@@ -10,12 +10,12 @@ sidebar_label: UpdateProfile
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPut("/lxp/learner/updateProfile")]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UpdateProfile(UpdateProfileViewModel model)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UpdateProfile(LXP.Common.ViewModels.UpdateProfileViewModel model)
 ```
 
 ### Parameters
 
-**model** &ensp; UpdateProfileViewModel
+**model** &ensp; [UpdateProfileViewModel](../../../../Common/ViewModels/UpdateProfileViewModel/index.md)
 
 ### Returns
 

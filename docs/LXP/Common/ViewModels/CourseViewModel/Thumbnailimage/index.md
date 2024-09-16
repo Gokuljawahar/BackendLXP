@@ -13,12 +13,12 @@ Course Thumbnail
 
 ```csharp
 [System.ComponentModel.DataAnnotations.Schema.NotMapped]
-public IFormFile Thumbnailimage { get; set; }
+public Microsoft.AspNetCore.Http.IFormFile Thumbnailimage { get; set; }
 ```
 
 ### Property Value
 
-IFormFile
+[IFormFile](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.iformfile)
 
 ### Attributes
 

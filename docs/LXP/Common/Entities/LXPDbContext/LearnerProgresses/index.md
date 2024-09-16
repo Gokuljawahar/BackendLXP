@@ -9,10 +9,10 @@ sidebar_label: LearnerProgresses
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.LearnerProgress> LearnerProgresses { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.LearnerProgress> LearnerProgresses { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[LearnerProgress](../../LearnerProgress/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[LearnerProgress](../../LearnerProgress/index.md)&gt;
 

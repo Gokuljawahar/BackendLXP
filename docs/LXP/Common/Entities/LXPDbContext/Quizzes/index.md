@@ -9,10 +9,10 @@ sidebar_label: Quizzes
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.Quiz> Quizzes { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.Quiz> Quizzes { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[Quiz](../../Quiz/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[Quiz](../../Quiz/index.md)&gt;
 

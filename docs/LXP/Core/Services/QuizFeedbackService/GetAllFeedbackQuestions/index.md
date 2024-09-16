@@ -9,12 +9,12 @@ sidebar_label: GetAllFeedbackQuestions
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Collections.Generic.List<QuizfeedbackquestionNoViewModel> GetAllFeedbackQuestions()
+public System.Collections.Generic.List<LXP.Common.ViewModels.QuizFeedbackQuestionViewModel.QuizfeedbackquestionNoViewModel> GetAllFeedbackQuestions()
 ```
 
 ### Returns
 
-[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;QuizfeedbackquestionNoViewModel&gt;
+[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[QuizfeedbackquestionNoViewModel](../../../../Common/ViewModels/QuizFeedbackQuestionViewModel/QuizfeedbackquestionNoViewModel/index.md)&gt;
 
 ### Implements
 

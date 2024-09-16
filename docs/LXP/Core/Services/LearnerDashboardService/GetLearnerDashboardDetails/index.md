@@ -9,7 +9,7 @@ sidebar_label: GetLearnerDashboardDetails
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid learnerId)
+public LXP.Common.ViewModels.LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid learnerId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public LearnerDashboardCourseCountViewModel GetLearnerDashboardDetails(Guid lear
 
 ### Returns
 
-LearnerDashboardCourseCountViewModel
+[LearnerDashboardCourseCountViewModel](../../../../Common/ViewModels/LearnerDashboardCourseCountViewModel/index.md)
 
 ### Implements
 

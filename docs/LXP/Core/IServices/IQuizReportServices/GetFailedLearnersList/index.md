@@ -9,7 +9,7 @@ sidebar_label: GetFailedLearnersList
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid)
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.QuizScorelearnerViewModel> GetFailedLearnersList(Guid Quizid)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ System.Collections.Generic.IEnumerable<QuizScorelearnerViewModel> GetFailedLearn
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizScorelearnerViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizScorelearnerViewModel](../../../../Common/ViewModels/QuizScorelearnerViewModel/index.md)&gt;
 

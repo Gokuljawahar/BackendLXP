@@ -9,10 +9,10 @@ sidebar_label: Topics
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.Topic> Topics { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.Topic> Topics { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[Topic](../../Topic/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[Topic](../../Topic/index.md)&gt;
 

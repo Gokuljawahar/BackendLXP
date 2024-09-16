@@ -13,12 +13,12 @@ Add a new feedback question
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("AddFeedbackQuestion")]
-public Microsoft.AspNetCore.Mvc.IActionResult AddFeedbackQuestion(QuizfeedbackquestionViewModel quizfeedbackquestion)
+public Microsoft.AspNetCore.Mvc.IActionResult AddFeedbackQuestion(LXP.Common.ViewModels.QuizFeedbackQuestionViewModel.QuizfeedbackquestionViewModel quizfeedbackquestion)
 ```
 
 ### Parameters
 
-**quizfeedbackquestion** &ensp; QuizfeedbackquestionViewModel
+**quizfeedbackquestion** &ensp; [QuizfeedbackquestionViewModel](../../../../Common/ViewModels/QuizFeedbackQuestionViewModel/QuizfeedbackquestionViewModel/index.md)
 
 Feedback question details
 

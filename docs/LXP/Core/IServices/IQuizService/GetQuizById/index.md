@@ -9,7 +9,7 @@ sidebar_label: GetQuizById
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-QuizViewModel GetQuizById(Guid quizId)
+LXP.Common.ViewModels.QuizViewModel.QuizViewModel GetQuizById(Guid quizId)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ QuizViewModel GetQuizById(Guid quizId)
 
 ### Returns
 
-QuizViewModel
+[QuizViewModel](../../../../Common/ViewModels/QuizViewModel/QuizViewModel/index.md)
 

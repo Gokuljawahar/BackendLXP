@@ -9,10 +9,10 @@ sidebar_label: LearnerProfiles
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.LearnerProfile> LearnerProfiles { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.LearnerProfile> LearnerProfiles { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[LearnerProfile](../../LearnerProfile/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[LearnerProfile](../../LearnerProfile/index.md)&gt;
 

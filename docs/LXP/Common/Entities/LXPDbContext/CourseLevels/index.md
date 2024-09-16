@@ -9,10 +9,10 @@ sidebar_label: CourseLevels
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.CourseLevel> CourseLevels { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.CourseLevel> CourseLevels { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[CourseLevel](../../CourseLevel/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[CourseLevel](../../CourseLevel/index.md)&gt;
 

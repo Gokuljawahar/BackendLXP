@@ -10,12 +10,12 @@ sidebar_label: AddFeedbackQuestion
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("question")]
-public Microsoft.AspNetCore.Mvc.IActionResult AddFeedbackQuestion(CourseFeedbackQuestionViewModel question)
+public Microsoft.AspNetCore.Mvc.IActionResult AddFeedbackQuestion(LXP.Common.ViewModels.CourseFeedbackQuestionViewModel.CourseFeedbackQuestionViewModel question)
 ```
 
 ### Parameters
 
-**question** &ensp; CourseFeedbackQuestionViewModel
+**question** &ensp; [CourseFeedbackQuestionViewModel](../../../../Common/ViewModels/CourseFeedbackQuestionViewModel/CourseFeedbackQuestionViewModel/index.md)
 
 ### Returns
 

@@ -9,10 +9,10 @@ sidebar_label: GetAllCourseDetails
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<CourseListViewModel> GetAllCourseDetails()
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.CourseListViewModel> GetAllCourseDetails()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;CourseListViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[CourseListViewModel](../../../../Common/ViewModels/CourseListViewModel/index.md)&gt;
 

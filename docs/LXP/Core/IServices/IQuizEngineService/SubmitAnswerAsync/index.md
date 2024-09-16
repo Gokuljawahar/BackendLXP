@@ -9,12 +9,12 @@ sidebar_label: SubmitAnswerAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task SubmitAnswerAsync(AnswerSubmissionModel answerSubmissionModel)
+System.Threading.Tasks.Task SubmitAnswerAsync(LXP.Common.ViewModels.QuizEngineViewModel.AnswerSubmissionModel answerSubmissionModel)
 ```
 
 ### Parameters
 
-**answerSubmissionModel** &ensp; AnswerSubmissionModel
+**answerSubmissionModel** &ensp; [AnswerSubmissionModel](../../../../Common/ViewModels/QuizEngineViewModel/AnswerSubmissionModel/index.md)
 
 ### Returns
 

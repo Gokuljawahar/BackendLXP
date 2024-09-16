@@ -13,12 +13,12 @@ Login for Leaners along with their Role \(Admin and User\)
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost]
-public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> LoginLearner(LoginModel loginmodel)
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult> LoginLearner(LXP.Common.ViewModels.LoginModel loginmodel)
 ```
 
 ### Parameters
 
-**loginmodel** &ensp; LoginModel
+**loginmodel** &ensp; [LoginModel](../../../../Common/ViewModels/LoginModel/index.md)
 
 ### Returns
 

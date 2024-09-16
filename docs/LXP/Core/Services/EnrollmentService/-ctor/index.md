@@ -9,7 +9,7 @@ sidebar_label: EnrollmentService
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public EnrollmentService(LXP.Data.IRepository.IEnrollmentRepository enrollmentRepository, LXP.Data.IRepository.ILearnerRepository learnerRepository, LXP.Data.IRepository.ICourseRepository courseRepository, IWebHostEnvironment webHostEnvironment, IHttpContextAccessor httpContextAccessor)
+public EnrollmentService(LXP.Data.IRepository.IEnrollmentRepository enrollmentRepository, LXP.Data.IRepository.ILearnerRepository learnerRepository, LXP.Data.IRepository.ICourseRepository courseRepository, Microsoft.AspNetCore.Hosting.IWebHostEnvironment webHostEnvironment, Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor)
 ```
 
 ### Parameters
@@ -20,6 +20,6 @@ public EnrollmentService(LXP.Data.IRepository.IEnrollmentRepository enrollmentRe
 
 **courseRepository** &ensp; [ICourseRepository](../../../../Data/IRepository/ICourseRepository/index.md)
 
-**webHostEnvironment** &ensp; IWebHostEnvironment
+**webHostEnvironment** &ensp; [IWebHostEnvironment](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.hosting.iwebhostenvironment)
 
-**httpContextAccessor** &ensp; IHttpContextAccessor
+**httpContextAccessor** &ensp; [IHttpContextAccessor](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.ihttpcontextaccessor)

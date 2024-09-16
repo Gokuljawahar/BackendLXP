@@ -9,10 +9,10 @@ sidebar_label: GetLimitedCourse
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<CourseDetailsViewModel> GetLimitedCourse()
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.CourseDetailsViewModel> GetLimitedCourse()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;CourseDetailsViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[CourseDetailsViewModel](../../../../Common/ViewModels/CourseDetailsViewModel/index.md)&gt;
 

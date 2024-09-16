@@ -9,10 +9,10 @@ sidebar_label: GetDashboardCoursesList
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<DashboardCourseViewModel> GetDashboardCoursesList()
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.DashboardCourseViewModel> GetDashboardCoursesList()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;DashboardCourseViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[DashboardCourseViewModel](../../../../Common/ViewModels/DashboardCourseViewModel/index.md)&gt;
 

@@ -9,7 +9,7 @@ sidebar_label: GetFeedbackQuestionById
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-QuizfeedbackquestionNoViewModel GetFeedbackQuestionById(Guid QuizFeedbackQuestionId)
+LXP.Common.ViewModels.QuizFeedbackQuestionViewModel.QuizfeedbackquestionNoViewModel GetFeedbackQuestionById(Guid QuizFeedbackQuestionId)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ QuizfeedbackquestionNoViewModel GetFeedbackQuestionById(Guid QuizFeedbackQuestio
 
 ### Returns
 
-QuizfeedbackquestionNoViewModel
+[QuizfeedbackquestionNoViewModel](../../../../Common/ViewModels/QuizFeedbackQuestionViewModel/QuizfeedbackquestionNoViewModel/index.md)
 

@@ -9,9 +9,9 @@ sidebar_label: OnConfiguring
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+protected override void OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder optionsBuilder)
 ```
 
 ### Parameters
 
-**optionsBuilder** &ensp; DbContextOptionsBuilder
+**optionsBuilder** &ensp; [DbContextOptionsBuilder](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbcontextoptionsbuilder)

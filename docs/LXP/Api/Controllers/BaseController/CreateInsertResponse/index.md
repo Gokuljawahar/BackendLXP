@@ -13,7 +13,7 @@ Creates a response for successful data insertion with optional data\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.NonAction]
-public APIResponse CreateInsertResponse(dynamic result)
+public LXP.Common.ViewModels.APIResponse CreateInsertResponse(dynamic result)
 ```
 
 ### Parameters
@@ -22,7 +22,7 @@ public APIResponse CreateInsertResponse(dynamic result)
 
 ### Returns
 
-APIResponse
+[APIResponse](../../../../Common/ViewModels/APIResponse/index.md)
 
 ### Attributes
 

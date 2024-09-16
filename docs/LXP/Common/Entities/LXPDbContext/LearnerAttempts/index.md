@@ -9,10 +9,10 @@ sidebar_label: LearnerAttempts
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.LearnerAttempt> LearnerAttempts { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.LearnerAttempt> LearnerAttempts { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[LearnerAttempt](../../LearnerAttempt/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[LearnerAttempt](../../LearnerAttempt/index.md)&gt;
 

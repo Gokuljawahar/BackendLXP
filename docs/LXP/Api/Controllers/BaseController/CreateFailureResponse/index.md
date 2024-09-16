@@ -13,7 +13,7 @@ Creates a failure response with specified message and status code\.
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.NonAction]
-public APIResponse CreateFailureResponse(string message, int statusCode)
+public LXP.Common.ViewModels.APIResponse CreateFailureResponse(string message, int statusCode)
 ```
 
 ### Parameters
@@ -24,7 +24,7 @@ public APIResponse CreateFailureResponse(string message, int statusCode)
 
 ### Returns
 
-APIResponse
+[APIResponse](../../../../Common/ViewModels/APIResponse/index.md)
 
 ### Attributes
 

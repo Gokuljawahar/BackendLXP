@@ -10,12 +10,12 @@ sidebar_label: AddCourseDetails
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("/lxp/course")]
-public Microsoft.AspNetCore.Mvc.IActionResult AddCourseDetails(CourseViewModel course)
+public Microsoft.AspNetCore.Mvc.IActionResult AddCourseDetails(LXP.Common.ViewModels.CourseViewModel course)
 ```
 
 ### Parameters
 
-**course** &ensp; CourseViewModel
+**course** &ensp; [CourseViewModel](../../../../Common/ViewModels/CourseViewModel/index.md)
 
 ### Returns
 

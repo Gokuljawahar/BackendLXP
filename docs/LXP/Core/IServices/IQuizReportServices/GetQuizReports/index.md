@@ -9,10 +9,10 @@ sidebar_label: GetQuizReports
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Collections.Generic.IEnumerable<QuizReportViewModel> GetQuizReports()
+System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.QuizReportViewModel> GetQuizReports()
 ```
 
 ### Returns
 
-[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizReportViewModel&gt;
+[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizReportViewModel](../../../../Common/ViewModels/QuizReportViewModel/index.md)&gt;
 

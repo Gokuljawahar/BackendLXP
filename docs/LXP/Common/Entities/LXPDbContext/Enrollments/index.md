@@ -9,10 +9,10 @@ sidebar_label: Enrollments
 **Assembly**: LXP\.Data\.dll
 
 ```csharp
-public virtual DbSet<LXP.Common.Entities.Enrollment> Enrollments { get; set; }
+public virtual Microsoft.EntityFrameworkCore.DbSet<LXP.Common.Entities.Enrollment> Enrollments { get; set; }
 ```
 
 ### Property Value
 
-DbSet&lt;[Enrollment](../../Enrollment/index.md)&gt;
+[DbSet](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbset-1)&lt;[Enrollment](../../Enrollment/index.md)&gt;
 

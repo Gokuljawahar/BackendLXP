@@ -9,7 +9,7 @@ sidebar_label: GetQuestionsForQuizAsync
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<QuizEngineQuestionViewModel>> GetQuestionsForQuizAsync(Guid quizId)
+public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<LXP.Common.ViewModels.QuizEngineViewModel.QuizEngineQuestionViewModel>> GetQuestionsForQuizAsync(Guid quizId)
 ```
 
 ### Parameters
@@ -18,7 +18,7 @@ public System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<QuizEn
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;QuizEngineQuestionViewModel&gt;&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[IEnumerable](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.ienumerable-1)&lt;[QuizEngineQuestionViewModel](../../../../Common/ViewModels/QuizEngineViewModel/QuizEngineQuestionViewModel/index.md)&gt;&gt;
 
 ### Implements
 

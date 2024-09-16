@@ -9,12 +9,12 @@ sidebar_label: Updatecourse
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-System.Threading.Tasks.Task<bool> Updatecourse(CourseUpdateModel course)
+System.Threading.Tasks.Task<bool> Updatecourse(LXP.Common.ViewModels.CourseUpdateModel course)
 ```
 
 ### Parameters
 
-**course** &ensp; CourseUpdateModel
+**course** &ensp; [CourseUpdateModel](../../../../Common/ViewModels/CourseUpdateModel/index.md)
 
 ### Returns
 

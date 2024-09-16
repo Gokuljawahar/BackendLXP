@@ -13,12 +13,12 @@ sidebar_label: AddFeedbackQuestion
 
 ```csharp
 [Microsoft.AspNetCore.Mvc.HttpPost("question")]
-public Microsoft.AspNetCore.Mvc.IActionResult AddFeedbackQuestion(TopicFeedbackQuestionViewModel question)
+public Microsoft.AspNetCore.Mvc.IActionResult AddFeedbackQuestion(LXP.Common.ViewModels.TopicFeedbackQuestionViewModel.TopicFeedbackQuestionViewModel question)
 ```
 
 ### Parameters
 
-**question** &ensp; TopicFeedbackQuestionViewModel
+**question** &ensp; [TopicFeedbackQuestionViewModel](../../../../Common/ViewModels/TopicFeedbackQuestionViewModel/TopicFeedbackQuestionViewModel/index.md)
 
 The feedback question to add\.
 

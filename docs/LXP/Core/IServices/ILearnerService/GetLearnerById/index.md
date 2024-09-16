@@ -9,7 +9,7 @@ sidebar_label: GetLearnerById
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-Learner GetLearnerById(string id)
+LXP.Common.Entities.Learner GetLearnerById(string id)
 ```
 
 ### Parameters
@@ -18,5 +18,5 @@ Learner GetLearnerById(string id)
 
 ### Returns
 
-Learner
+[Learner](../../../../Common/Entities/Learner/index.md)
 

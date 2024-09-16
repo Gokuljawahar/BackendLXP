@@ -9,7 +9,7 @@ sidebar_label: GetAllMaterialDetailsByTopicAndType
 **Assembly**: LXP\.Core\.dll
 
 ```csharp
-public System.Threading.Tasks.Task<System.Collections.Generic.List<MaterialListViewModel>> GetAllMaterialDetailsByTopicAndType(string topicId, string materialTypeId)
+public System.Threading.Tasks.Task<System.Collections.Generic.List<LXP.Common.ViewModels.MaterialListViewModel>> GetAllMaterialDetailsByTopicAndType(string topicId, string materialTypeId)
 ```
 
 ### Parameters
@@ -20,7 +20,7 @@ public System.Threading.Tasks.Task<System.Collections.Generic.List<MaterialListV
 
 ### Returns
 
-[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;MaterialListViewModel&gt;&gt;
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)&lt;[MaterialListViewModel](../../../../Common/ViewModels/MaterialListViewModel/index.md)&gt;&gt;
 
 ### Implements
 
