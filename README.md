@@ -1,10 +1,10 @@
 
-# Relevantz.LXP
+# LXP
 
 ## LXP  Backend Code
 
 ### Project Description
-Relevantz.LXP is a Learning Experience Platform (LXP) designed to enhance the learning journey by providing personalized and engaging learning experiences. This backend codebase supports the core functionalities of the platform.
+LXP is a Learning Experience Platform (LXP) designed to enhance the learning journey by providing personalized and engaging learning experiences. This backend codebase supports the core functionalities of the platform.
 
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
