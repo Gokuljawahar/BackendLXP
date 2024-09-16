@@ -39,15 +39,7 @@ cd src/LXP.API
 dotnet watch
 ```
 
-### Database Setup
-Before running the project, you need to set up the database:
 
-1. **Open MySQL**: Ensure you have MySQL installed and running.
-2. **Execute SQL Script**: Navigate to the directory containing the SQL script and execute it to set up the database.
-   ```bash
-   cd D:\Backend\script
-   mysql -u root -p LXP < LXP.sql
-   ```
 
 ### Usage
 Once the application is running, you can access the API endpoints to interact with the LXP backend.
