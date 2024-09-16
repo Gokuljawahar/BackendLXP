@@ -53,7 +53,7 @@ Before running the project, you need to set up the database:
 Once the application is running, you can access the API endpoints to interact with the LXP backend.
 
 ### Documentation
-To get the information about the code documentation in the browser, use the following command:
+To get the information about the code documentation in the browser, use the following command in the root folder containing sln file:
 ```bash
 docfx D:\Backend\docfx.json --serve
 ```
