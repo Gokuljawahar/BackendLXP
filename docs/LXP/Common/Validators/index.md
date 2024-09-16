@@ -10,8 +10,12 @@ sidebar_label: Validators
 
 | Class | Summary |
 | ----- | ------- |
+| [CourseCategoryViewModelValidator](CourseCategoryViewModelValidator/index.md) | |
 | [CourseFeedbackResponseViewModelValidator](CourseFeedbackResponseViewModelValidator/index.md) | |
+| [CourseTopicViewModelValidator](CourseTopicViewModelValidator/index.md) | |
+| [CourseViewModelValidator](CourseViewModelValidator/index.md) | |
 | [CreateQuizViewModelValidator](CreateQuizViewModelValidator/index.md) | |
+| [EnrollmentValidator](EnrollmentValidator/index.md) | |
 | [QuestionOptionViewModelValidator](QuestionOptionViewModelValidator/index.md) | |
 | [QuizFeedbackResponseViewModelValidator](QuizFeedbackResponseViewModelValidator/index.md) | |
 | [QuizQuestionNoViewModelValidator](QuizQuestionNoViewModelValidator/index.md) | |

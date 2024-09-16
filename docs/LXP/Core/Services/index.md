@@ -19,6 +19,8 @@ sidebar_label: Services
 | [EmailService](EmailService/index.md) | |
 | [EnrollmentService](EnrollmentService/index.md) | |
 | [ExcelToJsonService](ExcelToJsonService/index.md) | |
+| [FeedbackResponseDetailsService](FeedbackResponseDetailsService/index.md) | |
+| [FeedbackResponseService](FeedbackResponseService/index.md) | |
 | [ForgetService](ForgetService/index.md) | |
 | [LearnerAttemptServices](LearnerAttemptServices/index.md) | |
 | [LearnerDashboardService](LearnerDashboardService/index.md) | |

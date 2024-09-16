@@ -1,3 +1,5 @@
+namespace LXP.Common.Validators;
+
 using FluentValidation;
 using LXP.Common.ViewModels;
 using Microsoft.AspNetCore.Http;

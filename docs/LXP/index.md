@@ -11,4 +11,3 @@ sidebar_label: LXP
 * [Common](Common/index.md)
 * [Core](Core/index.md)
 * [Data](Data/index.md)
-* [Services](Services/index.md)

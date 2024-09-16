@@ -12,6 +12,5 @@ sidebar_label: Common
 * [Entities](Entities/index.md)
 * [Enums](Enums/index.md)
 * [Utils](Utils/index.md)
-* [Validator](Validator/index.md)
 * [Validators](Validators/index.md)
 * [ViewModels](ViewModels/index.md)

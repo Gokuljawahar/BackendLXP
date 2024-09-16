@@ -1,4 +1,4 @@
-namespace LXP.Services;
+namespace LXP.Core.Services;
 
 using FluentValidation;
 using LXP.Common.Constants;
@@ -6,7 +6,7 @@ using LXP.Common.Entities;
 using LXP.Common.Validators;
 using LXP.Common.ViewModels.FeedbackResponseViewModel;
 using LXP.Data.IRepository;
-using LXP.Services.IServices;
+using LXP.Core.IServices;
 
 public class FeedbackResponseService(IFeedbackResponseRepository feedbackResponseRepository)
     : IFeedbackResponseService

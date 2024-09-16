@@ -32,6 +32,7 @@ sidebar_label: Repository
 | [ProfileRepository](ProfileRepository/index.md) | |
 | [QuizEngineRepository](QuizEngineRepository/index.md) | |
 | [QuizFeedbackRepository](QuizFeedbackRepository/index.md) | |
+| [QuizQuestionJsonRepository](QuizQuestionJsonRepository/index.md) | |
 | [QuizQuestionRepository](QuizQuestionRepository/index.md) | |
 | [QuizReportRepository](QuizReportRepository/index.md) | |
 | [QuizRepository](QuizRepository/index.md) | |
