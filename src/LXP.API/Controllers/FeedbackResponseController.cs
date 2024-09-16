@@ -2,7 +2,7 @@ namespace LXP.API.Controllers;
 
 using FluentValidation;
 using LXP.Common.ViewModels.FeedbackResponseViewModel;
-using LXP.Services.IServices;
+using LXP.Core.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>

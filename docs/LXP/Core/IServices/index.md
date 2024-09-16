@@ -19,6 +19,8 @@ sidebar_label: IServices
 | [IEmailService](IEmailService/index.md) | |
 | [IEnrollmentService](IEnrollmentService/index.md) | |
 | [IExcelToJsonService](IExcelToJsonService/index.md) | |
+| [IFeedbackResponseDetailsService](IFeedbackResponseDetailsService/index.md) | |
+| [IFeedbackResponseService](IFeedbackResponseService/index.md) | |
 | [IForgetService](IForgetService/index.md) | |
 | [ILearnerAttemptServices](ILearnerAttemptServices/index.md) | |
 | [ILearnerDashboardService](ILearnerDashboardService/index.md) | |

@@ -1,4 +1,4 @@
-namespace LXP.Services.IServices;
+namespace LXP.Core.IServices;
 
 using LXP.Common.ViewModels.FeedbackResponseViewModel;
 

@@ -12,12 +12,12 @@ sidebar_label: FeedbackResponseController
 Manages feedback response operations\.
 
 ```csharp
-public FeedbackResponseController(LXP.Services.IServices.IFeedbackResponseService feedbackResponseService)
+public FeedbackResponseController(LXP.Core.IServices.IFeedbackResponseService feedbackResponseService)
 ```
 
 ### Parameters
 
-**feedbackResponseService** &ensp; [IFeedbackResponseService](../../../../Services/IServices/IFeedbackResponseService/index.md)
+**feedbackResponseService** &ensp; [IFeedbackResponseService](../../../../Core/IServices/IFeedbackResponseService/index.md)
 
 The feedback response service\.
 

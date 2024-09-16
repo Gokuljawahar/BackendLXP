@@ -14,7 +14,7 @@ public interface IQuizQuestionJsonRepository
 
 ### Derived
 
-* [QuizQuestionJsonRepository](../../../Core/Repositories/QuizQuestionJsonRepository/index.md)
+* [QuizQuestionJsonRepository](../../Repository/QuizQuestionJsonRepository/index.md)
 
 ## Methods
 

@@ -9,9 +9,9 @@ sidebar_label: FeedbackResponseDetailsController
 **Assembly**: LXP\.Api\.dll
 
 ```csharp
-public FeedbackResponseDetailsController(LXP.Services.IServices.IFeedbackResponseDetailsService feedbackResponseDetailsService)
+public FeedbackResponseDetailsController(LXP.Core.IServices.IFeedbackResponseDetailsService feedbackResponseDetailsService)
 ```
 
 ### Parameters
 
-**feedbackResponseDetailsService** &ensp; [IFeedbackResponseDetailsService](../../../../Services/IServices/IFeedbackResponseDetailsService/index.md)
+**feedbackResponseDetailsService** &ensp; [IFeedbackResponseDetailsService](../../../../Core/IServices/IFeedbackResponseDetailsService/index.md)

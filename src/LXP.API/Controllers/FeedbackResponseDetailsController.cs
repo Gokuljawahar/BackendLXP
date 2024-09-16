@@ -1,7 +1,8 @@
 namespace LXP.API.Controllers;
 
-using LXP.Services.IServices;
+
 using Microsoft.AspNetCore.Mvc;
+using LXP.Core.IServices;
 
 [ApiController]
 [Route("api/[controller]")]

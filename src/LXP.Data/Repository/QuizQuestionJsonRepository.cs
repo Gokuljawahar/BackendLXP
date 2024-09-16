@@ -1,4 +1,4 @@
-namespace LXP.Core.Repositories;
+namespace LXP.Data.Repository;
 
 using LXP.Common.Entities;
 using LXP.Data.IRepository;
