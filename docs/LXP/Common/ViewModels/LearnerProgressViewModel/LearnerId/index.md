@@ -1,0 +1,18 @@
+---
+sidebar_label: LearnerId
+---
+
+# LearnerProgressViewModel\.LearnerId Property
+
+**Containing Type**: [LearnerProgressViewModel](../index.md)
+
+**Assembly**: LXP\.Common\.dll
+
+```csharp
+public Guid LearnerId { get; set; }
+```
+
+### Property Value
+
+[Guid](https://docs.microsoft.com/en-us/dotnet/api/system.guid)
+

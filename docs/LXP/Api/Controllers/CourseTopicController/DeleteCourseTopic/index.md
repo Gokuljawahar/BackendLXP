@@ -1,0 +1,27 @@
+---
+sidebar_label: DeleteCourseTopic
+---
+
+# CourseTopicController\.DeleteCourseTopic\(String\) Method
+
+**Containing Type**: [CourseTopicController](../index.md)
+
+**Assembly**: LXP\.Api\.dll
+
+```csharp
+[Microsoft.AspNetCore.Mvc.HttpDelete("/lxp/course/topic/{topicId}")]
+public System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> DeleteCourseTopic(string topicId)
+```
+
+### Parameters
+
+**topicId** &ensp; [String](https://docs.microsoft.com/en-us/dotnet/api/system.string)
+
+### Returns
+
+[Task](https://docs.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1)&lt;[IActionResult](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.iactionresult)&gt;
+
+### Attributes
+
+* [HttpDeleteAttribute](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.httpdeleteattribute)
+
