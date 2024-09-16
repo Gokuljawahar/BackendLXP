@@ -11,19 +11,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema LXP
+-- Schema Relevantz.LXP
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema LXP
+-- Schema Relevantz.LXP
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `LXP` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `LXP` ;
+CREATE SCHEMA IF NOT EXISTS `Relevantz.LXP` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `Relevantz.LXP` ;
 
 -- -----------------------------------------------------
--- Table `LXP`.`course_category`
+-- Table `Relevantz.LXP`.`course_category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`course_category` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`course_category` (
   `category_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `category` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
   `created_by` LONGTEXT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
@@ -37,9 +37,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`course_levels`
+-- Table `Relevantz.LXP`.`course_levels`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`course_levels` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`course_levels` (
   `level_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `level` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
   `created_by` LONGTEXT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
@@ -53,9 +53,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`course`
+-- Table `Relevantz.LXP`.`course`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`course` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`course` (
   `course_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `level_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `category_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -74,11 +74,11 @@ CREATE TABLE IF NOT EXISTS `LXP`.`course` (
   INDEX `IX_course_level_id` (`level_id` ASC) VISIBLE,
   CONSTRAINT `FK_course_course_category_category_id`
     FOREIGN KEY (`category_id`)
-    REFERENCES `LXP`.`course_category` (`category_id`)
+    REFERENCES `Relevantz.LXP`.`course_category` (`category_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_course_course_levels_level_id`
     FOREIGN KEY (`level_id`)
-    REFERENCES `LXP`.`course_levels` (`level_id`)
+    REFERENCES `Relevantz.LXP`.`course_levels` (`level_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -86,9 +86,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`course_feedback_questions`
+-- Table `Relevantz.LXP`.`course_feedback_questions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`course_feedback_questions` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`course_feedback_questions` (
   `CourseFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `course_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `QuestionNo` INT NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`course_feedback_questions` (
   INDEX `IX_CourseFeedbackQuestions_course_id` (`course_id` ASC) VISIBLE,
   CONSTRAINT `FK_CourseFeedbackQuestions_course_course_id`
     FOREIGN KEY (`course_id`)
-    REFERENCES `LXP`.`course` (`course_id`)
+    REFERENCES `Relevantz.LXP`.`course` (`course_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -110,9 +110,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`learners`
+-- Table `Relevantz.LXP`.`learners`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`learners` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`learners` (
   `learner_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `email` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
   `password` VARCHAR(120) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
@@ -131,9 +131,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`enrollments`
+-- Table `Relevantz.LXP`.`enrollments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`enrollments` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`enrollments` (
   `enrollment_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `learner_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `course_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -151,11 +151,11 @@ CREATE TABLE IF NOT EXISTS `LXP`.`enrollments` (
   INDEX `IX_enrollments_learner_id` (`learner_id` ASC) VISIBLE,
   CONSTRAINT `FK_enrollments_course_course_id`
     FOREIGN KEY (`course_id`)
-    REFERENCES `LXP`.`course` (`course_id`)
+    REFERENCES `Relevantz.LXP`.`course` (`course_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_enrollments_learners_learner_id`
     FOREIGN KEY (`learner_id`)
-    REFERENCES `LXP`.`learners` (`learner_id`)
+    REFERENCES `Relevantz.LXP`.`learners` (`learner_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -163,9 +163,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`topic`
+-- Table `Relevantz.LXP`.`topic`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`topic` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`topic` (
   `topic_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `course_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `name` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`topic` (
   INDEX `IX_topic_course_id` (`course_id` ASC) VISIBLE,
   CONSTRAINT `FK_topic_course_course_id`
     FOREIGN KEY (`course_id`)
-    REFERENCES `LXP`.`course` (`course_id`)
+    REFERENCES `Relevantz.LXP`.`course` (`course_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -187,9 +187,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`quizzes`
+-- Table `Relevantz.LXP`.`quizzes`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`quizzes` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`quizzes` (
   `quiz_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `course_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `topic_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -206,11 +206,11 @@ CREATE TABLE IF NOT EXISTS `LXP`.`quizzes` (
   INDEX `IX_quizzes_topic_id` (`topic_id` ASC) VISIBLE,
   CONSTRAINT `FK_quizzes_course_course_id`
     FOREIGN KEY (`course_id`)
-    REFERENCES `LXP`.`course` (`course_id`)
+    REFERENCES `Relevantz.LXP`.`course` (`course_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_quizzes_topic_topic_id`
     FOREIGN KEY (`topic_id`)
-    REFERENCES `LXP`.`topic` (`topic_id`)
+    REFERENCES `Relevantz.LXP`.`topic` (`topic_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -218,9 +218,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`quiz_feedback_questions`
+-- Table `Relevantz.LXP`.`quiz_feedback_questions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`quiz_feedback_questions` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`quiz_feedback_questions` (
   `QuizFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `quiz_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `QuestionNo` INT NOT NULL,
@@ -234,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`quiz_feedback_questions` (
   INDEX `IX_QuizFeedbackQuestions_quiz_id` (`quiz_id` ASC) VISIBLE,
   CONSTRAINT `FK_QuizFeedbackQuestions_quizzes_quiz_id`
     FOREIGN KEY (`quiz_id`)
-    REFERENCES `LXP`.`quizzes` (`quiz_id`)
+    REFERENCES `Relevantz.LXP`.`quizzes` (`quiz_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -242,9 +242,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`topic_feedback_questions`
+-- Table `Relevantz.LXP`.`topic_feedback_questions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`topic_feedback_questions` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`topic_feedback_questions` (
   `TopicFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `topic_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `QuestionNo` INT NOT NULL,
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`topic_feedback_questions` (
   INDEX `IX_TopicFeedbackQuestions_topic_id` (`topic_id` ASC) VISIBLE,
   CONSTRAINT `FK_TopicFeedbackQuestions_topic_topic_id`
     FOREIGN KEY (`topic_id`)
-    REFERENCES `LXP`.`topic` (`topic_id`)
+    REFERENCES `Relevantz.LXP`.`topic` (`topic_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -266,9 +266,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`feedback_questions_options`
+-- Table `Relevantz.LXP`.`feedback_questions_options`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`feedback_questions_options` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`feedback_questions_options` (
   `FeedbackQuestionOptionId` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `QuizFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NULL DEFAULT NULL,
   `TopicFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NULL DEFAULT NULL,
@@ -284,22 +284,22 @@ CREATE TABLE IF NOT EXISTS `LXP`.`feedback_questions_options` (
   INDEX `IX_FeedbackQuestionsOptions_TopicFeedbackQuestionId` (`TopicFeedbackQuestionId` ASC) VISIBLE,
   CONSTRAINT `FK_FeedbackQuestionsOptions_CourseFeedbackQuestions_CourseFeedb~`
     FOREIGN KEY (`CourseFeedbackQuestionId`)
-    REFERENCES `LXP`.`course_feedback_questions` (`CourseFeedbackQuestionId`),
+    REFERENCES `Relevantz.LXP`.`course_feedback_questions` (`CourseFeedbackQuestionId`),
   CONSTRAINT `FK_FeedbackQuestionsOptions_QuizFeedbackQuestions_QuizFeedbackQ~`
     FOREIGN KEY (`QuizFeedbackQuestionId`)
-    REFERENCES `LXP`.`quiz_feedback_questions` (`QuizFeedbackQuestionId`),
+    REFERENCES `Relevantz.LXP`.`quiz_feedback_questions` (`QuizFeedbackQuestionId`),
   CONSTRAINT `FK_FeedbackQuestionsOptions_TopicFeedbackQuestions_TopicFeedbac~`
     FOREIGN KEY (`TopicFeedbackQuestionId`)
-    REFERENCES `LXP`.`topic_feedback_questions` (`TopicFeedbackQuestionId`))
+    REFERENCES `Relevantz.LXP`.`topic_feedback_questions` (`TopicFeedbackQuestionId`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`feedback_responses`
+-- Table `Relevantz.LXP`.`feedback_responses`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`feedback_responses` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`feedback_responses` (
   `FeedbackResponseId` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `QuizFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NULL DEFAULT NULL,
   `TopicFeedbackQuestionId` CHAR(36) CHARACTER SET 'ascii' NULL DEFAULT NULL,
@@ -318,26 +318,26 @@ CREATE TABLE IF NOT EXISTS `LXP`.`feedback_responses` (
   INDEX `IX_FeedbackResponses_learner_id` (`learner_id` ASC) VISIBLE,
   CONSTRAINT `FK_FeedbackResponses_CourseFeedbackQuestions_CourseFeedbackQues~`
     FOREIGN KEY (`CourseFeedbackQuestionId`)
-    REFERENCES `LXP`.`course_feedback_questions` (`CourseFeedbackQuestionId`),
+    REFERENCES `Relevantz.LXP`.`course_feedback_questions` (`CourseFeedbackQuestionId`),
   CONSTRAINT `FK_FeedbackResponses_learners_learner_id`
     FOREIGN KEY (`learner_id`)
-    REFERENCES `LXP`.`learners` (`learner_id`)
+    REFERENCES `Relevantz.LXP`.`learners` (`learner_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_FeedbackResponses_QuizFeedbackQuestions_QuizFeedbackQuestion~`
     FOREIGN KEY (`QuizFeedbackQuestionId`)
-    REFERENCES `LXP`.`quiz_feedback_questions` (`QuizFeedbackQuestionId`),
+    REFERENCES `Relevantz.LXP`.`quiz_feedback_questions` (`QuizFeedbackQuestionId`),
   CONSTRAINT `FK_FeedbackResponses_TopicFeedbackQuestions_TopicFeedbackQuesti~`
     FOREIGN KEY (`TopicFeedbackQuestionId`)
-    REFERENCES `LXP`.`topic_feedback_questions` (`TopicFeedbackQuestionId`))
+    REFERENCES `Relevantz.LXP`.`topic_feedback_questions` (`TopicFeedbackQuestionId`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`learner_attempts`
+-- Table `Relevantz.LXP`.`learner_attempts`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`learner_attempts` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`learner_attempts` (
   `learner_attempt_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `learner_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `quiz_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -354,11 +354,11 @@ CREATE TABLE IF NOT EXISTS `LXP`.`learner_attempts` (
   INDEX `IX_learner_attempts_quiz_id` (`quiz_id` ASC) VISIBLE,
   CONSTRAINT `FK_learner_attempts_learners_learner_id`
     FOREIGN KEY (`learner_id`)
-    REFERENCES `LXP`.`learners` (`learner_id`)
+    REFERENCES `Relevantz.LXP`.`learners` (`learner_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_learner_attempts_quizzes_quiz_id`
     FOREIGN KEY (`quiz_id`)
-    REFERENCES `LXP`.`quizzes` (`quiz_id`)
+    REFERENCES `Relevantz.LXP`.`quizzes` (`quiz_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -366,9 +366,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`quiz_questions`
+-- Table `Relevantz.LXP`.`quiz_questions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`quiz_questions` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`quiz_questions` (
   `quiz_question_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `quiz_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `question_no` INT NOT NULL,
@@ -382,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`quiz_questions` (
   INDEX `IX_quiz_questions_quiz_id` (`quiz_id` ASC) VISIBLE,
   CONSTRAINT `FK_quiz_questions_quizzes_quiz_id`
     FOREIGN KEY (`quiz_id`)
-    REFERENCES `LXP`.`quizzes` (`quiz_id`)
+    REFERENCES `Relevantz.LXP`.`quizzes` (`quiz_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -390,9 +390,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`question_options`
+-- Table `Relevantz.LXP`.`question_options`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`question_options` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`question_options` (
   `question_option_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `quiz_question_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `option` LONGTEXT CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
@@ -405,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`question_options` (
   INDEX `IX_question_options_quiz_question_id` (`quiz_question_id` ASC) VISIBLE,
   CONSTRAINT `FK_question_options_quiz_questions_quiz_question_id`
     FOREIGN KEY (`quiz_question_id`)
-    REFERENCES `LXP`.`quiz_questions` (`quiz_question_id`)
+    REFERENCES `Relevantz.LXP`.`quiz_questions` (`quiz_question_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -413,9 +413,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`learner_answers`
+-- Table `Relevantz.LXP`.`learner_answers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`learner_answers` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`learner_answers` (
   `learner_answer_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `learner_attempt_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `quiz_question_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -430,15 +430,15 @@ CREATE TABLE IF NOT EXISTS `LXP`.`learner_answers` (
   INDEX `IX_learner_answers_quiz_question_id` (`quiz_question_id` ASC) VISIBLE,
   CONSTRAINT `FK_learner_answers_learner_attempts_learner_attempt_id`
     FOREIGN KEY (`learner_attempt_id`)
-    REFERENCES `LXP`.`learner_attempts` (`learner_attempt_id`)
+    REFERENCES `Relevantz.LXP`.`learner_attempts` (`learner_attempt_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_learner_answers_question_options_question_option_id`
     FOREIGN KEY (`question_option_id`)
-    REFERENCES `LXP`.`question_options` (`question_option_id`)
+    REFERENCES `Relevantz.LXP`.`question_options` (`question_option_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_learner_answers_quiz_questions_quiz_question_id`
     FOREIGN KEY (`quiz_question_id`)
-    REFERENCES `LXP`.`quiz_questions` (`quiz_question_id`)
+    REFERENCES `Relevantz.LXP`.`quiz_questions` (`quiz_question_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -446,9 +446,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`learner_profiles`
+-- Table `Relevantz.LXP`.`learner_profiles`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`learner_profiles` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`learner_profiles` (
   `profile_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `first_name` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
   `last_name` VARCHAR(50) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
@@ -466,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`learner_profiles` (
   INDEX `IX_learner_profiles_learner_id` (`learner_id` ASC) VISIBLE,
   CONSTRAINT `FK_learner_profiles_learners_learner_id`
     FOREIGN KEY (`learner_id`)
-    REFERENCES `LXP`.`learners` (`learner_id`)
+    REFERENCES `Relevantz.LXP`.`learners` (`learner_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -474,9 +474,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`material_types`
+-- Table `Relevantz.LXP`.`material_types`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`material_types` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`material_types` (
   `material_type_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `type` VARCHAR(20) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NOT NULL,
   PRIMARY KEY (`material_type_id`))
@@ -486,9 +486,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`materials`
+-- Table `Relevantz.LXP`.`materials`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`materials` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`materials` (
   `material_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `topic_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `material_type_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -506,11 +506,11 @@ CREATE TABLE IF NOT EXISTS `LXP`.`materials` (
   INDEX `IX_materials_topic_id` (`topic_id` ASC) VISIBLE,
   CONSTRAINT `FK_materials_material_types_material_type_id`
     FOREIGN KEY (`material_type_id`)
-    REFERENCES `LXP`.`material_types` (`material_type_id`)
+    REFERENCES `Relevantz.LXP`.`material_types` (`material_type_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_materials_topic_topic_id`
     FOREIGN KEY (`topic_id`)
-    REFERENCES `LXP`.`topic` (`topic_id`)
+    REFERENCES `Relevantz.LXP`.`topic` (`topic_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -518,9 +518,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`learner_progress`
+-- Table `Relevantz.LXP`.`learner_progress`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`learner_progress` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`learner_progress` (
   `learner_progress_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `course_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `topic_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
@@ -537,19 +537,19 @@ CREATE TABLE IF NOT EXISTS `LXP`.`learner_progress` (
   INDEX `IX_learner_progress_topic_id` (`topic_id` ASC) VISIBLE,
   CONSTRAINT `FK_learner_progress_course_course_id`
     FOREIGN KEY (`course_id`)
-    REFERENCES `LXP`.`course` (`course_id`)
+    REFERENCES `Relevantz.LXP`.`course` (`course_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_learner_progress_learners_learner_id`
     FOREIGN KEY (`learner_id`)
-    REFERENCES `LXP`.`learners` (`learner_id`)
+    REFERENCES `Relevantz.LXP`.`learners` (`learner_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_learner_progress_materials_material_id`
     FOREIGN KEY (`material_id`)
-    REFERENCES `LXP`.`materials` (`material_id`)
+    REFERENCES `Relevantz.LXP`.`materials` (`material_id`)
     ON DELETE CASCADE,
   CONSTRAINT `FK_learner_progress_topic_topic_id`
     FOREIGN KEY (`topic_id`)
-    REFERENCES `LXP`.`topic` (`topic_id`)
+    REFERENCES `Relevantz.LXP`.`topic` (`topic_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -557,9 +557,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `LXP`.`password_histories`
+-- Table `Relevantz.LXP`.`password_histories`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `LXP`.`password_histories` (
+CREATE TABLE IF NOT EXISTS `Relevantz.LXP`.`password_histories` (
   `password_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `learner_id` CHAR(36) CHARACTER SET 'ascii' NOT NULL,
   `old_password` VARCHAR(120) CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci' NULL DEFAULT NULL,
@@ -572,7 +572,7 @@ CREATE TABLE IF NOT EXISTS `LXP`.`password_histories` (
   INDEX `IX_password_histories_learner_id` (`learner_id` ASC) VISIBLE,
   CONSTRAINT `FK_password_histories_learners_learner_id`
     FOREIGN KEY (`learner_id`)
-    REFERENCES `LXP`.`learners` (`learner_id`)
+    REFERENCES `Relevantz.LXP`.`learners` (`learner_id`)
     ON DELETE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
