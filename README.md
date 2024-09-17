@@ -1,52 +1,45 @@
+### LXP Backend Code
 
-
-# LXP
-
-## LXP Backend Code
-
-### Project Description
+#### Project Description
 LXP is a Learning Experience Platform (LXP) designed to enhance the learning journey by providing personalized and engaging learning experiences. This backend codebase supports the core functionalities of the platform.
 
-### Prerequisites
+#### Prerequisites
 Before you begin, ensure you have met the following requirements:
 - **.NET SDK**: Make sure you have the .NET SDK installed. You can download it from [here](https://dotnet.microsoft.com/download).
 
-### Installation
+#### Installation
 
-#### Clone the Repository
-```bash
-git clone https://github.com/Gokuljawahar/BackendLXP.git
-```
+1. **Clone the Repository**
+   ```sh
+   git clone https://github.com/Gokuljawahar/BackendLXP.git
+   ```
 
-#### Navigate to the Project Directory
-```bash
-cd BackendLXP
-```
+2. **Navigate to the Project Directory**
+   ```sh
+   cd BackendLXP
+   ```
 
-#### Build the Project
-Navigate to the project directory and build the project:
-```bash
-dotnet build
-```
+3. **Build the Project**
+   ```sh
+   make build
+   ```
 
-#### Navigate to the API Directory
-```bash
-cd src/LXP.API
-```
+4. **Run the Application**
+   ```sh
+   make run
+   ```
 
-#### Run the Application
-```bash
-dotnet watch
-```
+5. **Clean the Solution**
+   ```sh
+   make clean
+   ```
 
-
-
-### Usage
+#### Usage
 Once the application is running, you can access the API endpoints to interact with the LXP backend.
 
-### Documentation
-To get the information about the code documentation in the browser, use the following command in the root folder containing sln file:
-```bash
+#### Documentation
+To get the information about the code documentation in the browser, use the following command in the root folder containing the solution file:
+```sh
 docfx D:\Backend\docfx.json --serve
 ```
 
