@@ -1,8 +1,8 @@
 namespace LXP.Core.Services;
 
 using LXP.Common.ViewModels.FeedbackResponseViewModel;
-using LXP.Data.IRepository;
 using LXP.Core.IServices;
+using LXP.Data.IRepository;
 
 public class FeedbackResponseDetailsService(
     IFeedbackResponseDetailsRepository feedbackResponseDetailsRepository
