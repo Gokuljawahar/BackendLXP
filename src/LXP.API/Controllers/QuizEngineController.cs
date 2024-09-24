@@ -44,6 +44,7 @@ public class QuizEngineController(IQuizEngineService quizEngineService) : Contro
         return this.Ok(quizDetails);
     }
 
+
     /// <summary>
     /// Retrieves questions for a specific quiz by its ID.
     /// </summary>

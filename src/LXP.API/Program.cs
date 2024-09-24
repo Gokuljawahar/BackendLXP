@@ -200,7 +200,7 @@ public class Program
 
         app.UseCors("_myAllowSpecificOrigins");
         app.UseHttpsRedirection();
-
+        app.MapGet("/", () => @"LXP API. Navigate to /swagger to open the Swagger test UI.");
         app.UseAuthorization();
         app.MapControllers();
         app.Run();

@@ -37,9 +37,5 @@ Before you begin, ensure you have met the following requirements:
 #### Usage
 Once the application is running, you can access the API endpoints to interact with the LXP backend.
 
-#### Documentation
-To get the information about the code documentation in the browser, use the following command in the root folder containing the solution file:
-```sh
-docfx D:\Backend\docfx.json --serve
-```
+
 
