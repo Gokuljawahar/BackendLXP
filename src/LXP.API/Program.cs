@@ -156,7 +156,6 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
         app.UseStaticFiles(
             new StaticFileOptions
             {
