@@ -13,6 +13,29 @@ run: build
 clean:
 	dotnet clean $(SOLUTION_FILE)
 
+# Watch for changes and rebuild
+watch:
+	dotnet watch --project $(API_PROJECT_PATH) run
+
+# Restore dependencies
+restore:
+	dotnet restore $(SOLUTION_FILE)
+
+# Test the solution
+test:
+	dotnet test $(SOLUTION_FILE)
+
+format:
+	dotnet format $(SOLUTION_FILE)
+
+# Publish the API project
+publish:
+	dotnet publish $(API_PROJECT_PATH) -o ./publish
+
+# Serve documentation with DocFX
+serve-docs:
+	docfx D:\Backend\docfx.json --serve
+
 # Default target
-.PHONY: default build run clean
+.PHONY: default build run clean watch restore test publish serve-docs
 default: build run clean

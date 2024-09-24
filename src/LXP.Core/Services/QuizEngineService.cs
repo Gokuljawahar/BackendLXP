@@ -170,14 +170,6 @@ public class QuizEngineService(IQuizEngineRepository quizEngineRepository) : IQu
         var existingAnswers = await this._quizEngineRepository.GetLearnerAnswersForAttemptAsync(
             attemptId
         );
-        //if (
-        //    existingAnswers == null
-        //    || existingAnswers.Select(a => a.QuizQuestionId).Distinct().Count()
-        //        != totalQuestions
-        //)
-        //    throw new InvalidOperationException(
-        //        "You need to answer all the questions in the quiz before submitting the quiz attempt."
-        //    );
         var individualQuestionMarks = 100.0f / totalQuestions;
         float finalScore = 0;
         foreach (var answer in existingAnswers)

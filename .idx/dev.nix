@@ -11,6 +11,7 @@
     pkgs.csharpier
     pkgs.nginx
     pkgs.nuget
+    pkgs.gnumake42
   ];
 
   # Sets environment variables in the workspace

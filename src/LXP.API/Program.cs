@@ -14,7 +14,6 @@ using Serilog;
 
 public class Program
 {
-
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +22,7 @@ public class Program
         builder.Services.AddCors(options =>
             options.AddPolicy(
                 name: "_myAllowSpecificOrigins",
-                policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowAnyMethod()
+                policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
             )
         );
         #endregion
@@ -68,31 +67,39 @@ public class Program
         builder.Services.AddScoped<ILearnerProgressRepository, LearnerProgressRepository>();
         builder.Services.AddScoped<ILearnerProgressService, LearnerProgressService>();
 
-        builder.Services.AddScoped<LXPDbContext>();
+        builder.Services.AddSingleton<LXPDbContext>();
 
-        //Quiz
-        // Register the IQuizRepository and QuizRepository
+        // Quiz Services
         builder.Services.AddScoped<IQuizRepository, QuizRepository>();
         builder.Services.AddScoped<IQuizQuestionService, QuizQuestionService>();
         builder.Services.AddScoped<IQuizQuestionRepository, QuizQuestionRepository>();
-        builder.Services.AddScoped<IQuizFeedbackService, QuizFeedbackService>();
+        builder.Services.AddScoped<IQuizService, QuizService>();
+        builder.Services.AddScoped<IQuizReportService, QuizReportServices>(); // Renamed
+        builder.Services.AddScoped<IQuizReportRepository, QuizReportRepository>();
+        builder.Services.AddScoped<IQuizEngineRepository, QuizEngineRepository>(); // Choose Scoped or Transient
+        builder.Services.AddScoped<IQuizEngineService, QuizEngineService>();       // Choose Scoped or Transient
+
+        // Feedback Services
+        builder.Services.AddScoped<IQuizFeedbackService, QuizFeedbackService>(); // Choose Scoped or Transient
         builder.Services.AddScoped<IQuizFeedbackRepository, QuizFeedbackRepository>();
         builder.Services.AddScoped<ITopicFeedbackRepository, TopicFeedbackRepository>();
-        builder.Services.AddScoped<IQuizEngineRepository, QuizEngineRepository>();
-        builder.Services.AddScoped<IQuizEngineService, QuizEngineService>();
-        builder.Services.AddScoped<IQuizFeedbackService, QuizFeedbackService>();
         builder.Services.AddScoped<ITopicFeedbackService, TopicFeedbackService>();
-        builder.Services.AddScoped<IQuizService, QuizService>();
-        builder.Services.AddScoped<IQuizReportServices, QuizReportServices>();
-        builder.Services.AddScoped<IQuizReportRepository, QuizReportRepository>();
         builder.Services.AddScoped<IFeedbackResponseRepository, FeedbackResponseRepository>();
         builder.Services.AddScoped<IFeedbackResponseService, FeedbackResponseService>();
-        builder.Services.AddScoped<IExcelToJsonService, ExcelToJsonService>();
-        builder.Services.AddScoped<IQuizQuestionJsonRepository, QuizQuestionJsonRepository>();
         builder.Services.AddScoped<IFeedbackResponseDetailsRepository, FeedbackResponseDetailsRepository>();
         builder.Services.AddScoped<IFeedbackResponseDetailsService, FeedbackResponseDetailsService>();
         builder.Services.AddScoped<ICourseFeedbackRepository, CourseFeedbackRepository>();
         builder.Services.AddScoped<ICourseFeedbackService, CourseFeedbackService>();
+
+        // Other Services
+        builder.Services.AddScoped<IExcelToJsonService, ExcelToJsonService>();
+        builder.Services.AddScoped<IQuizQuestionJsonRepository, QuizQuestionJsonRepository>();
+
+        // Validators
+        builder.Services.AddTransient<TopicFeedbackResponseViewModelValidator>();
+        builder.Services.AddTransient<QuizFeedbackResponseViewModelValidator>();
+        builder.Services.AddTransient<CourseFeedbackResponseViewModelValidator>();
+
 
         builder.Services.AddScoped<ILearnerRepository, LearnerRepository>();
         builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
@@ -101,15 +108,12 @@ public class Program
         builder.Services.AddScoped<IPasswordHistoryService, PasswordHistoryService>();
         builder.Services.AddScoped<IPasswordHistoryRepository, PasswordHistoryRepository>();
 
-        builder.Services.AddScoped<IQuizEngineRepository, QuizEngineRepository>();
-        builder.Services.AddScoped<IQuizEngineService, QuizEngineService>();
+
 
         builder.Services.AddScoped<IProfilePasswordHistoryRepository, ProfilePasswordHistoryRepository>();
 
         builder.Services.AddScoped<IEnrollmentService, EnrollmentService>();
         builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
-
-        //builder.Services.AddAntiforgery(options => options.HeaderName = "XSRF-TOKEN");
 
         builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
         builder.Services.AddScoped<IEmailService, EmailService>();
@@ -134,9 +138,7 @@ public class Program
             .Services.AddControllers()
             .AddFluentValidation(v => v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
-        builder.Services.AddTransient<TopicFeedbackResponseViewModelValidator>();
-        builder.Services.AddTransient<QuizFeedbackResponseViewModelValidator>();
-        builder.Services.AddTransient<CourseFeedbackResponseViewModelValidator>();
+
 
         builder.Services.AddControllers();
 
