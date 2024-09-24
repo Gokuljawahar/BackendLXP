@@ -74,7 +74,7 @@ public class Program
         builder.Services.AddScoped<IQuizQuestionService, QuizQuestionService>();
         builder.Services.AddScoped<IQuizQuestionRepository, QuizQuestionRepository>();
         builder.Services.AddScoped<IQuizService, QuizService>();
-        builder.Services.AddScoped<IQuizReportService, QuizReportServices>(); // Renamed
+        builder.Services.AddScoped<IQuizReportServices, QuizReportServices>(); // Renamed
         builder.Services.AddScoped<IQuizReportRepository, QuizReportRepository>();
         builder.Services.AddScoped<IQuizEngineRepository, QuizEngineRepository>(); // Choose Scoped or Transient
         builder.Services.AddScoped<IQuizEngineService, QuizEngineService>();       // Choose Scoped or Transient

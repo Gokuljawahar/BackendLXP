@@ -3,7 +3,7 @@ namespace LXP.Common.Validators;
 using FluentValidation;
 using LXP.Common.ViewModels;
 
-public class EnrollmentValidator:AbstractValidator<EnrollmentViewModel>
+public class EnrollmentValidator : AbstractValidator<EnrollmentViewModel>
 {
     public EnrollmentValidator()
     {
